@@ -53,15 +53,22 @@ module.exports = function(app){
                     existingContact.country = req.body.country;
                     existingContact.city = req.body.city;
                     existingContact.address = req.body.address;
+                    existingContact.phone = req.body.phone;
+
 
                     existingContact.save(function (err) {
-                        if (err) throw err;
+                        if (err.errors) {
+                            res.json(err.errors);
+                        }
 
 
                         existingLead.contact = existingContact._id;
                         existingLead.save(function (err2) {
 
-                            if (err2) throw err2;
+                            if (err2.errors) {
+                                res.json(err2.errors);
+                            }
+
                         });
 
                     });
