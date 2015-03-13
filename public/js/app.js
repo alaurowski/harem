@@ -3,7 +3,18 @@
  */
 
 (function(){
-    var app = angular.module('crmApp',[]);
+    var app = angular.module('crmApp',['ngRoute']);
+
+    app.config(['$routeProvider', function($routeProvider) {
+
+        $routeProvider
+            .when('/candidates', {
+                templateUrl: 'partials/candidates.html'
+            })
+
+        ;
+
+    }]);
 
     app.controller('MainCtrl', ['$scope',  function($scope){
 
