@@ -9,11 +9,35 @@ var mongoose = require('mongoose');
 module.exports = function(app){
 
 
+    /**
+     * List leads
+     */
     app.get('/lead/index',function(req,res){
-        res.send('/ called successfully...');
+
+
+        var filter = {}; // TODO: add filtering capabilities
+        var query = Lead.find(filter, 'contact title createdAt modifiedAt owner', { }).populate('contact');
+        query.exec(function (err, docs) {
+
+            res.json(docs);
+
+        });
     });
 
+    app.get('/lead/fetch',function(req, res){
+        var leadId = req.params.id;
+        if(leadId != ''){
+            Lead.findOne({_id: new mongoose.Schema.ObjectId(leadId)}, function (err, existingLead) {
+                if(existingLead){
+                    res.json(existingLead);
+                }
+            });
+        }
+    });
 
+    /**
+     * Save lead
+     */
     app.post('/lead/edit',function(req,res) {
 
         Lead.findById(req.body._id, function (err, existingLead) {
@@ -57,7 +81,7 @@ module.exports = function(app){
 
 
                     existingContact.save(function (err) {
-                        if (err.errors) {
+                        if (err && err.errors) {
                             res.json(err.errors);
                         }
 
@@ -65,7 +89,7 @@ module.exports = function(app){
                         existingLead.contact = existingContact._id;
                         existingLead.save(function (err2) {
 
-                            if (err2.errors) {
+                            if (err2 && err2.errors) {
                                 res.json(err2.errors);
                             }
 

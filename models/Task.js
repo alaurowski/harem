@@ -3,13 +3,13 @@
  */
 var mongoose = require('mongoose');
 
-var noteSchema = new mongoose.Schema({
+var taskSchema = new mongoose.Schema({
 
     createdAt: Date,
     updatedAt: Date,
 
     content: String,
-    type: String,
+    due: Date,
 
     parentId: { type: mongoose.Schema.ObjectId },
     parentType: String,
@@ -20,4 +20,4 @@ var noteSchema = new mongoose.Schema({
 
 
 
-module.exports = mongoose.model('Note', noteSchema);
+module.exports = mongoose.model('Task', taskSchema);
