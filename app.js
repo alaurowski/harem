@@ -53,7 +53,7 @@ mongoose.connection.on('error', function() {
  */
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+//app.set('view engine', 'jade');
 app.use(compress());
 app.use(connectAssets({
   paths: [path.join(__dirname, 'public/css'), path.join(__dirname, 'public/js')]
@@ -190,6 +190,13 @@ app.get('/auth/venmo/callback', passport.authorize('venmo', { failureRedirect: '
  * Error Handler.
  */
 app.use(errorHandler());
+
+
+/**
+ * Autoload controllers
+ */
+require("./autoload")(app, "controllers");
+
 
 /**
  * Start Express server.
