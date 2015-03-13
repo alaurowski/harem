@@ -12,14 +12,13 @@ module.exports = function(app){
 
     app.post('/lead/import', function(req, res){
 
-        var filename = "./uploads/data.csv";
+        var filename = "/Users/pkarwatka/Downloads/data.csv";
 
         var stream = fs.createReadStream(filename); //TODO: file upload support
 
         csv
             .fromStream(stream, {headers : true})
             .validate(function(data){
-                console.log("Importing row: " + data);
 
                 var existingLead = new Lead();
                 existingLead.createdAt = new Date();
@@ -30,10 +29,12 @@ module.exports = function(app){
 
                 var existingContact = new Contact();
                 var anames = data.name.trim(' ').replace("\t", '').split(' ');
-                existingContact.firstName = anames[0];
-                existingContact.lastName = anames[1];
-                existingContact.email = anames[0][0].replace(/[^\w\s]/gi, '') + anames[1].replace(/[^\w\s]/gi, '') + '@divante.pl';
+                existingContact.firstName = anames[1];
+                existingContact.lastName = anames[0];
+                existingContact.email = anames[1][0].replace(/[^\w\s]/gi, '') + anames[0].replace(/[^\w\s]/gi, '') + '@divante.pl';
                 existingContact.country = 'Polska'
+
+                console.log("Importing row: " + JSON.stringify(data)+ " " + JSON.stringify(anames));
 
 
                 existingContact.lead = existingLead;
