@@ -16,8 +16,7 @@ var contactSchema = new mongoose.Schema({
 
     country: String,
     city: String,
-    address: String,
-
+    address: String
 
 });
 
