@@ -9,7 +9,7 @@
 
         $routeProvider
             .when('/candidates', {
-                templateUrl: 'partials/candidates.html'
+                templateUrl: 'views/asd.html'
             })
 
         ;
@@ -29,25 +29,25 @@
             },
             {
                 'name': 'Janek',
+                'surname': 'Nowak',
+                'position': 'Backend',
+                'salary': 'large'
+            },
+            {
+                'name': 'Franek',
                 'surname': 'Kowalski',
                 'position': 'Frontend',
                 'salary': 'too small'
             },
             {
-                'name': 'Janek',
+                'name': 'Jozek',
                 'surname': 'Kowalski',
                 'position': 'Frontend',
                 'salary': 'too small'
             },
             {
-                'name': 'Janek',
-                'surname': 'Kowalski',
-                'position': 'Frontend',
-                'salary': 'too small'
-            },
-            {
-                'name': 'Janek',
-                'surname': 'Kowalski',
+                'name': 'Anita',
+                'surname': 'Kowalska',
                 'position': 'Frontend',
                 'salary': 'too small'
             },
