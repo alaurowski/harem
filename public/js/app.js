@@ -8,8 +8,11 @@
     app.config(['$routeProvider', function($routeProvider) {
 
         $routeProvider
-            .when('/candidates', {
-                templateUrl: 'views/asd.html'
+            .when('/leads', {
+                templateUrl: 'views/leads/showLeads.html'
+            })
+            .when('/leads/add', {
+                templateUrl: 'views/leads/addLead.html'
             })
 
         ;
