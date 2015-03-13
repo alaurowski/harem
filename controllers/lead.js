@@ -5,9 +5,70 @@ var Lead = require('../models/Lead');
 var Note = require('../models/Note');
 var Contact = require('../models/Contact');
 var mongoose = require('mongoose');
-
+var fs = require("fs");
+var csv = require("fast-csv");
 
 module.exports = function(app){
+
+    app.post('/lead/import', function(req, res){
+
+        var filename = "./uploads/data.csv";
+
+        var stream = fs.createReadStream(filename); //TODO: file upload support
+
+        csv
+            .fromStream(stream, {headers : true})
+            .validate(function(data){
+                console.log("Importing row: " + data);
+
+                var existingLead = new Lead();
+                existingLead.createdAt = new Date();
+                existingLead.title = data.name;
+                existingLead.subtitle = data.title ? data.title :  'N/A' ;
+                existingLead.state = 'New';
+                existingLead.source = 'Linkedin';
+
+                var existingContact = new Contact();
+                var anames = data.name.trim(' ').replace("\t", '').split(' ');
+                existingContact.firstName = anames[0];
+                existingContact.lastName = anames[1];
+                existingContact.email = anames[0][0].replace(/[^\w\s]/gi, '') + anames[1].replace(/[^\w\s]/gi, '') + '@divante.pl';
+                existingContact.country = 'Polska'
+
+
+                existingContact.lead = existingLead;
+                existingContact.save(function (err) {
+                    if (err && err.errors) {
+                        res.json(err.errors);
+                    }
+
+
+                    existingContact.lead.contact = existingContact._id;
+                    existingContact.lead.save(function (err2) {
+
+                        if (err2 && err2.errors) {
+                            res.json(err2.errors);
+                        }
+
+                    });
+
+                });
+
+
+            })
+            .on("data-invalid", function(data){
+                //do something with invalid row
+            })
+            .on("data", function(data){
+                console.log(data);
+            })
+            .on("end", function(){
+                console.log("done");
+            });
+
+
+    });
+
 
 
     /**
