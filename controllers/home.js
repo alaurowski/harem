@@ -7,3 +7,4 @@ exports.index = function(req, res) {
     title: 'Home'
   });
 };
+
