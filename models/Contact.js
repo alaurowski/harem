@@ -10,6 +10,7 @@ var contactSchema = new mongoose.Schema({
 
     firstName: String,
     lastName: String,
+    email: String,
 
     facebookUrl: String,
     linkedinUrl: String,

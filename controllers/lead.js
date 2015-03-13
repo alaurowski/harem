@@ -31,7 +31,11 @@ module.exports = function(app){
                 contactId = existingLead.contact.id;
              }
 
-                // populate existing lead
+                // populate existing lead data
+            existingLead.title = req.body.title;
+            existingLead.subtitle = req.body.subtitle;
+            existingLead.state = req.body.state;
+            existingLead.source = req.body.source;
 
 
                 Contact.findOne({_id: contactId }, function (err, existingContact) {
@@ -40,8 +44,15 @@ module.exports = function(app){
                         existingContact = new Contact();
                     }
 
-                    // populate existing contact
-
+                    // populate existing contact data
+                    existingContact.firstName = req.body.firstName;
+                    existingContact.lastName = req.body.lastName;
+                    existingContact.email = req.body.email;
+                    existingContact.linkedinUrl = req.body.linkedinUrl;
+                    existingContact.facebookUrl = req.body.facebookUrl;
+                    existingContact.country = req.body.country;
+                    existingContact.city = req.body.city;
+                    existingContact.address = req.body.address;
 
                     existingContact.save(function (err) {
                         if (err) throw err;
