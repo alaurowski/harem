@@ -19,3 +19,4 @@
 //= require angular-locale_pl-pl
 //= require angular-route.min
 //= require main
+//= require app
