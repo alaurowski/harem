@@ -15,4 +15,7 @@
 
 //= require lib/jquery-2.1.3.min
 //= require lib/bootstrap.min
+//= require angular.min
+//= require angular-locale_pl-pl
+//= require angular-route.min
 //= require main
