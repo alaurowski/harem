@@ -81,7 +81,7 @@ module.exports = function(app){
 
 
                     existingContact.save(function (err) {
-                        if (err.errors) {
+                        if (err && err.errors) {
                             res.json(err.errors);
                         }
 
@@ -89,7 +89,7 @@ module.exports = function(app){
                         existingLead.contact = existingContact._id;
                         existingLead.save(function (err2) {
 
-                            if (err2.errors) {
+                            if (err2 && err2.errors) {
                                 res.json(err2.errors);
                             }
 
