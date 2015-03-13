@@ -13,6 +13,16 @@ module.exports = function(app){
         res.send('/ called successfully...');
     });
 
+    app.get('/lead/fetch',function(req, res){
+        var leadId = req.params.id;
+        if(leadId != ''){
+            Lead.findOne({_id: new mongoose.Schema.ObjectId(leadId)}, function (err, existingLead) {
+                if(existingLead){
+                    res.json(existingLead);
+                }
+            });
+        }
+    });
 
     app.post('/lead/edit',function(req,res) {
 
