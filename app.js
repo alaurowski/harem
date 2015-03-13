@@ -191,6 +191,13 @@ app.get('/auth/venmo/callback', passport.authorize('venmo', { failureRedirect: '
  */
 app.use(errorHandler());
 
+
+/**
+ * Autoload controllers
+ */
+require("./autoload")(app, "controllers");
+
+
 /**
  * Start Express server.
  */
