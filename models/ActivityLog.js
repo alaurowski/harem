@@ -3,10 +3,9 @@
  */
 var mongoose = require('mongoose');
 
-var noteSchema = new mongoose.Schema({
+var activityLogSchema = new mongoose.Schema({
 
     createdAt: Date,
-    updatedAt: Date,
 
     content: String,
     type: String,
@@ -20,4 +19,4 @@ var noteSchema = new mongoose.Schema({
 
 
 
-module.exports = mongoose.model('Note', noteSchema);
+module.exports = mongoose.model('ActivityLog', activityLogSchema);

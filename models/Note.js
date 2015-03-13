@@ -11,7 +11,8 @@ var noteSchema = new mongoose.Schema({
     content: String,
     type: String,
 
-    lead: { type: mongoose.Schema.ObjectId, ref: 'leadSchema'},
+    parentId: { type: mongoose.Schema.ObjectId },
+    parentType: String,
 
     owner: String
 });

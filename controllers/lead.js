@@ -9,11 +9,25 @@ var mongoose = require('mongoose');
 module.exports = function(app){
 
 
+    /**
+     * List leads
+     */
     app.get('/lead/index',function(req,res){
-        res.send('/ called successfully...');
+
+
+        var filter = {}; // TODO: add filtering capabilities
+        var query = Lead.find(filter, 'contact title createdAt modifiedAt owner', { }).populate('contact');
+        query.exec(function (err, docs) {
+
+            res.json(docs);
+
+        });
     });
 
 
+    /**
+     * Save lead
+     */
     app.post('/lead/edit',function(req,res) {
 
         Lead.findById(req.body._id, function (err, existingLead) {

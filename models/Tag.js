@@ -3,13 +3,17 @@
  */
 var mongoose = require('mongoose');
 
-var leadStateSchema = new mongoose.Schema({
-    code: String,
-    name: String
+var tagSchema = new mongoose.Schema({
+
+    tag: String,
+    type: String,
+
+    parentId: { type: mongoose.Schema.ObjectId },
+    parentType: String
 
 });
 
 
 
 
-module.exports = mongoose.model('LeadState', leadStateSchema);
+module.exports = mongoose.model('Tag', tagSchema);

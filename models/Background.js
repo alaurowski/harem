@@ -3,21 +3,21 @@
  */
 var mongoose = require('mongoose');
 
-var taskSchema = new mongoose.Schema({
+var backgroundSchema = new mongoose.Schema({
 
-    createdAt: Date,
-    updatedAt: Date,
+    company: { type: String, required: true, trim: true },
+    title: { type: String, required: true, trim: true },
 
-    content: String,
+    fromDate: {type: Date, required: true},
+    toDate: {type: Date, required: false},
+
+    description: String,
     due: Date,
 
-    parentId: { type: mongoose.Schema.ObjectId },
-    parentType: String,
-
-    owner: String
+    contact: { type: mongoose.Schema.ObjectId, ref: 'Contact'}
 });
 
 
 
 
-module.exports = mongoose.model('Task', taskSchema);
+module.exports = mongoose.model('Background', backgroundSchema);
