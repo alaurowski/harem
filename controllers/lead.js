@@ -16,7 +16,7 @@ module.exports = function(app){
 
     app.post('/lead/edit',function(req,res) {
 
-        Lead.findOne({_id: new mongoose.Schema.ObjectId(req.body._id)}, function (err, existingLead) {
+        Lead.findById(req.body._id, function (err, existingLead) {
 
 
             var existingContact = null;
@@ -28,7 +28,7 @@ module.exports = function(app){
 
              var contactId = null;
              if (existingLead.contact) {
-                contactId = existingLead.contact.id;
+                contactId = existingLead.contact;
              }
 
                 // populate existing lead data
@@ -38,7 +38,7 @@ module.exports = function(app){
             existingLead.source = req.body.source;
 
 
-                Contact.findOne({_id: contactId }, function (err, existingContact) {
+                Contact.findById(contactId, function (err, existingContact) {
 
                     if (!existingContact) {
                         existingContact = new Contact();
@@ -58,7 +58,7 @@ module.exports = function(app){
                         if (err) throw err;
 
 
-                        existingLead.contact = existingContact;
+                        existingLead.contact = existingContact._id;
                         existingLead.save(function (err2) {
 
                             if (err2) throw err2;

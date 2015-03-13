@@ -18,7 +18,7 @@ var leadSchema = new mongoose.Schema({
     attachments: Array,
 
     source: String,
-    contact: { type: mongoose.Schema.ObjectId, ref: 'contactSchema'},
+    contact: { type: mongoose.Schema.ObjectId, ref: 'Contact'},
 
     owner: String
 });
