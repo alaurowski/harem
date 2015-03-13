@@ -1,23 +1,40 @@
+<div class="form-group">
+    <label for="leadSearch">Search</label>
+    <input id="leadSearch" type="text" ng-model="search.name">
+</div>
+
 <table class="table">
     <thead>
-    <th>Name</th>
-    <th>Surname</th>
-    <th>Position</th>
-    <th>Salary</th>
+    <th>ID</th>
+    <th>Firstname</th>
+    <th>Lastname</th>
+    <th>Email</th>
+    <th>Title</th>
+    <th>Subtitle</th>
+    <th>Source</th>
     </thead>
     <tbody>
-    <tr ng-repeat="user in users">
+    <tr ng-repeat="user in users | filter:search:strict">
         <td>
-            {{ user.name }}
+            {{ user.contact._id }}
         </td>
         <td>
-            {{ user.surname }}
+            {{ user.contact.firstName }}
         </td>
         <td>
-            {{ user.position }}
+            {{ user.contact.lastName }}
         </td>
         <td>
-            {{ user.salary }}
+            {{ user.contact.email }}
+        </td>
+        <td>
+            {{ user.title }}
+        </td>
+        <td>
+            {{ user.subtitle }}
+        </td>
+        <td>
+            {{ user.source }}
         </td>
     </tr>
     </tbody>
