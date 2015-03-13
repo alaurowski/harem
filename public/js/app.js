@@ -1,4 +1,4 @@
-/**
+  /**
  * Created by Marek on 2015-03-13.
  */
 
@@ -9,5 +9,51 @@
 
         $scope.message = 'sample message';
 
+        $scope.users = [
+            {
+                'name': 'Janek',
+                'surname': 'Kowalski',
+                'position': 'Frontend',
+                'salary': 'too small'
+            },
+            {
+                'name': 'Janek',
+                'surname': 'Kowalski',
+                'position': 'Frontend',
+                'salary': 'too small'
+            },
+            {
+                'name': 'Janek',
+                'surname': 'Kowalski',
+                'position': 'Frontend',
+                'salary': 'too small'
+            },
+            {
+                'name': 'Janek',
+                'surname': 'Kowalski',
+                'position': 'Frontend',
+                'salary': 'too small'
+            },
+            {
+                'name': 'Janek',
+                'surname': 'Kowalski',
+                'position': 'Frontend',
+                'salary': 'too small'
+            },
+            {
+                'name': 'Janek',
+                'surname': 'Kowalski',
+                'position': 'Frontend',
+                'salary': 'too small'
+            },
+            {
+                'name': 'Janek',
+                'surname': 'Kowalski',
+                'position': 'Frontend',
+                'salary': 'too small'
+            },
+        ]
+
     }]);
+
 })();

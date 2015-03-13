@@ -1,1 +1,33 @@
-<h1>Custom home view</h1>
+<section ng-app="crmApp">
+
+<div class="main" ng-controller="MainCtrl">
+    <h1>{{message}}</h1>
+
+    <table class="table">
+        <thead>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Position</th>
+            <th>Salary</th>
+        </thead>
+        <tbody>
+            <tr ng-repeat="user in users">
+                <td>
+                    {{ user.name }}
+                </td>
+                <td>
+                    {{ user.surname }}
+                </td>
+                <td>
+                    {{ user.position }}
+                </td>
+                <td>
+                    {{ user.salary }}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+</section>
