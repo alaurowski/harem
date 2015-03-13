@@ -2,6 +2,7 @@
  * Created by pkarwatka on 13.03.15.
  */
 var Lead = require('../models/Lead');
+var Note = require('../models/Note');
 var Contact = require('../models/Contact');
 var mongoose = require('mongoose');
 
@@ -24,11 +25,17 @@ module.exports = function(app){
         });
     });
 
+    /**
+     * Load single lead
+     */
     app.get('/lead/fetch',function(req, res){
         var leadId = req.params.id;
-        if(leadId != ''){
-            Lead.findOne({_id: new mongoose.Schema.ObjectId(leadId)}, function (err, existingLead) {
+        if(leadId){
+            Lead.findById(leadId, function (err, existingLead) {
                 if(existingLead){
+
+
+
                     res.json(existingLead);
                 }
             });

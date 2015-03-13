@@ -3,13 +3,13 @@
  */
 var mongoose = require('mongoose');
 
-var noteSchema = new mongoose.Schema({
+var attachmentSchema = new mongoose.Schema({
 
     createdAt: Date,
     updatedAt: Date,
 
     content: String,
-    type: String,
+    fileName: String,
 
     parentId: { type: mongoose.Schema.ObjectId },
     parentType: String,
@@ -20,5 +20,5 @@ var noteSchema = new mongoose.Schema({
 
 
 
-module.exports = mongoose.model('Note', noteSchema);
-module.exports.schema = noteSchema;
+module.exports = mongoose.model('Attachment', attachmentSchema);
+module.exports.schema = attachmentSchema;
