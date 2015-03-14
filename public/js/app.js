@@ -14,6 +14,9 @@
             .when('/leads/add', {
                 templateUrl: 'views/leads/addLead.html'
             })
+            .otherwise({
+                redirectTo: 'views/leads/showLeads.html'
+            })
 
         ;
 
