@@ -179,7 +179,7 @@ module.exports = function(app){
 
 
                         existingLead.contact = existingContact._id;
-                        existingLead.save(function (err2) {
+                        existingLead.save(function (err2, savedLead) {
 
                             if (err2 && err2.errors) {
                                 err2.errors.status = ApiStatus.STATUS_VALIDATION_ERROR;
@@ -188,7 +188,7 @@ module.exports = function(app){
                                 return;
                             }
 
-                            res.json({ status: ApiStatus.STATUS_SUCCESS, code: ApiStatus.CODE_SUCCESS });
+                            res.json({ status: ApiStatus.STATUS_SUCCESS, code: ApiStatus.CODE_SUCCESS, lead_id: savedLead._id });
                             return;
 
                         });
