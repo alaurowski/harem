@@ -1,12 +1,21 @@
 <h1>{{ title }}</h1>
 <hr/>
 <div class="pull-left col-sm-6">
-    <form novalidate ng-submit="processForm()">
+    <form name="lead_add_form" novalidate ng-submit="processForm()">
         <div class="form-group">
             <label for="leadFirstname">Firstname</label>
-            <input required="" ng-model="formData.firstName" name="leadFirstname" type="text" class="form-control"
+            <input ng-model="formData.firstName" ng-minlength=3 ng-maxlength=20 required name="leadFirstname"
+                   type="text" class="form-control"
                    id="leadFirstname"
                    placeholder="Enter state">
+
+            <div class="error-container"
+                 ng-show="lead_add_form.name.$dirty && lead_add_form.name.$invalid && lead_add_form.submitted">
+                <small class="error"
+                       ng-show="lead_add_form.firstName.$error.required">
+                    Your name is required.
+                </small>
+            </div>
         </div>
         <div class="form-group">
             <label for="leadLastname">Lastname</label>
