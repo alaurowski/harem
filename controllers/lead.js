@@ -11,22 +11,22 @@ var mongoose = require('mongoose');
 var fs = require("fs");
 var csv = require("fast-csv");
 
-module.exports = function(app){
+module.exports = function (app) {
 
-    app.post('/lead/import', function(req, res){
+    app.post('/lead/import', function (req, res) {
 
         var filename = "/Users/Marcin/Projects/data.csv";
 
         var stream = fs.createReadStream(filename); //TODO: file upload support
 
         csv
-            .fromStream(stream, {headers : true})
-            .validate(function(data){
+            .fromStream(stream, {headers: true})
+            .validate(function (data) {
 
                 var existingLead = new Lead();
                 existingLead.createdAt = new Date();
                 existingLead.title = data.name;
-                existingLead.subtitle = data.title ? data.title :  'N/A' ;
+                existingLead.subtitle = data.title ? data.title : 'N/A';
                 existingLead.state = 'New';
                 existingLead.source = 'Linkedin';
 
@@ -37,7 +37,7 @@ module.exports = function(app){
                 existingContact.email = anames[1][0].replace(/[^\w\s]/gi, '') + anames[0].replace(/[^\w\s]/gi, '') + '@divante.pl';
                 existingContact.country = 'Polska'
 
-                console.log("Importing row: " + JSON.stringify(data)+ " " + JSON.stringify(anames));
+                console.log("Importing row: " + JSON.stringify(data) + " " + JSON.stringify(anames));
 
 
                 existingContact.lead = existingLead;
@@ -60,13 +60,13 @@ module.exports = function(app){
 
 
             })
-            .on("data-invalid", function(data){
+            .on("data-invalid", function (data) {
                 //do something with invalid row
             })
-            .on("data", function(data){
+            .on("data", function (data) {
                 console.log(data);
             })
-            .on("end", function(){
+            .on("end", function () {
                 console.log("done");
             });
 
@@ -74,19 +74,16 @@ module.exports = function(app){
     });
 
 
-
     /**
      * List leads
      */
-    app.get('/lead/index',function(req,res){
+    app.get('/lead/index', function (req, res) {
 
 
         var filter = {}; // TODO: add filtering capabilities
-        var query = Lead.find(filter, 'contact title createdAt modifiedAt owner', { }).populate('contact');
+        var query = Lead.find(filter, 'contact title subtitle source state createdAt modifiedAt owner', {}).populate('contact');
         query.exec(function (err, docs) {
-
             res.json(docs);
-
         });
     });
 
@@ -95,23 +92,23 @@ module.exports = function(app){
      *
      * @todo Need to push collected data to existingLead variable
      */
-    app.get('/lead/fetch/:id',function(req, res){
+    app.get('/lead/fetch/:id', function (req, res) {
         var leadId = req.params.id;
-        if(leadId){
+        if (leadId) {
             Lead.findById(leadId, function (err, existingLead) {
-                if(existingLead){
+                if (existingLead) {
 
                     var additionalData = {};
 
-                    existingLead.notes = Note.findOne({"parentId" : leadId}, function (err, existingNote) {
+                    existingLead.notes = Note.findOne({"parentId": leadId}, function (err, existingNote) {
                         return existingNote;
                     });
 
-                    existingLead.tasks = Task.findOne({"parentId" : leadId}, function (err, existingTask) {
+                    existingLead.tasks = Task.findOne({"parentId": leadId}, function (err, existingTask) {
                         return existingTask;
                     });
 
-                    existingLead.files = File.findOne({"parentId" : leadId}, function (err, existingFile) {
+                    existingLead.files = File.findOne({"parentId": leadId}, function (err, existingFile) {
                         existingFile;
                     });
 
@@ -126,7 +123,7 @@ module.exports = function(app){
     /**
      * Save lead
      */
-    app.post('/lead/edit',function(req,res) {
+    app.post('/lead/edit', function (req, res) {
 
         Lead.findById(req.body._id, function (err, existingLead) {
 
@@ -138,74 +135,70 @@ module.exports = function(app){
             }
 
 
-             var contactId = null;
-             if (existingLead.contact) {
+            var contactId = null;
+            if (existingLead.contact) {
                 contactId = existingLead.contact;
-             }
+            }
 
-                // populate existing lead data
+            // populate existing lead data
             existingLead.title = req.body.title;
             existingLead.subtitle = req.body.subtitle;
             existingLead.state = req.body.state;
             existingLead.source = req.body.source;
 
 
-                Contact.findById(contactId, function (err, existingContact) {
+            Contact.findById(contactId, function (err, existingContact) {
 
-                    if (!existingContact) {
-                        existingContact = new Contact();
+                if (!existingContact) {
+                    existingContact = new Contact();
+                }
+
+                // populate existing contact data
+                existingContact.firstName = req.body.firstName;
+                existingContact.lastName = req.body.lastName;
+                existingContact.email = req.body.email;
+                existingContact.linkedinUrl = req.body.linkedinUrl;
+                existingContact.facebookUrl = req.body.facebookUrl;
+                existingContact.country = req.body.country;
+                existingContact.city = req.body.city;
+                existingContact.address = req.body.address;
+                existingContact.phone = req.body.phone;
+
+
+                existingContact.save(function (err) {
+                    if (err && err.errors) {
+                        err.errors.status = ApiStatus.STATUS_VALIDATION_ERROR;
+                        err.errors.code = ApiStatus.CODE_VALIDATION_ERROR;
+
+                        res.json(err.errors);
+                        return;
                     }
 
-                    // populate existing contact data
-                    existingContact.firstName = req.body.firstName;
-                    existingContact.lastName = req.body.lastName;
-                    existingContact.email = req.body.email;
-                    existingContact.linkedinUrl = req.body.linkedinUrl;
-                    existingContact.facebookUrl = req.body.facebookUrl;
-                    existingContact.country = req.body.country;
-                    existingContact.city = req.body.city;
-                    existingContact.address = req.body.address;
-                    existingContact.phone = req.body.phone;
 
+                    existingLead.contact = existingContact._id;
+                    existingLead.save(function (err2, savedLead) {
 
-                    existingContact.save(function (err) {
-                        if (err && err.errors) {
-                            err.errors.status = ApiStatus.STATUS_VALIDATION_ERROR;
-                            err.errors.code = ApiStatus.CODE_VALIDATION_ERROR;
-
-                            res.json(err.errors);
+                        if (err2 && err2.errors) {
+                            err2.errors.status = ApiStatus.STATUS_VALIDATION_ERROR;
+                            err2.errors.code = ApiStatus.CODE_VALIDATION_ERROR;
+                            res.json(err2.errors);
                             return;
                         }
 
-
-                        existingLead.contact = existingContact._id;
-                        existingLead.save(function (err2, savedLead) {
-
-                            if (err2 && err2.errors) {
-                                err2.errors.status = ApiStatus.STATUS_VALIDATION_ERROR;
-                                err2.errors.code = ApiStatus.CODE_VALIDATION_ERROR;
-                                res.json(err2.errors);
-                                return;
-                            }
-
-                            res.json({ status: ApiStatus.STATUS_SUCCESS, code: ApiStatus.CODE_SUCCESS, lead_id: savedLead._id });
-                            return;
-
+                        res.json({
+                            status: ApiStatus.STATUS_SUCCESS,
+                            code: ApiStatus.CODE_SUCCESS,
+                            lead_id: savedLead._id
                         });
+                        return;
 
                     });
 
-
                 });
-
-
-
-
+            });
         });
 
     });
-
-
 
 
 }
