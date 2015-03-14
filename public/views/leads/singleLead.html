@@ -13,7 +13,8 @@
         <div class="bordered-container">
             <h4 class="title">Tags</h4>
             <div class="inner">
-                <input type="text" class="form-control"/>
+                <tags-input ng-model="tags"></tags-input>
+                <p>Model: {{tags}}</p>
             </div>
         </div>
 
@@ -63,10 +64,11 @@
             <h4 class="title">Note about {{lead.contact.firstName}} {{lead.contact.lastName}}</h4>
             <div class="inner">
                 <p>{{note.content | date}}</p>
+                {{note._id}}
                 <div class="footer">
                     <span class="date">{{note.type}} added at {{note.createdAt | date}}</span>
                     <div class="actions">
-                        <a href=""><span class="ion-trash-a"></span>Delete</a>
+                        <a href="" ng-click="deleteNote()"><span class="ion-trash-a"></span>Delete</a>
                     </div>
                 </div>
             </div>

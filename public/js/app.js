@@ -3,7 +3,7 @@
  */
 
 (function () {
-    var app = angular.module('crmApp', ['ngRoute', 'crmService']);
+    var app = angular.module('crmApp', ['ngRoute', 'crmService','ngTagsInput', 'ngResource']);
 
     app.config(['$routeProvider', function ($routeProvider) {
 
@@ -91,6 +91,20 @@
 
         $scope.loadNotes();
 
+        $scope.deleteNote = function() {
+
+            if(!confirm('Are you sure?')) return;
+            leads.deleteNote($scope.note._id, function(){
+
+            })
+
+        }
+
+        $scope.tags = [
+            { text: 'Tag1' },
+            { text: 'Tag2' },
+            { text: 'Tag3' }
+        ];
 
 
     }]);
