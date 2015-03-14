@@ -9,11 +9,9 @@ var tagSchema = new mongoose.Schema({
     type: String,
 
     parentId: { type: mongoose.Schema.ObjectId },
-    parentType: String
+    parentType: String,
 
+    color: String
 });
-
-
-
 
 module.exports = mongoose.model('Tag', tagSchema);
