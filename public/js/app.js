@@ -82,19 +82,18 @@
                 method: 'POST',
                 url: '/lead/edit',
                 data: $scope.formData,  // pass in data as strings
-                headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}  // set the headers so angular passing info as form data (not request payload)
             })
                 .success(function (data) {
                     console.log(data);
-                    if (!data.success) {
-                        // if not successful, bind errors to error variables
-                        swal("Error!", 'Something went wrong', "error");
-                        $scope.errorName = data.errors.name;
-                        //$scope.errorSuperhero = data.errors.superheroAlias;
-                    } else {
+                    if (!data.code === 200) {
                         // if successful, bind success message to message
                         swal("Good job!", "You've successfully added lead!", "success");
                         $scope.message = data.message;
+                    } else if (data.code === 69) {
+                        swal("Error!", 'Something went wrong', "error");
+                        $scope.errorName = data.errors.name;
+                        //$scope.errorSuperhero = data.errors.superheroAlias;
                     }
                 });
         };
