@@ -137,20 +137,28 @@ html, body {
 //************** single lead *******************/
 
 .bordered-container {
-    padding: 10px 20px 20px 10px;
-    border: 2px #ccc solid;
+    padding: 0px 0px 10px 0px;
+    border: 2px #40576e solid;
     margin: 40px 0;
+    border-radius: 5px;
     h4.title {
         position: relative;
         font-size: 20px;
         line-height: 20px;
-        padding: 3px 10px;
-        background: #fffdff;
-        top: -23px;
-        display: inline;
-
+        /* top: -23px; */
+        display: block;
+        padding: 10px 20px;
+        background: #40576e;
+        color: #fff;
+        /* border-radius: 6px; */
+        margin-top: 0px;
     }
-
+    .inner {
+        padding: 10px;
+    }
+    textarea {
+        min-height: 90px;
+    }
 }
 
 .single-lead-container {
@@ -217,6 +225,47 @@ aside.personal-info {
         padding-left: 10px;
         li {
             font-size: 16px;
+        }
+    }
+}
+
+.errors {
+    padding: 5px 0;
+    color: red;
+}
+
+.single-added-note {
+    border-color: #407ebc;
+    h4.title {
+        background: #407ebc;
+    }
+
+    padding-bottom: 0px;
+    p {
+        display: block;
+        clear: both;
+        font-size: 16px;
+        padding: 0 10px;
+    }
+
+    span.date {
+        font-size: 12px;
+        text-align: left;
+        display: block;
+    }
+    .footer {
+        font-size: 12px;
+        text-align: left;
+        display: block;
+        padding: 10px;
+        background: #f1f1f1;
+        overflow: hidden;
+        span {
+            float: left;
+        }
+        .actions {
+            float: right;
+            padding: 0px;
         }
     }
 }
