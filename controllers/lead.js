@@ -3,8 +3,6 @@
  */
 var Lead = require('../models/Lead');
 var Note = require('../models/Note');
-var Task = require('../models/Task');
-var File = require('../models/File');
 var ApiStatus = require('../models/ApiStatus');
 var Contact = require('../models/Contact');
 var mongoose = require('mongoose');
