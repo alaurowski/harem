@@ -100,7 +100,7 @@ module.exports = function(app){
 
                     res.json(existingLead);
                 }
-            });
+            }).populate("tasks tags notes");
         }
     });
 
