@@ -96,7 +96,7 @@
 
     }]);
 
-    app.controller('leadsAdd', ['$scope', '$http', function ($scope, $http) {
+    app.controller('leadsAdd', ['$scope', '$location', '$http', function ($scope, $location, $http) {
 
         $scope.title = 'Leads add form'
 
@@ -109,25 +109,37 @@
             $http({
                 method: 'POST',
                 url: '/lead/edit',
-                data: $scope.formData,  // pass in data as strings
+                data: $.param($scope.formData),  // pass in data as strings
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}  // set the headers so angular passing info as form data (not request payload)
             })
                 .success(function (data) {
                     console.log(data);
-                    if (!data.code === 200) {
+                    if (data.code === 200) {
                         // if successful, bind success message to message
-                        swal("Good job!", "You've successfully added lead!", "success");
+                        $location.path('/leads');
+                        swal({
+                            title: "Good Job!",
+                            text: "You've successfully added lead!",
+                            type: "success",
+                            confirmButtonText: "Close"
+                        });
+
                         $scope.message = data.message;
-                    } else if (data.code === 69) {
+                    }
+                    else {
                         swal("Error!", 'Something went wrong', "error");
                         $scope.errorName = data.errors.name;
                         //$scope.errorSuperhero = data.errors.superheroAlias;
                     }
-                });
+                }
+            )
+            ;
         };
 
 
-    }]);
+    }
+    ])
+    ;
 
 
 })();
