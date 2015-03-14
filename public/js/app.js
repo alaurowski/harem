@@ -8,15 +8,20 @@
     app.config(['$routeProvider', function ($routeProvider) {
 
         $routeProvider
-            .when('/leads', {
-                templateUrl: 'views/leads/showLeads.html'
+            .when('/', {
+                controller: 'MainCtrl'
             })
-            .when('/leads/add', {
-                templateUrl: 'views/leads/addLead.html'
+            .when('/leads', {
+                controller: 'leadsIndex',
+                templateUrl: 'views/leads/showLeads.html'
             })
             .when('/leads/:leadId', {
                 controller: 'LeadDetailsCtrl',
                 templateUrl: 'views/leads/singleLead.html'
+            })
+            .when('/leads/add', {
+                controller: 'leadsAdd',
+                templateUrl: 'views/leads/addLead.html'
             })
             .otherwise({
                 redirectTo: 'views/leads/showLeads.html'
@@ -25,6 +30,7 @@
         ;
 
     }]);
+
 
     app.controller('LeadDetailsCtrl',['$scope', 'leads','$routeParams', function ($scope, leads, $routeParams) {
         $scope.lead = {};
@@ -43,10 +49,16 @@
     }]);
 
 
-    app.controller('MainCtrl', ['$scope', '$http', function ($scope, $http) {
 
-        $scope.message = 'sample message';
+    app.controller('MainCtrl', ['$scope', '$http', function ($scope) {
 
+        $scope.title = 'Leads dashboard';
+
+    }]);
+
+    app.controller('leadsIndex', ['$scope', '$http', function ($scope, $http) {
+
+        $scope.title = 'Leads list';
 
         $scope.users = [];
 
@@ -54,6 +66,11 @@
             $scope.users = data;
         });
 
+    }]);
+
+    app.controller('leadsAdd', ['$scope', function ($scope) {
+
+        $scope.title = 'Leads add form'
 
         // create a blank object to hold our form information
         // $scope will allow this to pass between controller and view

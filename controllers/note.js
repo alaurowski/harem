@@ -7,9 +7,9 @@ module.exports = function(app){
      *
      * @return json
      */
-    app.get('/note/fetchall',function(req, res){
-        var parentId = req.body.parentId;
-        var filter = {'parentId': parentId};
+    app.get('/note/fetchall/:parent_id',function(req, res){
+        var parentId = req.params.parent_id;
+        var filter = {"parentId" : parentId};
         var query = Note.find(filter, 'createdAt updatedAt content type parentId parentType parentId', { }).sort({date: 'desc'});
         query.exec(function (err, docs) {
             res.json(docs);
@@ -21,8 +21,8 @@ module.exports = function(app){
      *
      * @return json
      */
-    app.get('/note/fetch',function(req, res){
-        var noteId = req.body.noteId;
+    app.get('/note/fetch/:note_id',function(req, res){
+        var noteId = req.params.note_id;
         Note.findOne({_id: new mongoose.Schema.ObjectId(noteId)}, function (err, existingNote) {
             if(existingNote){
                 res.json(existingNote);
@@ -34,11 +34,11 @@ module.exports = function(app){
      * Insert note
      */
     app.post('/note/insert',function(req, res) {
-        req.assert('content', 'Name cannot be blank').notEmpty();
-        req.assert('type', 'Name cannot be blank').notEmpty();
-        req.assert('parentId', 'Name cannot be blank').notEmpty();
-        req.assert('parentType', 'Name cannot be blank').notEmpty();
-        req.assert('owner', 'Name cannot be blank').notEmpty();
+        req.assert('content', 'Content cannot be blank').notEmpty();
+        req.assert('type', 'Type cannot be blank').notEmpty();
+        req.assert('parentId', 'ParentId cannot be blank').notEmpty();
+        req.assert('parentType', 'ParentType cannot be blank').notEmpty();
+        req.assert('owner', 'Owner cannot be blank').notEmpty();
 
         var errors = req.validationErrors();
         if (errors) {
@@ -66,8 +66,9 @@ module.exports = function(app){
     /**
      * Delete note
      */
-    app.post('/note/delete', function(req, res) {
-        Note.remove({ _id: req.noteId }, function(err) {
+    app.post('/note/delete/:note_id', function(req, res) {
+        var noteId = req.params.note_id;
+        Note.remove({ _id: noteId }, function(err) {
             if (err) return next(err);
             req.flash('success', { msg: 'Note has been deleted.' });
             res.redirect('/');
@@ -77,8 +78,8 @@ module.exports = function(app){
     /**
      * Edit note
      */
-    app.post('/note/update',function(req, res) {
-        var noteId = req.body._id;
+    app.post('/note/update/:note_id',function(req, res) {
+        var noteId = req.params.noteId;
         Note.findById(noteId, function(err, ExistingNote) {
             if (err) return next(err);
             ExistingNote.updatedAt = new Date();
