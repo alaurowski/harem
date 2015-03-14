@@ -2,8 +2,6 @@
 <hr />
 <div>
 
-    <div id="messages" ng-show="message">{{ message }}</div>
-
     <form novalidate ng-submit="processForm()">
         <div class="form-group">
             <label for="leadFirstname">Firstname</label>
@@ -42,7 +40,7 @@
             <input ng-model="formData.source" name="leadSource" type="text" class="form-control" id="leadSource"
                    placeholder="Enter state">
         </div>
-        <button type="submit" class="btn btn-default">Submit</button>
+        <button type="submit" class="btn btn-success">Submit</button>
     </form>
 <br />
 <pre>

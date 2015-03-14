@@ -18,7 +18,12 @@
             .when('/leads/add', {
                 controller: 'leadsAdd',
                 templateUrl: 'views/leads/addLead.html'
-            });
+            })
+            .otherwise({
+                redirectTo: 'views/leads/showLeads.html'
+            })
+
+        ;
 
     }]);
 
@@ -70,6 +75,8 @@
                 });
         };
 
+
     }]);
+
 
 })();
