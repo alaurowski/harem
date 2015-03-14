@@ -19,12 +19,31 @@ module.exports = function (app) {
      */
     app.get('/lead/states', function(req, res){
 
-        var query = LeadState.find(filter, 'code name', {});
+        var query = LeadState.find({}, 'code name', {});
         query.exec(function (err, docs) {
             res.json(docs);
             return;
         });
 
+    });
+
+    /**
+     * Change lead state in workflow
+     */
+    app.post('/lead/change_state', function (req, res) {
+        Lead.findById(req.body._id, function (err, existingLead) {
+
+            if (!existingLead) {
+                res.json({status: ApiStatus.STATUS_ERROR, code: ApiStatus.CODE_ERROR});
+                return;
+            }
+
+            existingLead.state = req.body.state;
+            existingLead.save();
+
+            res.json({status: ApiStatus.STATUS_SUCCESS, code: ApiStatus.CODE_SUCCESS});
+            return;
+        });
     });
 
 
