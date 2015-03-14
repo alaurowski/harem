@@ -5,6 +5,7 @@ var mongoose = require('mongoose');
 var multer  = require('multer');
 var File = require('../models/File');
 var fs = require("fs");
+var ApiStatus = require('../models/ApiStatus');
 
 var allowedMimeTypes = new Array("image/png", "image/jpg", "image/gif");
 
@@ -29,8 +30,7 @@ module.exports = function(app){
      */
     app.post('/file/insert',function(req, res) {
         if (req.files.userfile.size === 0) {
-            // Error msg goes here
-            return false;
+            return res.json({ status: err, code: ApiStatus.CODE_ERROR });
         }
 
         fs.exists(req.files.userfile.path, function(exists) {
@@ -47,10 +47,13 @@ module.exports = function(app){
                         owner : req.body.owner || ''
                     });
                     file.save(function(err, savedFile) {
-                        if (err) return next(err);
+                        if (err) return res.json({ status: err, code: ApiStatus.CODE_ERROR });
+
                         //return file id
                         res.json({"file_id" : savedFile._id});
                     });
+                }else{
+                    return res.json({ status: err, code: ApiStatus.CODE_ERROR });
                 }
             }
         });
@@ -62,9 +65,11 @@ module.exports = function(app){
     app.post('/file/delete/:file_id', function(req, res) {
         var fileId = req.params.file_id;
         File.remove({ _id: fileId }, function(err) {
-            if (err) return next(err);
-            req.flash('success', { msg: 'File has been deleted.' });
-            res.redirect('/');
+            if (err) {
+                return res.json({ status: err, code: ApiStatus.CODE_ERROR });
+            }else{
+                return res.json({ status: ApiStatus.STATUS_SUCCESS, code: ApiStatus.CODE_SUCCESS });
+            }
         });
     });
 }
