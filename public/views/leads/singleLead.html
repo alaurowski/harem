@@ -12,10 +12,8 @@
 
         <div class="bordered-container">
             <h4 class="title">Tags</h4>
-
             <div class="inner">
                 <tags-input ng-model="tags" on-tag-added="saveTags()" on-tag-removed="saveTags()"></tags-input>
-                <p>Model: {{tags}}</p>
             </div>
         </div>
 
@@ -69,9 +67,6 @@
                         </li>
                     </ul>
                 </form>
-                <button ng-click="uploader.upload()">upload</button>
-
-
             </div>
         </div>
 
