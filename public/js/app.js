@@ -3,7 +3,7 @@
  */
 
 (function () {
-    var app = angular.module('crmApp', ['ngRoute','crmService']);
+    var app = angular.module('crmApp', ['ngRoute', 'crmService']);
 
     app.config(['$routeProvider', function ($routeProvider) {
 
@@ -15,13 +15,13 @@
                 controller: 'leadsIndex',
                 templateUrl: 'views/leads/showLeads.html'
             })
-            .when('/leads/:leadId', {
-                controller: 'LeadDetailsCtrl',
-                templateUrl: 'views/leads/singleLead.html'
-            })
             .when('/leads/add', {
                 controller: 'leadsAdd',
                 templateUrl: 'views/leads/addLead.html'
+            })
+            .when('/leads/:leadId', {
+                controller: 'LeadDetailsCtrl',
+                templateUrl: 'views/leads/singleLead.html'
             })
             .otherwise({
                 redirectTo: 'views/leads/showLeads.html'
@@ -32,22 +32,21 @@
     }]);
 
 
-    app.controller('LeadDetailsCtrl',['$scope', 'leads','$routeParams', function ($scope, leads, $routeParams) {
+    app.controller('LeadDetailsCtrl', ['$scope', 'leads', '$routeParams', function ($scope, leads, $routeParams) {
         $scope.lead = {};
         leads.getLead(
             $routeParams.leadId,
-            function(data){
+            function (data) {
                 $scope.lead = data;
                 console.log($scope.lead);
             },
-            function(data, status){
+            function (data, status) {
                 console.log(data);
                 console.log(status);
             }
         );
 
     }]);
-
 
 
     app.controller('MainCtrl', ['$scope', '$http', function ($scope) {
@@ -79,21 +78,22 @@
 
         // process the form
         $scope.processForm = function () {
-            $http({ 
+            $http({
                 method: 'POST',
                 url: '/lead/edit',
                 data: $scope.formData,  // pass in data as strings
                 headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
             })
                 .success(function (data) {
-                    swal("Good job!", "You've successfully added lead!", "success")
                     if (!data.success) {
                         // if not successful, bind errors to error variables
-                        $scope.errorName = data.errors.name;
-                        $scope.errorSuperhero = data.errors.superheroAlias;
+                        //$scope.errorName = data.errors.name;
+                        //$scope.errorSuperhero = data.errors.superheroAlias;
+                        swal("Good job!", "You've successfully added lead!", "success")
                     } else {
                         // if successful, bind success message to message
                         $scope.message = data.message;
+                        swal("Error!", $scope.message, "error")
                     }
                 });
         };

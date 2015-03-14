@@ -1,11 +1,11 @@
 <h1>{{ title }}</h1>
-<hr />
-<div>
-
+<hr/>
+<div class="pull-left col-sm-6">
     <form novalidate ng-submit="processForm()">
         <div class="form-group">
             <label for="leadFirstname">Firstname</label>
-            <input ng-model="formData.firstName" name="leadFirstname" type="text" class="form-control" id="leadFirstname"
+            <input required="" ng-model="formData.firstName" name="leadFirstname" type="text" class="form-control"
+                   id="leadFirstname"
                    placeholder="Enter state">
         </div>
         <div class="form-group">
@@ -15,16 +15,19 @@
         </div>
         <div class="form-group">
             <label for="leadEmail">Email</label>
-            <input ng-model="formData.email" name="leadEmail" type="email" class="form-control" id="leadEmail" placeholder="Enter email">
+            <input ng-model="formData.email" name="leadEmail" type="email" class="form-control" id="leadEmail"
+                   placeholder="Enter email">
         </div>
         <div class="form-group">
             <label for="leadPhone">Phone</label>
-            <input ng-model="formData.phone" name="leadPhone" type="tel" class="form-control" id="leadPhone" placeholder="Enter phone number">
+            <input ng-model="formData.phone" name="leadPhone" type="tel" class="form-control" id="leadPhone"
+                   placeholder="Enter phone number">
         </div>
         <hr/>
         <div class="form-group">
             <label for="leadTitle">Title</label>
-            <input ng-model="formData.title" name="leadTitle" type="text" class="form-control" id="leadTitle" placeholder="Enter title">
+            <input ng-model="formData.title" name="leadTitle" type="text" class="form-control" id="leadTitle"
+                   placeholder="Enter title">
         </div>
         <div class="form-group">
             <label for="leadSubtitle">Subtitle</label>
@@ -33,7 +36,8 @@
         </div>
         <div class="form-group">
             <label for="leadState">State</label>
-            <input ng-model="formData.state" name="leadState" type="text" class="form-control" id="leadState" placeholder="Enter state">
+            <input ng-model="formData.state" name="leadState" type="text" class="form-control" id="leadState"
+                   placeholder="Enter state">
         </div>
         <div class="form-group">
             <label for="leadSource">Source</label>
@@ -42,9 +46,9 @@
         </div>
         <button type="submit" class="btn btn-success">Submit</button>
     </form>
-<br />
-<pre>
-    {{ formData }}
-</pre>
-
+</div>
+<div class="pull-left col-sm-6">
+        <pre>
+            {{ formData }}
+        </pre>
 </div>
