@@ -65,7 +65,7 @@
                     if (data.code === 200) {
                         swal({
                             title: "Good Job!",
-                            text: "You've successfully added lead!",
+                            text: "You've successfully added note!",
                             type: "success",
                             confirmButtonText: "Close"
                         });
@@ -82,7 +82,6 @@
 
         $scope.notes = [];
 
-
         $scope.loadNotes = function () {
             $http.get('/note/fetchall/'+$scope.noteData.parentId).success(function (data) {
                 $scope.notes = data;
@@ -91,6 +90,8 @@
         };
 
         $scope.loadNotes();
+
+
 
     }]);
 
@@ -111,6 +112,21 @@
         $http.get('lead/index').success(function (data) {
             $scope.users = data;
         });
+
+
+        $scope.orderByColumn = '$index'
+        $scope.orderByDir = false;
+
+        $scope.changeOrder = function(columnName){
+            if($scope.orderByColumn == columnName){
+                $scope.orderByDir = !$scope.orderByDir;
+            }else{
+                $scope.orderByColumn = columnName;
+                $scope.orderByDir = false;
+            }
+        }
+
+
 
     }]);
 

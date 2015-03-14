@@ -21,17 +21,17 @@
 </div>
 <table class="table leads-table">
     <thead>
-    <th>ID</th>
-    <th>Firstname</th>
-    <th>Lastname</th>
-    <th>Email</th>
-    <th>Title</th>
-    <th>Subtitle</th>
-    <th>Source</th>
+    <th ng-click="changeOrder('$index')">ID</th>
+    <th ng-click="changeOrder('contact.firstName')">Firstname</th>
+    <th ng-click="changeOrder('contact.lastName')">Lastname</th>
+    <th ng-click="changeOrder('contact.email')">Email</th>
+    <th ng-click="changeOrder('title')">Title</th>
+    <th ng-click="changeOrder('subtitle')">Subtitle</th>
+    <th ng-click="changeOrder('source')">Source</th>
     <th>Details</th>
     </thead>
     <tbody>
-    <tr ng-repeat="user in filtered = ( users | filter:name )">
+    <tr ng-repeat="user in filtered = ( users | filter:name ) | orderBy: orderByColumn : orderByDir">
         <td>
             {{ $index }}
         </td>
