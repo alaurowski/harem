@@ -58,7 +58,9 @@ module.exports = function(app){
                         if (err) return res.json({ status: err, code: ApiStatus.CODE_ERROR });
 
                         //return file id
-                        res.json({"file_id" : savedFile._id, status: ApiStatus.STATUS_SUCCESS, code: ApiStatus.CODE_SUCCESS});
+                        file.status = ApiStatus.STATUS_SUCCESS;
+                        file.code = ApiStatus.CODE_SUCCESS;
+                        res.json(file);
                     });
                 }else{
                     return res.json({ status: err, code: ApiStatus.CODE_ERROR });
