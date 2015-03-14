@@ -3,8 +3,6 @@
  */
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var Note = require('./Note');
-var Task = require('./Task');
 var Tag = require('./Tag');
 var File = require('./File');
 
@@ -19,9 +17,7 @@ var leadSchema = new mongoose.Schema({
     state: { type: String, required: true, trim: true },
     stateHistory: Array,
 
-    tasks : [{ type: Schema.Types.ObjectId, ref: 'Task' }],
-    tags : [{ type: Schema.Types.ObjectId, ref: 'Tag' }],
-    notes : [{ type: Schema.Types.ObjectId, ref: 'Note' }],
+    tags : String,
 
     files: [File.schema],
 
