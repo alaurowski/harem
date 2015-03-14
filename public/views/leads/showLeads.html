@@ -25,6 +25,7 @@
             <th ng-click="changeOrder('contact.email')">Email</th>
             <th ng-click="changeOrder('title')">Title</th>
             <th ng-click="changeOrder('subtitle')">Subtitle</th>
+            <th ng-click="changeOrder('state')">State</th>
             <th ng-click="changeOrder('source')">Source</th>
             <th>Details</th>
             </thead>
@@ -52,14 +53,13 @@
                     {{ user.subtitle }}
                 </td>
                 <td>
-                    {{ user.state }}
+                    {{ user.state.name}}
                 </td>
                 <td>
                     {{ user.source }}
                 </td>
                 <td>
                     <a href="/#/leads/{{ user._id }}" class="btn btn-success">Details</a>
-
                 </td>
             </tr>
             </tbody>

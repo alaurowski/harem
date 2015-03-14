@@ -139,15 +139,17 @@
 
             })
 
-        }
+        };
 
-/*        $scope.tags = [
-            { text: 'Tag1' },
-            { text: 'Tag2' },
-            { text: 'Tag3' }
-        ];
-        */
 
+        //States
+        $scope.loadStates = function () {
+            $http.get('/lead/states').success(function (data) {
+                $scope.allStates = data;
+            });
+        };
+
+        $scope.loadStates();
 
     }]);
 
