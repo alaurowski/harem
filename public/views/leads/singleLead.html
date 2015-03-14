@@ -12,43 +12,69 @@
 
         <div class="bordered-container">
             <h4 class="title">Tags</h4>
-            <input type="text" class="form-control"/>
+            <div class="inner">
+                <tags-input ng-model="tags"></tags-input>
+                <p>Model: {{tags}}</p>
+            </div>
         </div>
 
         <div class="bordered-container">
             <h4 class="title">Add note about {{lead.contact.firstName}} {{lead.contact.lastName}}</h4>
 
+            <div class="inner">
+                <form name="note_add_form" novalidate ng-submit="processNote()">
 
-            <form name="note_add_form" novalidate ng-submit="processNote()">
+                    <textarea required="required" name="noteText" id="noteText" ng-model="noteData.content" class="form-control"></textarea>
 
-                <textarea ng-model="noteData.content" class="form-control"></textarea>
-                <input ng-model="noteData.parentId" type="hidden" value="{{ noteData.parentId }}"/>
-                <input ng-model="noteData.parentType" type="hidden" value="a"/>
-                <input ng-model="noteData.type" type="hidden" value="a"/>
-                <input ng-model="noteData.owner" type="hidden" value="a"/>
+                    <div ng-show="note_add_form.$submitted || note_add_form.noteText.$touched" class="errors">
+                    <span ng-show="note_add_form.noteText.$error.required">
+                      Note is required
+                    </span>
+                    </div>
 
-                <div class="actions">
-                    <select>
-                        <option>Interview</option>
-                        <option>Score</option>
-                        <option>Attachment</option>
-                    </select>
-                    <label for="note-date">When did it happen:</label>
-                    <input type="date" id="note-date"/>
+                    <input ng-model="noteData.parentId" type="hidden" value="{{ noteData.parentId }}"/>
+                    <input ng-model="noteData.parentType" type="hidden" value="a"/>
+                    <input ng-model="noteData.owner" type="hidden" value="a"/>
 
-                    <span><a href="">Attach file from computer</a></span>
-                    <input type="submit" class="btn btn-success" value="save"/>
+                    <div class="actions">
 
-                    <div class="clearfix"></div>
+                        <select class="form-control"  ng-options="color for color in ['Interview', 'Score', 'Attachment', 'Other']" ng-model="noteData.type">
+                            <option value="" selected>--Select type of note--</option>
+                        </select>
+
+                        <label for="note-date">When did it happen:</label>
+                        <div class="input-group date" id="note-date">
+                            <input type="text" class="form-control" ng-model="noteData.updatedAt" />
+                        <span class="input-group-addon">
+                            <span class="ion-calendar">
+                            </span>
+                        </span>
+                        </div>
+
+                        <span class="attach-file"><a href="">Attach file from computer</a></span>
+                        <input type="submit" class="btn btn-success" value="save"/>
+
+                        <div class="clearfix"></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="bordered-container single-added-note" ng-repeat="note in notes.slice().reverse()">
+            <h4 class="title">Note about {{lead.contact.firstName}} {{lead.contact.lastName}}</h4>
+            <div class="inner">
+                <p>{{note.content | date}}</p>
+                {{note._id}}
+                <div class="footer">
+                    <span class="date">{{note.type}} added at {{note.createdAt | date}}</span>
+                    <div class="actions">
+                        <a href="" ng-click="deleteNote()"><span class="ion-trash-a"></span>Delete</a>
+                    </div>
                 </div>
-            </form>
-
-            <pre>
-            {{ noteData }}
-        </pre>
-
+            </div>
 
         </div>
+
 
     </div>
     <aside class="personal-info col-xs-3">
@@ -76,3 +102,9 @@
         </div>
     </aside>
 </div>
+
+<script type="text/javascript">
+    $(function () {
+        $('.input-group.date').datepicker();
+    });
+</script>

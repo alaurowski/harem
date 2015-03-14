@@ -16,18 +16,16 @@
         <div class>
             <h3>Active records: {{ (users | filter:filters.search | filter:{state: filters.state}).length }}</h3>
         </div>
-        <hr />
+        <hr/>
         <table class="table leads-table">
             <thead>
-            <th>ID</th>
-            <th>Firstname</th>
-            <th>Lastname</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Title</th>
-            <th>Subtitle</th>
-            <th>State</th>
-            <th>Source</th>
+            <th ng-click="changeOrder('$index')">ID</th>
+            <th ng-click="changeOrder('contact.firstName')">Firstname</th>
+            <th ng-click="changeOrder('contact.lastName')">Lastname</th>
+            <th ng-click="changeOrder('contact.email')">Email</th>
+            <th ng-click="changeOrder('title')">Title</th>
+            <th ng-click="changeOrder('subtitle')">Subtitle</th>
+            <th ng-click="changeOrder('source')">Source</th>
             <th>Details</th>
             </thead>
             <tbody>
@@ -67,7 +65,9 @@
             </tbody>
         </table>
     </div>
+
     <aside class="col-sm-3">
+
         <header class="clearfix">
             <h2>
                 Menu
@@ -89,7 +89,8 @@
         <ul>
             <li>
                 <label for="stateNew">
-                    <input id="stateNew" type="checkbox" ng-model="filters.x" ng-change="actions.updateState()"/> New {{a}}
+                    <input id="stateNew" type="checkbox" ng-model="filters.x" ng-change="actions.updateState()"/> New
+                    {{a}}
                 </label>
             </li>
             <li>

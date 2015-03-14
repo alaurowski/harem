@@ -3,7 +3,7 @@
  */
 
 (function () {
-    var app = angular.module('crmApp', ['ngRoute', 'crmService']);
+    var app = angular.module('crmApp', ['ngRoute', 'crmService', 'ngTagsInput', 'ngResource']);
 
     app.config(['$routeProvider', function ($routeProvider) {
 
@@ -43,7 +43,6 @@
             }
         );
 
-
         $scope.noteData = {};
 
         $scope.noteData.parentId = $routeParams.leadId;
@@ -62,18 +61,46 @@
                     if (data.code === 200) {
                         swal({
                             title: "Good Job!",
-                            text: "You've successfully added lead!",
+                            text: "You've successfully added note!",
                             type: "success",
                             confirmButtonText: "Close"
                         });
 
                         $scope.message = data.message;
+
+                        $scope.loadNotes();
                     }
                     else {
                         swal("Error!", 'Something went wrong', "error");
                     }
                 });
         };
+
+        $scope.notes = [];
+
+        $scope.loadNotes = function () {
+            $http.get('/note/fetchall/' + $scope.noteData.parentId).success(function (data) {
+                $scope.notes = data;
+                console.log($scope.notes);
+            });
+        };
+
+        $scope.loadNotes();
+
+        $scope.deleteNote = function () {
+
+            if (!confirm('Are you sure?')) return;
+            leads.deleteNote($scope.note._id, function () {
+
+            })
+
+        }
+
+        $scope.tags = [
+            {text: 'Tag1'},
+            {text: 'Tag2'},
+            {text: 'Tag3'}
+        ];
 
 
     }]);
@@ -135,6 +162,20 @@
                 }
             }
         };
+
+
+        $scope.orderByColumn = '$index'
+        $scope.orderByDir = false;
+
+        $scope.changeOrder = function (columnName) {
+            if ($scope.orderByColumn == columnName) {
+                $scope.orderByDir = !$scope.orderByDir;
+            } else {
+                $scope.orderByColumn = columnName;
+                $scope.orderByDir = false;
+            }
+        }
+
 
     }]);
 
