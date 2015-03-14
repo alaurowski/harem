@@ -31,6 +31,9 @@ var leadSchema = new mongoose.Schema({
     owner: String
 });
 
+leadSchema.post('save', function (next, document) {
+    console.write(document.title);
+})
 
 
 module.exports = mongoose.model('Lead', leadSchema);
