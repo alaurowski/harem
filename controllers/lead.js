@@ -3,6 +3,7 @@
  */
 var Lead = require('../models/Lead');
 var Note = require('../models/Note');
+var ApiStatus = require('../models/ApiStatus');
 var Contact = require('../models/Contact');
 var mongoose = require('mongoose');
 var fs = require("fs");
@@ -95,12 +96,9 @@ module.exports = function(app){
         if(leadId){
             Lead.findById(leadId, function (err, existingLead) {
                 if(existingLead){
-
-
-
                     res.json(existingLead);
                 }
-            }).populate("tasks tags notes");
+            }).populate("contact tasks tags notes");
         }
     });
 
@@ -151,6 +149,9 @@ module.exports = function(app){
 
                     existingContact.save(function (err) {
                         if (err && err.errors) {
+                            err.errors.status = ApiStatus.STATUS_VALIDATION_ERROR;
+                            err.errors.code = ApiStatus.CODE_VALIDATION_ERROR;
+
                             res.json(err.errors);
                             return;
                         }
@@ -160,9 +161,14 @@ module.exports = function(app){
                         existingLead.save(function (err2) {
 
                             if (err2 && err2.errors) {
+                                err2.errors.status = ApiStatus.STATUS_VALIDATION_ERROR;
+                                err2.errors.code = ApiStatus.CODE_VALIDATION_ERROR;
                                 res.json(err2.errors);
                                 return;
                             }
+
+                            res.json({ status: ApiStatus.STATUS_SUCCESS, code: ApiStatus.CODE_SUCCESS });
+                            return;
 
                         });
 

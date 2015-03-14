@@ -2,6 +2,7 @@
 @import "vendor/font-awesome/font-awesome";
 @import "vendor/ionicons/ionicons";
 @import "vendor/bootstrap-social";
+@import "vendor/sweet-alert";
 @import "themes/default";
 
 // Scaffolding
@@ -129,6 +130,39 @@ html, body {
     tbody {
         tr:nth-child(odd) {
             background: #f1f1f1;
+        }
+    }
+}
+
+//************** single lead *******************/
+
+.bordered-container {
+    padding: 10px 20px 20px 10px;
+    border: 3px #000 solid;
+    margin: 40px 0;
+    h4.title {
+        position: relative;
+        font-size: 20px;
+        line-height: 20px;
+        padding: 3px 10px;
+        background: #fffdff;
+        top: -23px;
+        display: inline;
+
+    }
+
+}
+
+.single-lead-container {
+    header {
+        overflow: hidden;
+        figure {
+            float: left;
+            margin-right: 20px;
+            width: 70px;
+            height: 70px;
+            background: #ccc;
+            border: 3px #bbb solid;
         }
     }
 }
