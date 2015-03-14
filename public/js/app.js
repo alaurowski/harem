@@ -47,9 +47,9 @@
         /**
          *
          */
-        $scope.noteFileUploaded = function(item, response, status, headers){
+        $scope.noteFileUploaded = function (item, response, status, headers) {
 
-            if(!$scope.noteData.files) {
+            if (!$scope.noteData.files) {
                 $scope.noteData.files = new Array();
 
                 $scope.noteData.files.push(response);
@@ -58,10 +58,10 @@
 
         $scope.uploader = new FileUploader({
 
-             url: "/file/insert",
-             alias: "userfile",
-             autoUpload: true,
-             onSuccessItem: $scope.noteFileUploaded
+            url: "/file/insert",
+            alias: "userfile",
+            autoUpload: true,
+            onSuccessItem: $scope.noteFileUploaded
         }); // file uploader
 
         $scope.noteData = {};
@@ -76,12 +76,11 @@
         }
 
 
-
         $scope.saveTags = function () {
             $http({
                 method: 'POST',
                 url: '/lead/save_tags',
-                data: { _id: $scope.lead._id, tags: $scope.tags},
+                data: {_id: $scope.lead._id, tags: $scope.tags},
                 headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
             })
                 .success(function (data) {
@@ -130,7 +129,6 @@
         $scope.loadNotes = function () {
             $http.get('/note/fetchall/' + $scope.noteData.parentId).success(function (data) {
                 $scope.notes = data;
-                console.log($scope.notes);
             });
         };
 
@@ -155,36 +153,24 @@
 
         $scope.loadStates();
 
+        $scope.updateState = function () {
+            $http({
+                method: 'POST',
+                url: '/lead/change_state',
+                data: {_id: $scope.lead._id, state: $scope.lead.state},
+                headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
+            })
+                .success(function (data) {
+                    if (data.code === 200) {
+                        $scope.message = data.message;
+                    }
+                    else {
+                        swal("Error!", 'Something went wrong', "error");
+                    }
+                });
+        };
+
     }]);
-
-    var uniqueItems = function (data, key) {
-        var result = [];
-
-        for (var i = 0; i < data.length; i++) {
-            var value = data[i][key];
-
-            if (result.indexOf(value) == -1) {
-                result.push(value);
-            }
-
-        }
-        return result;
-    };
-
-    // SEARCH AND FILTER
-    var uniqueItems = function (data, key) {
-        var result = [];
-
-        for (var i = 0; i < data.length; i++) {
-            var value = data[i][key];
-
-            if (result.indexOf(value) == -1) {
-                result.push(value);
-            }
-
-        }
-        return result;
-    };
 
     app.controller('leadsIndex', ['$scope', '$http', function ($scope, $http) {
 

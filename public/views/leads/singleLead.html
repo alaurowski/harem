@@ -8,6 +8,9 @@
             <h2>{{lead.contact.firstName}} {{lead.contact.lastName}}</h2>
 
             <p>{{lead.state.name}}</p>
+            <select ng-options="state as state.name for state in allStates"
+                    ng-model="lead.state" ng-change="updateState()"></select>
+
         </header>
 
         <div class="bordered-container">
