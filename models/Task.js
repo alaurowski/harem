@@ -4,8 +4,8 @@
 var mongoose = require('mongoose');
 
 var taskSchema = new mongoose.Schema({
-    createdAt: Date, default: Date.now,
-    updatedAt: Date, default: Date.now,
+    createdAt: { type: Date, default: Date.now },
+    updatedAt: { type: Date, default: Date.now },
     content: { type: String, required: true },
     due: Date,
     parentId: {type: mongoose.Schema.ObjectId, required: true },
