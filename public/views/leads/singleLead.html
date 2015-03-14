@@ -14,8 +14,34 @@
             <input type="text" class="form-control"/>
         </div>
 
+        <div class="bordered-container">
+            <h4 class="title">Add note about {{lead.contact.firstName}} {{lead.contact.lastName}}</h4>
+            <textarea class="form-control"></textarea>
+        </div>
+
     </div>
     <aside class="personal-info col-xs-3">
+        <header>
+            <a href="">
+                <span class="ion-edit"></span>
+                Edit this person
+            </a>
 
+        </header>
+
+        <div class="personal-info-details">
+            <h4>Personal information</h4>
+            <ul>
+                <li>
+                    Phone: {{lead.contact.phone}}
+                </li>
+                <li>
+                    E-mail: {{lead.contact.email}}
+                </li>
+                <li>
+                    Added: {{lead.createdAt | date}}
+                </li>
+            </ul>
+        </div>
     </aside>
 </div>

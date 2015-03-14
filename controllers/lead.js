@@ -95,6 +95,7 @@ module.exports = function(app){
         if(leadId){
             Lead.findById(leadId, function (err, existingLead) {
                 if(existingLead){
+
                     res.json(existingLead);
                 }
             }).populate("contact tasks tags notes");
