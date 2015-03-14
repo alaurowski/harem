@@ -90,7 +90,7 @@ module.exports = function(app){
     /**
      * Load single lead
      */
-    app.get('/lead/fetch',function(req, res){
+    app.get('/lead/fetch/:id',function(req, res){
         var leadId = req.params.id;
         if(leadId){
             Lead.findById(leadId, function (err, existingLead) {

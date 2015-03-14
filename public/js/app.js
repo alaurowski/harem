@@ -3,7 +3,7 @@
  */
 
 (function () {
-    var app = angular.module('crmApp', ['ngRoute']);
+    var app = angular.module('crmApp', ['ngRoute','crmService']);
 
     app.config(['$routeProvider', function ($routeProvider) {
 
@@ -14,6 +14,10 @@
             .when('/leads/add', {
                 templateUrl: 'views/leads/addLead.html'
             })
+            .when('/leads/:leadId', {
+                controller: 'LeadDetailsCtrl',
+                templateUrl: 'views/leads/singleLead.html'
+            })
             .otherwise({
                 redirectTo: 'views/leads/showLeads.html'
             })
@@ -21,6 +25,23 @@
         ;
 
     }]);
+
+    app.controller('LeadDetailsCtrl',['$scope', 'leads','$routeParams', function ($scope, leads, $routeParams) {
+        $scope.lead = {};
+        leads.getLead(
+            $routeParams.leadId,
+            function(data){
+                $scope.lead = data;
+                console.log($scope.lead);
+            },
+            function(data, status){
+                console.log(data);
+                console.log(status);
+            }
+        );
+
+    }]);
+
 
     app.controller('MainCtrl', ['$scope', '$http', function ($scope, $http) {
 
