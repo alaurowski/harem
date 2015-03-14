@@ -3,8 +3,6 @@
  */
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var Tag = require('./Tag');
-var File = require('./File');
 
 var leadSchema = new mongoose.Schema({
 
@@ -18,8 +16,6 @@ var leadSchema = new mongoose.Schema({
     stateHistory: Array,
 
     tags : String,
-
-    files: [File.schema],
 
     source: String,
     contact: { type: mongoose.Schema.ObjectId, ref: 'Contact'},
