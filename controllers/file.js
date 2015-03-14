@@ -36,21 +36,29 @@ module.exports = function(app){
         fs.exists(req.files.userfile.path, function(exists) {
             if(exists){
                 var fileName = req.files.userfile.name;
+                var originalName = req.files.userfile.originalname;
+                console.log(req.files.userfile);
                 var mimeType = req.files.userfile.mimetype;
                 // check is allowed
                 if(allowedMimeTypes.indexOf(mimeType) !== -1){
                     var file = new File({
                         src: fileName,
+                        originalName: originalName,
                         content : req.body.content || '',
-                        parentId : req.body.parentId || '',
-                        parentType : req.body.parentType || '',
-                        owner : req.body.owner || ''
+                        owner : req.body.owner || '',
+                        parentType : req.body.parentType || ''
+
                     });
+
+                    if(req.body.parentId)
+                        file.parentId = req.body.parentId;
+
+
                     file.save(function(err, savedFile) {
                         if (err) return res.json({ status: err, code: ApiStatus.CODE_ERROR });
 
                         //return file id
-                        res.json({"file_id" : savedFile._id});
+                        res.json({"file_id" : savedFile._id, status: ApiStatus.STATUS_SUCCESS, code: ApiStatus.CODE_SUCCESS});
                     });
                 }else{
                     return res.json({ status: err, code: ApiStatus.CODE_ERROR });

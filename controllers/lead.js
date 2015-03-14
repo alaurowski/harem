@@ -111,16 +111,31 @@ module.exports = function(app){
                         return existingTask;
                     });
 
-                    existingLead.files = File.findOne({"parentId" : leadId}, function (err, existingFile) {
-                        existingFile;
-                    });
-
                     console.log(existingLead);
 
                     res.json(existingLead);
                 }
             }).populate("contact");
         }
+    });
+
+    /**
+     * Save lead
+     */
+    app.post('/lead/save_tags',function(req,res) {
+        Lead.findById(req.body._id, function (err, existingLead) {
+
+            if (!existingLead) {
+                res.json({status: ApiStatus.STATUS_ERROR, code: ApiStatus.CODE_ERROR});
+                return;
+            }
+
+            existingLead.tags = req.body.tags;
+            existingLead.save();
+
+            res.json({status: ApiStatus.STATUS_SUCCESS, code: ApiStatus.CODE_SUCCESS});
+            return;
+        });
     });
 
     /**

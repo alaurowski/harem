@@ -32,13 +32,14 @@
     }]);
 
 
-    app.controller('LeadDetailsCtrl', ['$scope', 'leads', '$routeParams', '$http', function ($scope, leads, $routeParams, $http) {
+    app.controller('LeadDetailsCtrl', ['$scope', 'leads', '$routeParams', '$http', 'FileUploader', function ($scope, leads, $routeParams, $http, FileUploader) {
 
         $scope.lead = {};
         leads.getLead(
             $routeParams.leadId,
             function (data) {
                 $scope.lead = data;
+                $scope.tags = data.tags;
                 console.log($scope.lead);
             },
             function (data, status) {
@@ -47,11 +48,53 @@
             }
         );
 
-        $scope.uploader = new FileUploader(); // file uploader
+        /**
+         *
+         */
+        $scope.noteFileUploaded = function(item, response, status, headers){
+            console.log(item);
+            console.log(response);
+        }
+
+        $scope.uploader = new FileUploader({
+
+             url: "/file/insert",
+             alias: "userfile",
+             autoUpload: true,
+             onSuccessItem: $scope.noteFileUploaded
+        }); // file uploader
 
         $scope.noteData = {};
 
         $scope.noteData.parentId = $routeParams.leadId;
+
+        /**
+         * Uploading files
+         */
+        $scope.processUpload = function () {
+            console.log('Uploading file ..');
+        }
+
+
+
+        $scope.saveTags = function () {
+            $http({
+                method: 'POST',
+                url: '/lead/save_tags',
+                data: { _id: $scope.lead._id, tags: $scope.tags},
+                headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
+            })
+                .success(function (data) {
+                    console.log(data);
+                    if (data.code === 200) {
+                        $scope.message = data.message;
+                    }
+                    else {
+                        swal("Error!", 'Something went wrong', "error");
+                    }
+                });
+        };
+
 
         // process the form
         $scope.processNote = function () {
@@ -102,11 +145,12 @@
 
         }
 
-        $scope.tags = [
+/*        $scope.tags = [
             { text: 'Tag1' },
             { text: 'Tag2' },
             { text: 'Tag3' }
         ];
+        */
 
 
     }]);

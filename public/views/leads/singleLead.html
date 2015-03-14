@@ -13,7 +13,7 @@
         <div class="bordered-container">
             <h4 class="title">Tags</h4>
             <div class="inner">
-                <tags-input ng-model="tags"></tags-input>
+                <tags-input ng-model="tags" on-tag-added="saveTags()" on-tag-removed="saveTags()"></tags-input>
                 <p>Model: {{tags}}</p>
             </div>
         </div>
@@ -51,20 +51,22 @@
                         </span>
                         </div>
 
-                        <input type="file" nv-file-select uploader="uploader"/><br/>
-                        <ul>
-                            <li ng-repeat="item in uploader.queue">
-                                attach file: <span ng-bind="item.file.name"></span><br/>
-                                <button ng-click="item.upload()">upload</button>
-                            </li>
-                        </ul>
-
-
                         <input type="submit" class="btn btn-success" value="save"/>
 
                         <div class="clearfix"></div>
                     </div>
                 </form>
+                <form name="note_upload_form" novalidate ng-submit="processUpload()" >
+                    <input type="file" nv-file-select uploader="uploader"/><br/>
+                    <ul>
+                        <li ng-repeat="item in uploader.queue">
+                            attach file: <span ng-bind="item.file.name"></span>
+                        </li>
+                    </ul>
+                </form>
+                <button ng-click="uploader.upload()">upload</button>
+
+
             </div>
         </div>
 
