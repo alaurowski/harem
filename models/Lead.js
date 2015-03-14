@@ -23,7 +23,7 @@ var leadSchema = new mongoose.Schema({
     tags : [{ type: Schema.Types.ObjectId, ref: 'Tag' }],
     notes : [{ type: Schema.Types.ObjectId, ref: 'Note' }],
 
-    attachments: [Attachment.schema],
+    files: [File.schema],
 
     source: String,
     contact: { type: mongoose.Schema.ObjectId, ref: 'Contact'},
