@@ -64,7 +64,7 @@
              onSuccessItem: $scope.noteFileUploaded
         }); // file uploader
 
-        $scope.noteData = {};
+        $scope.noteData = { type: 'Note', updatedAt: new Date()};
 
         $scope.noteData.parentId = $routeParams.leadId;
 

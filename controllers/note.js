@@ -13,7 +13,7 @@ module.exports = function(app){
     app.get('/note/fetchall/:parent_id',function(req, res){
         var parentId = req.params.parent_id;
         var filter = {"parentId" : parentId};
-        var query = Note.find(filter, 'createdAt updatedAt content type parentId parentType parentId', { }).sort({date: 'desc'});
+        var query = Note.find(filter, 'createdAt updatedAt content type parentId parentType parentId files', { }).sort({date: 'desc'});
         query.exec(function (err, docs) {
             res.json(docs);
         });
@@ -56,9 +56,10 @@ module.exports = function(app){
             createdAt: new Date(req.body.updatedAt),
             updatedAt: new Date(req.body.updatedAt),
             content : req.body.content || '',
-            type : req.body.type || '',
+            type : req.body.type || 'Note',
             parentId : req.body.parentId || '',
             parentType : req.body.parentType || '',
+            files: req.body.files,
             owner : req.body.owner || ''
         });
 

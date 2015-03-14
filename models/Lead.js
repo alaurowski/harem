@@ -16,7 +16,7 @@ var leadSchema = new mongoose.Schema({
     stateHistory: Array,
 
     tags : Array,
-    files: Array,
+    files: [mongoose.Schema.Mixed],
 
     source: String,
     contact: { type: mongoose.Schema.ObjectId, ref: 'Contact'},

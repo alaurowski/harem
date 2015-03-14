@@ -11,6 +11,27 @@ var allowedMimeTypes = new Array("image/png", "image/jpg", "image/gif");
 
 module.exports = function(app){
 
+
+    /**
+     * Download single file
+     *
+     * @return json
+     */
+    app.get('/file/download/:file_id',function(req, res){
+        var fileId = req.params.file_id;
+        File.findOne({_id:  fileId}, function (err, existingFile) {
+            if(existingFile){
+                res.download('./uploads/' + existingFile.src, existingFile.originalName);
+
+                return;
+            }
+
+            res.status(404);
+
+        });
+    });
+
+
     /**
      * Fetch single file
      *
