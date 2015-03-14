@@ -3,7 +3,7 @@
  */
 
 (function () {
-    var app = angular.module('crmApp', ['ngRoute', 'crmService']);
+    var app = angular.module('crmApp', ['ngRoute', 'crmService', 'angularFileUpload']);
 
     app.config(['$routeProvider', function ($routeProvider) {
 
@@ -46,6 +46,8 @@
                 console.log(status);
             }
         );
+
+        $scope.uploader = new FileUploader(); // file uploader
 
         $scope.noteData = {};
 

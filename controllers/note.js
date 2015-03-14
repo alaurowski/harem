@@ -53,8 +53,8 @@ module.exports = function(app){
         //}
 
         var note = new Note({
-            createdAt: new Date(),
-            updatedAt: new Date(),
+            createdAt: new Date(req.body.updatedAt),
+            updatedAt: new Date(req.body.updatedAt),
             content : req.body.content || '',
             type : req.body.type || '',
             parentId : req.body.parentId || '',

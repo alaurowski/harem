@@ -50,7 +50,15 @@
                         </span>
                         </div>
 
-                        <span class="attach-file"><a href="">Attach file from computer</a></span>
+                        <input type="file" nv-file-select uploader="uploader"/><br/>
+                        <ul>
+                            <li ng-repeat="item in uploader.queue">
+                                attach file: <span ng-bind="item.file.name"></span><br/>
+                                <button ng-click="item.upload()">upload</button>
+                            </li>
+                        </ul>
+
+
                         <input type="submit" class="btn btn-success" value="save"/>
 
                         <div class="clearfix"></div>
