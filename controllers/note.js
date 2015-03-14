@@ -1,5 +1,8 @@
 var mongoose = require('mongoose');
 var Note = require('../models/Note')
+var ApiStatus = require('../models/ApiStatus');
+
+
 module.exports = function(app){
 
     /**
@@ -58,8 +61,9 @@ module.exports = function(app){
 
         note.save(function(err) {
             if (err) return next(err);
-            req.flash('success', { msg: 'Note updated.' });
-            res.redirect('/lead/index');
+
+            res.json({ status: ApiStatus.STATUS_SUCCESS, code: ApiStatus.CODE_SUCCESS });
+
         });
     });
 
@@ -69,9 +73,13 @@ module.exports = function(app){
     app.post('/note/delete/:note_id', function(req, res) {
         var noteId = req.params.note_id;
         Note.remove({ _id: noteId }, function(err) {
-            if (err) return next(err);
-            req.flash('success', { msg: 'Note has been deleted.' });
-            res.redirect('/');
+            if (err) {
+                res.json({ status: err, code: ApiStatus.CODE_ERROR });
+
+                return next(err);
+            }
+
+            res.json({ status: ApiStatus.STATUS_SUCCESS, code: ApiStatus.CODE_SUCCESS });
         });
     });
 
@@ -89,10 +97,16 @@ module.exports = function(app){
             ExistingNote.parentType = req.body.parentType || '';
             ExistingNote.owner = req.body.owner || '';
 
+            res.json({ status: ApiStatus.STATUS_SUCCESS, code: ApiStatus.CODE_SUCCESS });
+
+
             ExistingNote.save(function(err) {
-                if (err) return next(err);
-                req.flash('success', { msg: 'Note saved.' });
-                res.redirect('/lead/index');
+                if (err) {
+                    res.json({ status: err, code: ApiStatus.CODE_ERROR });
+
+
+                    return next(err);
+                }
             });
         });
     });

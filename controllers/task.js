@@ -1,5 +1,7 @@
 var mongoose = require('mongoose');
-var Task = require('../models/Task')
+var Task = require('../models/Task');
+var ApiStatus = require('../models/ApiStatus');
+
 module.exports = function(app){
 
     /**
@@ -59,9 +61,15 @@ module.exports = function(app){
         });
 
         task.save(function(err) {
-            if (err) return next(err);
-            req.flash('success', { msg: 'Task updated.' });
-            res.redirect('/');
+            if (err) {
+                res.json({ status: err, code: ApiStatus.CODE_ERROR });
+
+                return next(err);
+            }
+
+
+            res.json({ status: ApiStatus.STATUS_SUCCESS, code: ApiStatus.CODE_SUCCESS });
+            return;
         });
     });
 
@@ -71,9 +79,14 @@ module.exports = function(app){
     app.post('/task/delete/:task_id', function(req, res) {
         var taskId = req.params.task_id;
         Task.remove({ _id: new mongoose.Schema.ObjectId(taskId) }, function(err) {
-            if (err) return next(err);
-            req.flash('success', { msg: 'Task has been deleted.' });
-            res.redirect('/');
+            if (err)  {
+                res.json({ status: err, code: ApiStatus.CODE_ERROR });
+
+                return next(err);
+            }
+
+            res.json({ status: ApiStatus.STATUS_SUCCESS, code: ApiStatus.CODE_SUCCESS });
+            return
         });
     });
 
@@ -91,9 +104,14 @@ module.exports = function(app){
             ExistingTask.status = req.body.status || '';
             ExistingTask.owner = req.body.owner || '';
             ExistingTask.save(function(err) {
-                if (err) return next(err);
-                req.flash('success', { msg: 'Task saved.' });
-                res.redirect('/');
+                if (err) {
+                    res.json({ status: err, code: ApiStatus.CODE_ERROR });
+
+                    return next(err);
+                }
+
+                res.json({ status: ApiStatus.STATUS_SUCCESS, code: ApiStatus.CODE_SUCCESS });
+
             });
         });
     });
