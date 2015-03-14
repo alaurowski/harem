@@ -4,20 +4,14 @@
 var mongoose = require('mongoose');
 
 var taskSchema = new mongoose.Schema({
-
-    createdAt: Date,
-    updatedAt: Date,
-
-    content: String,
+    createdAt: Date, default: Date.now,
+    updatedAt: Date, default: Date.now,
+    content: { type: String, required: true },
     due: Date,
-
-    parentId: { type: mongoose.Schema.ObjectId },
-    parentType: String,
-
+    parentId: {type: mongoose.Schema.ObjectId, required: true },
+    parentType: { type: String, required: true },
+    status: String,
     owner: String
 });
-
-
-
 
 module.exports = mongoose.model('Task', taskSchema);
