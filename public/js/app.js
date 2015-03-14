@@ -85,15 +85,16 @@
                 headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
             })
                 .success(function (data) {
+                    console.log(data);
                     if (!data.success) {
                         // if not successful, bind errors to error variables
-                        //$scope.errorName = data.errors.name;
+                        swal("Error!", 'Something went wrong', "error");
+                        $scope.errorName = data.errors.name;
                         //$scope.errorSuperhero = data.errors.superheroAlias;
-                        swal("Good job!", "You've successfully added lead!", "success")
                     } else {
                         // if successful, bind success message to message
+                        swal("Good job!", "You've successfully added lead!", "success");
                         $scope.message = data.message;
-                        swal("Error!", $scope.message, "error")
                     }
                 });
         };
