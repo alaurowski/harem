@@ -60,10 +60,10 @@ module.exports = function(app){
         });
 
         note.save(function(err) {
-            if (err) return next(err);
-
+            if (err) {
+                return res.json({ status: err, code: ApiStatus.CODE_ERROR });
+            }
             res.json({ status: ApiStatus.STATUS_SUCCESS, code: ApiStatus.CODE_SUCCESS });
-
         });
     });
 
