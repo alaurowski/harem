@@ -3,6 +3,8 @@
  */
 var Lead = require('../models/Lead');
 var Note = require('../models/Note');
+var Task = require('../models/Task');
+var File = require('../models/File');
 var ApiStatus = require('../models/ApiStatus');
 var Contact = require('../models/Contact');
 var mongoose = require('mongoose');
@@ -90,15 +92,34 @@ module.exports = function(app){
 
     /**
      * Load single lead
+     *
+     * @todo Need to push collected data to existingLead variable
      */
     app.get('/lead/fetch/:id',function(req, res){
         var leadId = req.params.id;
         if(leadId){
             Lead.findById(leadId, function (err, existingLead) {
                 if(existingLead){
+
+                    var additionalData = {};
+
+                    existingLead.notes = Note.findOne({"parentId" : leadId}, function (err, existingNote) {
+                        return existingNote;
+                    });
+
+                    existingLead.tasks = Task.findOne({"parentId" : leadId}, function (err, existingTask) {
+                        return existingTask;
+                    });
+
+                    existingLead.files = File.findOne({"parentId" : leadId}, function (err, existingFile) {
+                        existingFile;
+                    });
+
+                    console.log(existingLead);
+
                     res.json(existingLead);
                 }
-            }).populate("contact tasks tags notes");
+            }).populate("contact");
         }
     });
 
