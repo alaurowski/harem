@@ -8,7 +8,11 @@
                    type="text" class="form-control"
                    id="leadFirstname"
                    placeholder="Enter state">
-
+        </div>
+        <div class="form-group">
+            <label for="leadLastname">Lastname</label>
+            <input ng-model="formData.lastName" name="leadLastname" type="text" class="form-control" id="leadLastname"
+                   placeholder="Enter state">
             <div class="error-container"
                  ng-show="lead_add_form.name.$dirty && lead_add_form.name.$invalid && lead_add_form.submitted">
                 <small class="error"
@@ -16,11 +20,6 @@
                     Your name is required.
                 </small>
             </div>
-        </div>
-        <div class="form-group">
-            <label for="leadLastname">Lastname</label>
-            <input ng-model="formData.lastName" name="leadLastname" type="text" class="form-control" id="leadLastname"
-                   placeholder="Enter state">
         </div>
         <div class="form-group">
             <label for="leadEmail">Email</label>

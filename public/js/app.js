@@ -82,7 +82,7 @@
                 method: 'POST',
                 url: '/lead/edit',
                 data: $scope.formData,  // pass in data as strings
-                headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}  // set the headers so angular passing info as form data (not request payload)
             })
                 .success(function (data) {
                     console.log(data);
