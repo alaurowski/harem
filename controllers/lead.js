@@ -5,6 +5,7 @@ var Lead = require('../models/Lead');
 var Note = require('../models/Note');
 var Task = require('../models/Task');
 var File = require('../models/File');
+var LeadState = require('../models/LeadState');
 var ApiStatus = require('../models/ApiStatus');
 var Contact = require('../models/Contact');
 var mongoose = require('mongoose');
@@ -12,6 +13,20 @@ var fs = require("fs");
 var csv = require("fast-csv");
 
 module.exports = function (app) {
+
+    /**
+     * Get available lead states
+     */
+    app.get('/lead/states', function(req, res){
+
+        var query = LeadState.find(filter, 'code name', {});
+        query.exec(function (err, docs) {
+            res.json(docs);
+            return;
+        });
+
+    });
+
 
     app.post('/lead/import', function (req, res) {
 
@@ -108,9 +123,6 @@ module.exports = function (app) {
                         return existingTask;
                     });
 
-                    existingLead.files = File.findOne({"parentId" : leadId}, function (err, existingFile) {
-                        existingFile;
-                    });
 
                     console.log(existingLead);
 
