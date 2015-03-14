@@ -96,12 +96,9 @@ module.exports = function(app){
         if(leadId){
             Lead.findById(leadId, function (err, existingLead) {
                 if(existingLead){
-
-
-
                     res.json(existingLead);
                 }
-            }).populate("tasks tags notes");
+            }).populate("contact tasks tags notes");
         }
     });
 
