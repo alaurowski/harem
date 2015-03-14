@@ -37,6 +37,9 @@ module.exports = function(app){
      * Insert note
      */
     app.post('/note/insert',function(req, res) {
+
+        //todo
+
         //req.assert('content', 'Content cannot be blank').notEmpty();
         //req.assert('type', 'Type cannot be blank').notEmpty();
         //req.assert('parentId', 'ParentId cannot be blank').notEmpty();

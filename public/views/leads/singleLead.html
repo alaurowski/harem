@@ -24,19 +24,24 @@
                 <textarea ng-model="noteData.content" class="form-control"></textarea>
                 <input ng-model="noteData.parentId" type="hidden" value="{{ noteData.parentId }}"/>
                 <input ng-model="noteData.parentType" type="hidden" value="a"/>
-                <input ng-model="noteData.type" type="hidden" value="a"/>
                 <input ng-model="noteData.owner" type="hidden" value="a"/>
 
                 <div class="actions">
-                    <select>
-                        <option>Interview</option>
-                        <option>Score</option>
-                        <option>Attachment</option>
-                    </select>
-                    <label for="note-date">When did it happen:</label>
-                    <input type="date" id="note-date"/>
 
-                    <span><a href="">Attach file from computer</a></span>
+                    <select class="form-control"  ng-options="color for color in ['Interview', 'Score', 'Attachment']" ng-model="noteData.type">
+                        <option value="" selected>--Select type of note--</option>
+                    </select>
+
+                    <label for="note-date">When did it happen:</label>
+                    <div class="input-group date" id="note-date">
+                        <input type="text" class="form-control" ng-model="noteData.updatedAt" />
+                        <span class="input-group-addon">
+                            <span class="ion-calendar">
+                            </span>
+                        </span>
+                    </div>
+
+                    <span class="attach-file"><a href="">Attach file from computer</a></span>
                     <input type="submit" class="btn btn-success" value="save"/>
 
                     <div class="clearfix"></div>
@@ -47,8 +52,15 @@
             {{ noteData }}
         </pre>
 
-
         </div>
+
+        <div class="bordered-container" ng-repeat="note in notes.slice().reverse()">
+            <h4 class="title">Added note about {{lead.contact.firstName}} {{lead.contact.lastName}}</h4>
+
+            {{note.createdAt | date}}
+            <p>{{note.content | date}}</p>
+        </div>
+
 
     </div>
     <aside class="personal-info col-xs-3">
@@ -76,3 +88,9 @@
         </div>
     </aside>
 </div>
+
+<script type="text/javascript">
+    $(function () {
+        $('.input-group.date').datepicker();
+    });
+</script>

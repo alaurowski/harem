@@ -47,7 +47,6 @@
             }
         );
 
-
         $scope.noteData = {};
 
         $scope.noteData.parentId = $routeParams.leadId;
@@ -72,13 +71,26 @@
                         });
 
                         $scope.message = data.message;
+
+                        $scope.loadNotes();
                     }
                     else {
                         swal("Error!", 'Something went wrong', "error");
                     }
                 });
+            };
+
+        $scope.notes = [];
+
+
+        $scope.loadNotes = function () {
+            $http.get('/note/fetchall/'+$scope.noteData.parentId).success(function (data) {
+                $scope.notes = data;
+                console.log($scope.notes);
+            });
         };
 
+        $scope.loadNotes();
 
     }]);
 
@@ -141,6 +153,7 @@
         };
     }
     ]);
+
 
 
 })();
