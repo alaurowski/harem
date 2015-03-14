@@ -87,16 +87,10 @@
             States filter
         </h3>
         <ul>
-            <li>
-                <label for="stateNew">
-                    <input id="stateNew" type="checkbox" ng-model="filters.x" ng-change="actions.updateState()"/> New
-                    {{a}}
-                </label>
-            </li>
-            <li>
-                <label for="stateEmployee">
-                    <input id="stateEmployee" type="checkbox" ng-model="filters.y" ng-change="actions.updateState()"/>
-                    Employee
+            <li ng-repeat="state in leadStates">
+                <label for="{{state.code}}">
+                    <input id="{{state.code}}" type="checkbox" />
+                    {{state.name}}
                 </label>
             </li>
         </ul>

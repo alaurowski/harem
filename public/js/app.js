@@ -200,16 +200,21 @@
             search: ''
         };
 
+        $http.get('lead/states').success(function (data) {
+            $scope.leadStates = data;
+        });
+
+
         $scope.actions = {
             updateState: function () {
-                if ($scope.filters.x) {
+           /*     if ($scope.filters.x) {
                     $scope.filters.state = 'New';
                     var a = $scope.filters.state.length;
                 } else if ($scope.filters.y) {
                     $scope.filters.state = 'Employee';
                 } else {
                     $scope.filters.state = '';
-                }
+                }*/
             }
         };
 
