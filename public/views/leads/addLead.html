@@ -4,27 +4,29 @@
     <form name="lead_add_form" novalidate ng-submit="processForm()">
         <div class="form-group">
             <label for="leadFirstname">Firstname</label>
-            <input ng-model="formData.firstName" ng-minlength=3 ng-maxlength=20 required name="leadFirstname"
-                   type="text" class="form-control"
-                   id="leadFirstname"
-                   placeholder="Enter state">
+            <input ng-model="formData.firstName" name="leadFirstname" type="text" class="form-control"
+                   id="leadFirstname" placeholder="Enter state">
         </div>
         <div class="form-group">
             <label for="leadLastname">Lastname</label>
             <input ng-model="formData.lastName" name="leadLastname" type="text" class="form-control" id="leadLastname"
                    placeholder="Enter state">
-            <div class="error-container"
-                 ng-show="lead_add_form.name.$dirty && lead_add_form.name.$invalid && lead_add_form.submitted">
-                <small class="error"
-                       ng-show="lead_add_form.firstName.$error.required">
-                    Your name is required.
-                </small>
-            </div>
         </div>
         <div class="form-group">
             <label for="leadEmail">Email</label>
-            <input ng-model="formData.email" name="leadEmail" type="email" class="form-control" id="leadEmail"
-                   placeholder="Enter email">
+            <input ng-model="formData.email" name="leadEmail" ng-min=20 type="email" class="form-control" id="leadEmail"
+                   placeholder="Enter email" required="required">
+            <div ng-show="lead_add_form.leadEmail.$touched">
+                <span ng-show="lead_add_form.leadEmail.$error.required">
+                  Email is required
+                </span>
+                <span ng-show="lead_add_form.leadEmail.$error.email">
+                  Email is incorrect
+                </span>
+                <span ng-show="lead_add_form.leadEmail.$error.min">
+                  Email is incorrect 2
+                </span>
+            </div>
         </div>
         <div class="form-group">
             <label for="leadPhone">Phone</label>

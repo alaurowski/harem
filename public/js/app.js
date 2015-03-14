@@ -86,15 +86,14 @@
             })
                 .success(function (data) {
                     console.log(data);
-                    if (!data.success) {
-                        // if not successful, bind errors to error variables
-                        swal("Error!", 'Something went wrong', "error");
-                        $scope.errorName = data.errors.name;
-                        //$scope.errorSuperhero = data.errors.superheroAlias;
-                    } else {
+                    if (!data.code === 200) {
                         // if successful, bind success message to message
                         swal("Good job!", "You've successfully added lead!", "success");
                         $scope.message = data.message;
+                    } else if (data.code === 69) {
+                        swal("Error!", 'Something went wrong', "error");
+                        $scope.errorName = data.errors.name;
+                        //$scope.errorSuperhero = data.errors.superheroAlias;
                     }
                 });
         };
