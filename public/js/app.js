@@ -31,6 +31,7 @@
 
         $scope.title = 'Leads dashboard';
 
+
     }]);
 
     app.controller('leadsIndex', ['$scope', '$http', function ($scope, $http) {
@@ -45,7 +46,7 @@
 
     }]);
 
-    app.controller('leadsAdd', ['$scope', function ($scope) {
+    app.controller('leadsAdd', ['$scope', '$http', function ($scope, $http) {
 
         $scope.title = 'Leads add form'
 
@@ -55,19 +56,18 @@
 
         // process the form
         $scope.processForm = function () {
-            $http({
+            $http({ 
                 method: 'POST',
-                url: 'lead/edit',
-                data: $.param($scope.formData),  // pass in data as strings
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'}  // set the headers so angular passing info as form data (not request payload)
+                url: '/lead/edit',
+                data: $scope.formData,  // pass in data as strings
+                headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
             })
                 .success(function (data) {
-                    console.log(data);
-
+                    swal("Good job!", "You've successfully added lead!", "success")
                     if (!data.success) {
                         // if not successful, bind errors to error variables
-                        //$scope.errorName = data.errors.name;
-                        //$scope.errorSuperhero = data.errors.superheroAlias;
+                        $scope.errorName = data.errors.name;
+                        $scope.errorSuperhero = data.errors.superheroAlias;
                     } else {
                         // if successful, bind success message to message
                         $scope.message = data.message;

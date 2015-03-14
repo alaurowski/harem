@@ -15,8 +15,9 @@
 
 //= require lib/jquery-2.1.3.min
 //= require lib/bootstrap.min
-//= require angular.min
-//= require angular-locale_pl-pl
-//= require angular-route.min
+//= require lib/angular.min
+//= require lib/angular-locale_pl-pl
+//= require lib/angular-route.min
+//= require lib/sweet-alert.min
 //= require main
 //= require app

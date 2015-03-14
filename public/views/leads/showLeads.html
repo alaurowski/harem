@@ -1,10 +1,12 @@
 <h1>{{ title }}</h1>
-<hr />
+<hr/>
 <div class="form-group">
     <label for="leadSearch">Search</label>
-    <input id="leadSearch" type="text" ng-model="search.contact.firstName">
+    <input id="leadSearch" type="text" ng-model="name">
 </div>
-
+<div class>
+    Ilość leadów: {{ filtered.length }}
+</div>
 <table class="table">
     <thead>
     <th>ID</th>
@@ -16,9 +18,9 @@
     <th>Source</th>
     </thead>
     <tbody>
-    <tr ng-repeat="user in users | filter:search:strict">
+    <tr ng-repeat="user in filtered = ( users | filter:name )">
         <td>
-            {{ user.contact._id }}
+            {{ $index }}
         </td>
         <td>
             {{ user.contact.firstName }}

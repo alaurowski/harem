@@ -12,7 +12,7 @@ module.exports = function(app){
 
     app.post('/lead/import', function(req, res){
 
-        var filename = "/Users/pkarwatka/Downloads/data.csv";
+        var filename = "/Users/Marcin/Projects/data.csv";
 
         var stream = fs.createReadStream(filename); //TODO: file upload support
 
