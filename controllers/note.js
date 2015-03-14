@@ -34,6 +34,17 @@ module.exports = function(app){
      * Insert note
      */
     app.post('/note/insert',function(req, res) {
+        req.assert('content', 'Name cannot be blank').notEmpty();
+        req.assert('type', 'Name cannot be blank').notEmpty();
+        req.assert('parentId', 'Name cannot be blank').notEmpty();
+        req.assert('parentType', 'Name cannot be blank').notEmpty();
+        req.assert('owner', 'Name cannot be blank').notEmpty();
+
+        var errors = req.validationErrors();
+        if (errors) {
+            req.flash('errors', errors);
+            return res.redirect('/');
+        }
 
         var note = new Note({
             createdAt: new Date(),
