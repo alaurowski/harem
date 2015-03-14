@@ -9,9 +9,6 @@
 
         $routeProvider
             .when('/', {
-                controller: 'MainCtrl'
-            })
-            .when('/leads', {
                 controller: 'leadsIndex',
                 templateUrl: 'views/leads/showLeads.html'
             })
@@ -25,9 +22,7 @@
             })
             .otherwise({
                 redirectTo: 'views/leads/showLeads.html'
-            })
-
-        ;
+            });
 
     }]);
 
@@ -35,6 +30,7 @@
     app.controller('LeadDetailsCtrl', ['$scope', 'leads', '$routeParams', '$http', 'FileUploader', function ($scope, leads, $routeParams, $http, FileUploader) {
 
         $scope.lead = {};
+
         leads.getLead(
             $routeParams.leadId,
             function (data) {
@@ -123,12 +119,12 @@
                         swal("Error!", 'Something went wrong', "error");
                     }
                 });
-            };
+        };
 
         $scope.notes = [];
 
         $scope.loadNotes = function () {
-            $http.get('/note/fetchall/'+$scope.noteData.parentId).success(function (data) {
+            $http.get('/note/fetchall/' + $scope.noteData.parentId).success(function (data) {
                 $scope.notes = data;
                 console.log($scope.notes);
             });
@@ -136,10 +132,10 @@
 
         $scope.loadNotes();
 
-        $scope.deleteNote = function() {
+        $scope.deleteNote = function () {
 
-            if(!confirm('Are you sure?')) return;
-            leads.deleteNote($scope.note._id, function(){
+            if (!confirm('Are you sure?')) return;
+            leads.deleteNote($scope.note._id, function () {
 
             })
 
@@ -155,13 +151,34 @@
 
     }]);
 
+    var uniqueItems = function (data, key) {
+        var result = [];
 
-    app.controller('MainCtrl', ['$scope', '$http', function ($scope) {
+        for (var i = 0; i < data.length; i++) {
+            var value = data[i][key];
 
-        $scope.title = 'Leads dashboard';
+            if (result.indexOf(value) == -1) {
+                result.push(value);
+            }
 
+        }
+        return result;
+    };
 
-    }]);
+    // SEARCH AND FILTER
+    var uniqueItems = function (data, key) {
+        var result = [];
+
+        for (var i = 0; i < data.length; i++) {
+            var value = data[i][key];
+
+            if (result.indexOf(value) == -1) {
+                result.push(value);
+            }
+
+        }
+        return result;
+    };
 
     app.controller('leadsIndex', ['$scope', '$http', function ($scope, $http) {
 
@@ -173,22 +190,41 @@
             $scope.users = data;
         });
 
+        $scope.filters = {
+            x: false,
+            state: '',
+            search: ''
+        };
+
+        $scope.actions = {
+            updateState: function () {
+                if ($scope.filters.x) {
+                    $scope.filters.state = 'New';
+                    var a = $scope.filters.state.length;
+                } else if ($scope.filters.y) {
+                    $scope.filters.state = 'Employee';
+                } else {
+                    $scope.filters.state = '';
+                }
+            }
+        };
+
 
         $scope.orderByColumn = '$index'
         $scope.orderByDir = false;
 
-        $scope.changeOrder = function(columnName){
-            if($scope.orderByColumn == columnName){
+        $scope.changeOrder = function (columnName) {
+            if ($scope.orderByColumn == columnName) {
                 $scope.orderByDir = !$scope.orderByDir;
-            }else{
+            } else {
                 $scope.orderByColumn = columnName;
                 $scope.orderByDir = false;
             }
         }
 
 
-
     }]);
+
 
     app.controller('leadsAdd', ['$scope', '$location', '$http', function ($scope, $location, $http) {
 
@@ -229,7 +265,6 @@
         };
     }
     ]);
-
 
 
 })();

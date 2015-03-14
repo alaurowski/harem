@@ -1,62 +1,104 @@
-<header class="clearfix">
-    <h1 class="pull-left">{{ title }}</h1>
+<section id="leads-list">
+    <div class="leads-list__left col-sm-9">
+        <header class="clearfix">
+            <h2 class="pull-left">{{ title }}</h2>
 
-    <div class="pull-right">
-        <a class="btn btn-success" href="/#/leads">
-            Leads list
-        </a>
-        <a class="btn btn-success" href="/#/leads/add">
-            Leads add
-        </a>
+        </header>
+        <hr/>
+        <div class="pull-right">
+            <a class="btn btn-success" href="/#/">
+                Leads list
+            </a>
+            <a class="btn btn-success" href="/#/leads/add">
+                Leads add
+            </a>
+        </div>
+        <div class>
+            <h3>Active records: {{ (users | filter:filters.search | filter:{state: filters.state}).length }}</h3>
+        </div>
+        <hr/>
+        <table class="table leads-table">
+            <thead>
+            <th ng-click="changeOrder('$index')">ID</th>
+            <th ng-click="changeOrder('contact.firstName')">Firstname</th>
+            <th ng-click="changeOrder('contact.lastName')">Lastname</th>
+            <th ng-click="changeOrder('contact.email')">Email</th>
+            <th ng-click="changeOrder('title')">Title</th>
+            <th ng-click="changeOrder('subtitle')">Subtitle</th>
+            <th ng-click="changeOrder('source')">Source</th>
+            <th>Details</th>
+            </thead>
+            <tbody>
+            <tr ng-repeat="user in users | filter:filters.search | filter:{state: filters.state}">
+                <td>
+                    {{ $index }}
+                </td>
+                <td>
+                    {{ user.contact.firstName }}
+                </td>
+                <td>
+                    {{ user.contact.lastName }}
+                </td>
+                <td>
+                    {{ user.contact.email }}
+                </td>
+                <td>
+                    {{ user.contact.phone }}
+                </td>
+                <td>
+                    {{ user.title }}
+                </td>
+                <td>
+                    {{ user.subtitle }}
+                </td>
+                <td>
+                    {{ user.state }}
+                </td>
+                <td>
+                    {{ user.source }}
+                </td>
+                <td>
+                    <a href="/#/leads/{{ user._id }}" class="btn btn-success">Details</a>
+
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
-</header>
-<hr/>
-<div class="form-group">
-    <label for="leadSearch">Search</label>
-    <input id="leadSearch" type="text" ng-model="name">
-</div>
 
-<div class>
-    Ilość leadów: {{ filtered.length }}
-</div>
-<table class="table leads-table">
-    <thead>
-    <th ng-click="changeOrder('$index')">ID</th>
-    <th ng-click="changeOrder('contact.firstName')">Firstname</th>
-    <th ng-click="changeOrder('contact.lastName')">Lastname</th>
-    <th ng-click="changeOrder('contact.email')">Email</th>
-    <th ng-click="changeOrder('title')">Title</th>
-    <th ng-click="changeOrder('subtitle')">Subtitle</th>
-    <th ng-click="changeOrder('source')">Source</th>
-    <th>Details</th>
-    </thead>
-    <tbody>
-    <tr ng-repeat="user in filtered = ( users | filter:name ) | orderBy: orderByColumn : orderByDir">
-        <td>
-            {{ $index }}
-        </td>
-        <td>
-            {{ user.contact.firstName }}
-        </td>
-        <td>
-            {{ user.contact.lastName }}
-        </td>
-        <td>
-            {{ user.contact.email }}
-        </td>
-        <td>
-            {{ user.title }}
-        </td>
-        <td>
-            {{ user.subtitle }}
-        </td>
-        <td>
-            {{ user.source }}
-        </td>
-        <td>
-            <a href="/#/leads/{{ user._id }}" class="btn btn-success">Details</a>
+    <aside class="col-sm-3">
 
-        </td>
-    </tr>
-    </tbody>
-</table>
+        <header class="clearfix">
+            <h2>
+                Menu
+            </h2>
+        </header>
+        <hr/>
+        <h3>
+            Search
+        </h3>
+
+        <div class="form-group">
+            <input id="leadSearch" type="text" class="form-control" ng-model="filters.search"
+                   placeholder="name, position, email...">
+        </div>
+        <hr/>
+        <h3>
+            States filter
+        </h3>
+        <ul>
+            <li>
+                <label for="stateNew">
+                    <input id="stateNew" type="checkbox" ng-model="filters.x" ng-change="actions.updateState()"/> New
+                    {{a}}
+                </label>
+            </li>
+            <li>
+                <label for="stateEmployee">
+                    <input id="stateEmployee" type="checkbox" ng-model="filters.y" ng-change="actions.updateState()"/>
+                    Employee
+                </label>
+            </li>
+        </ul>
+    </aside>
+</section>
