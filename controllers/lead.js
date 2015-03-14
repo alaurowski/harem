@@ -152,6 +152,7 @@ module.exports = function(app){
                     existingContact.save(function (err) {
                         if (err && err.errors) {
                             res.json(err.errors);
+                            return;
                         }
 
 
@@ -160,6 +161,7 @@ module.exports = function(app){
 
                             if (err2 && err2.errors) {
                                 res.json(err2.errors);
+                                return;
                             }
 
                         });
