@@ -60,13 +60,21 @@
             })
                 .success(function (data) {
                     console.log(data);
-                    if (!data.code === 200) {
+                    if (data.code === 200) {
                         // if successful, bind success message to message
-                        swal("Good job!", "You've successfully added lead!", "success");
+                        $location.path('/leads');
+                        swal({
+                            title: "Good Job!",
+                            text: "You've successfully added lead!",
+                            type: "success",
+                            confirmButtonText: "Close"
+                        });
+
                         $scope.message = data.message;
-                    } else if (data.code === 69) {
+                    }
+                    else {
                         swal("Error!", 'Something went wrong', "error");
-                        $scope.errorName = data.errors.name;
+                        //$scope.errorName = data.errors.name;
                         //$scope.errorSuperhero = data.errors.superheroAlias;
                     }
                 });
