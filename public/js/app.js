@@ -32,7 +32,7 @@
     }]);
 
 
-    app.controller('LeadDetailsCtrl', ['$scope', 'leads', '$routeParams', function ($scope, leads, $routeParams) {
+    app.controller('LeadDetailsCtrl', ['$scope', 'leads', '$routeParams','$http', function ($scope, leads, $routeParams, $http) {
         $scope.lead = {};
         leads.getLead(
             $routeParams.leadId,
@@ -45,6 +45,34 @@
                 console.log(status);
             }
         );
+
+
+
+        $scope.noteData = {};
+
+        // process the form
+        $scope.processNote = function () {
+            $http({
+                method: 'POST',
+                url: '/note/insert',
+                data: $.param($scope.noteData),  // pass in data as strings
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}  // set the headers so angular passing info as form data (not request payload)
+            })
+                .success(function (data) {
+                    console.log(data);
+                    if (!data.code === 200) {
+                        // if successful, bind success message to message
+                        swal("Good job!", "You've successfully added lead!", "success");
+                        $scope.message = data.message;
+                    } else if (data.code === 69) {
+                        swal("Error!", 'Something went wrong', "error");
+                        $scope.errorName = data.errors.name;
+                        //$scope.errorSuperhero = data.errors.superheroAlias;
+                    }
+                });
+        };
+
+
 
     }]);
 

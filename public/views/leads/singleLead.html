@@ -6,7 +6,7 @@
             </figure>
 
             <h2>{{lead.contact.firstName}} {{lead.contact.lastName}}</h2>
-            <p>Senior PHP programmer</p>
+            <p>{{lead.title}}</p>
         </header>
 
         <div class="bordered-container">
@@ -16,7 +16,34 @@
 
         <div class="bordered-container">
             <h4 class="title">Add note about {{lead.contact.firstName}} {{lead.contact.lastName}}</h4>
-            <textarea class="form-control"></textarea>
+
+
+
+
+            <form name="note_add_form" novalidate ng-submit="processNote()">
+                <textarea ng-model="noteData.content" class="form-control"></textarea>
+                <div class="actions">
+                    <select>
+                        <option>Interview</option>
+                        <option>Score</option>
+                        <option>Attachment</option>
+                    </select>
+                    <label for="note-date">When did it happen:</label>
+                    <input type="date" id="note-date"/>
+
+                    <span><a href="">Attach file from computer</a></span>
+                    <input type="submit" class="btn btn-success" value="save" />
+
+                    <div class="clearfix"></div>
+                </div>
+            </form>
+
+            <pre>
+            {{ noteData }}
+        </pre>
+
+
+
         </div>
 
     </div>
