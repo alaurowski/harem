@@ -18,8 +18,11 @@
 //= require lib/angular.min
 //= require lib/angular-locale_pl-pl
 //= require lib/angular-route.min
+//= require lib/angular-resource.min
 //= require lib/sweet-alert.min
 //= require lib/bootstrap-datepicker/js/bootstrap-datepicker
+//= require lib/ng-tags-input
+//= require lib/angular-file-upload.min
 //= require main
 //= require services
 //= require app
