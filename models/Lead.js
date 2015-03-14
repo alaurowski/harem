@@ -5,6 +5,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var Note = require('./Note');
 var Task = require('./Task');
+var Tag = require('./Tag');
 var Attachment = require('./Attachment');
 
 var leadSchema = new mongoose.Schema({
