@@ -32,7 +32,7 @@ var leadSchema = new mongoose.Schema({
 });
 
 leadSchema.post('save', function (next, document) {
-    console.write(document.title);
+    //console.write(document.title);
 })
 
 
