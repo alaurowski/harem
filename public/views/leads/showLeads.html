@@ -4,10 +4,11 @@
     <label for="leadSearch">Search</label>
     <input id="leadSearch" type="text" ng-model="name">
 </div>
+
 <div class>
     Ilość leadów: {{ filtered.length }}
 </div>
-<table class="table">
+<table class="table leads-table">
     <thead>
     <th>ID</th>
     <th>Firstname</th>
@@ -16,6 +17,7 @@
     <th>Title</th>
     <th>Subtitle</th>
     <th>Source</th>
+    <th>Details</th>
     </thead>
     <tbody>
     <tr ng-repeat="user in filtered = ( users | filter:name )">
@@ -39,6 +41,10 @@
         </td>
         <td>
             {{ user.source }}
+        </td>
+        <td>
+            <a href="/#/leads/{{ user._id }}" class="btn btn-success">Details</a>
+
         </td>
     </tr>
     </tbody>
