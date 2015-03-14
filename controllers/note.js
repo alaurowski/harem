@@ -37,17 +37,17 @@ module.exports = function(app){
      * Insert note
      */
     app.post('/note/insert',function(req, res) {
-        req.assert('content', 'Content cannot be blank').notEmpty();
-        req.assert('type', 'Type cannot be blank').notEmpty();
-        req.assert('parentId', 'ParentId cannot be blank').notEmpty();
-        req.assert('parentType', 'ParentType cannot be blank').notEmpty();
-        req.assert('owner', 'Owner cannot be blank').notEmpty();
+        //req.assert('content', 'Content cannot be blank').notEmpty();
+        //req.assert('type', 'Type cannot be blank').notEmpty();
+        //req.assert('parentId', 'ParentId cannot be blank').notEmpty();
+        //req.assert('parentType', 'ParentType cannot be blank').notEmpty();
+        //req.assert('owner', 'Owner cannot be blank').notEmpty();
 
-        var errors = req.validationErrors();
-        if (errors) {
-            req.flash('errors', errors);
-            return res.redirect('/');
-        }
+        //var errors = req.validationErrors();
+        //if (errors) {
+        //    req.flash('errors', errors);
+        //    return res.redirect('/');
+        //}
 
         var note = new Note({
             createdAt: new Date(),
@@ -60,7 +60,7 @@ module.exports = function(app){
         });
 
         note.save(function(err) {
-            if (err) return next(err);
+            //if (err) return next(err);
 
             res.json({ status: ApiStatus.STATUS_SUCCESS, code: ApiStatus.CODE_SUCCESS });
 

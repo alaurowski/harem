@@ -50,8 +50,11 @@
 
         $scope.noteData = {};
 
+        $scope.noteData.parentId = $routeParams.leadId;
+
         // process the form
         $scope.processNote = function () {
+            console.log($scope.noteData);
             $http({
                 method: 'POST',
                 url: '/note/insert',
@@ -59,9 +62,8 @@
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}  // set the headers so angular passing info as form data (not request payload)
             })
                 .success(function (data) {
+                    console.log(data);
                     if (data.code === 200) {
-                        // if successful, bind success message to message
-                        //$location.path('/leads');
                         swal({
                             title: "Good Job!",
                             text: "You've successfully added lead!",
@@ -73,8 +75,6 @@
                     }
                     else {
                         swal("Error!", 'Something went wrong', "error");
-                        //$scope.errorName = data.errors.name;
-                        //$scope.errorSuperhero = data.errors.superheroAlias;
                     }
                 });
         };
@@ -122,7 +122,7 @@
                     console.log(data);
                     if (data.code === 200) {
                         // if successful, bind success message to message
-                        $location.path('/leads');
+                        $location.path('/leads/' + data.lead_id);
                         swal({
                             title: "Good Job!",
                             text: "You've successfully added lead!",

@@ -1,4 +1,4 @@
-<div class="single-lead-container" >
+<div class="single-lead-container">
     <div class="lead-content col-xs-9">
         <header>
             <figure>
@@ -6,6 +6,7 @@
             </figure>
 
             <h2>{{lead.contact.firstName}} {{lead.contact.lastName}}</h2>
+
             <p>{{lead.title}}</p>
         </header>
 
@@ -18,10 +19,14 @@
             <h4 class="title">Add note about {{lead.contact.firstName}} {{lead.contact.lastName}}</h4>
 
 
-
-
             <form name="note_add_form" novalidate ng-submit="processNote()">
+
                 <textarea ng-model="noteData.content" class="form-control"></textarea>
+                <input ng-model="noteData.parentId" type="hidden" value="{{ noteData.parentId }}"/>
+                <input ng-model="noteData.parentType" type="hidden" value="a"/>
+                <input ng-model="noteData.type" type="hidden" value="a"/>
+                <input ng-model="noteData.owner" type="hidden" value="a"/>
+
                 <div class="actions">
                     <select>
                         <option>Interview</option>
@@ -32,7 +37,7 @@
                     <input type="date" id="note-date"/>
 
                     <span><a href="">Attach file from computer</a></span>
-                    <input type="submit" class="btn btn-success" value="save" />
+                    <input type="submit" class="btn btn-success" value="save"/>
 
                     <div class="clearfix"></div>
                 </div>
@@ -41,7 +46,6 @@
             <pre>
             {{ noteData }}
         </pre>
-
 
 
         </div>
