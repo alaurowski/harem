@@ -185,6 +185,10 @@ module.exports = function (app) {
             existingLead.state = req.body.state;
             existingLead.source = req.body.source;
             existingLead.cv = req.body.files;
+            // social media
+            existingLead.social.linkedin = req.body.linkedin;
+            existingLead.social.goldenline = req.body.goldenline;
+            existingLead.social.facebook = req.body.facebook;
 
 
             Contact.findById(contactId, function (err, existingContact) {
