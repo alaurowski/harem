@@ -15,10 +15,16 @@ html {
   min-height: 100%;
 }
 
+.leadView fieldset {
+  border: 1px solid #cccccc;
+  padding: 20px;
+  margin: 0 0 20px 0;
+}
+
 body {
   padding-top: 60px;
   margin-bottom: 75px;
-}
+} 
 
 footer {
   position: absolute;
@@ -78,198 +84,197 @@ aside {
 }
 
 html, body {
-    background: #272631;
+  background: #272631;
 }
 
 .navbar-default .navbar-brand {
-    color: #fff;
+  color: #fff;
 }
 
 .navbar-default .navbar-nav > li > a {
-    color: #fff;
+  color: #fff;
 }
 
-
 .container {
-    background: #272631;
-    color: #fff;
-    width: 100%;
-    .crm-container {
-        border: 15px #f1eff1 solid;
-        min-height: 600px;
-        background: #fffdff;
-        color: #292929;
-        padding: 25px;
-    }
-    aside.main-sidebar {
-        padding-top: 10px;
-        ul {
-            padding: 0px;
-            margin: 40px 0;
-            border-top: 1px #62616f solid;
-            max-width: 300px;
-            li {
-                border-bottom: 1px #62616f solid;
-                padding-left: 0px;
-                height: 40px;
-                a {
-                    font-size: 16px;
-                    padding: 0 20px;
-                    display: block;
-                    line-height: 40px;
-                    color: #a6a8a9;
-                    &:hover {
-                        color: #fff;
-                        text-decoration: none;
-                    }
-                }
-            }
+  background: #272631;
+  color: #fff;
+  width: 100%;
+  .crm-container {
+    border: 15px #f1eff1 solid;
+    min-height: 600px;
+    background: #fffdff;
+    color: #292929;
+    padding: 25px;
+  }
+  aside.main-sidebar {
+    padding-top: 10px;
+    ul {
+      padding: 0px;
+      margin: 40px 0;
+      border-top: 1px #62616f solid;
+      max-width: 300px;
+      li {
+        border-bottom: 1px #62616f solid;
+        padding-left: 0px;
+        height: 40px;
+        a {
+          font-size: 16px;
+          padding: 0 20px;
+          display: block;
+          line-height: 40px;
+          color: #a6a8a9;
+          &:hover {
+            color: #fff;
+            text-decoration: none;
+          }
         }
+      }
     }
+  }
 }
 
 .leads-table {
-    tbody {
-        tr:nth-child(odd) {
-            background: #f1f1f1;
-        }
+  tbody {
+    tr:nth-child(odd) {
+      background: #f1f1f1;
     }
+  }
 }
 
 //************** single lead *******************/
 
 .bordered-container {
-    padding: 0px 0px 10px 0px;
-    border: 2px #40576e solid;
-    margin: 40px 0;
-    border-radius: 5px;
-    h4.title {
-        position: relative;
-        font-size: 20px;
-        line-height: 20px;
-        /* top: -23px; */
-        display: block;
-        padding: 10px 20px;
-        background: #40576e;
-        color: #fff;
-        /* border-radius: 6px; */
-        margin-top: 0px;
-    }
-    .inner {
-        padding: 10px;
-    }
-    textarea {
-        min-height: 90px;
-    }
+  padding: 0px 0px 10px 0px;
+  border: 2px #40576e solid;
+  margin: 40px 0;
+  border-radius: 5px;
+  h4.title {
+    position: relative;
+    font-size: 20px;
+    line-height: 20px;
+    /* top: -23px; */
+    display: block;
+    padding: 10px 20px;
+    background: #40576e;
+    color: #fff;
+    /* border-radius: 6px; */
+    margin-top: 0px;
+  }
+  .inner {
+    padding: 10px;
+  }
+  textarea {
+    min-height: 90px;
+  }
 }
 
 .single-lead-container {
-    header {
-        overflow: hidden;
-        h2 {
-            margin-top: 0px;
-        }
-        figure {
-            float: left;
-            margin-right: 20px;
-            width: 70px;
-            height: 70px;
-            background: #ccc;
-            border: 3px #bbb solid;
-        }
+  header {
+    overflow: hidden;
+    h2 {
+      margin-top: 0px;
     }
-    .actions {
-        padding: 10px 0;
-        select {
-            display: block;
-            float: left;
-            width: 200px;
-            margin-right: 10px;
-        }
-        label {
-            float: left;
-            display: block;
-            margin-left: 30px;
-            margin-right: 10px;
-            line-height: 30px;
-        }
-        .input-group.date {
-            float: left;
-            width: 170px;
-        }
-        .attach-file {
-            margin: 0 25px;
-            line-height: 30px;
-        }
-        .btn {
-            float: right;
-        }
+    figure {
+      float: left;
+      margin-right: 20px;
+      width: 70px;
+      height: 70px;
+      background: #ccc;
+      border: 3px #bbb solid;
     }
+  }
+  .actions {
+    padding: 10px 0;
+    select {
+      display: block;
+      float: left;
+      width: 200px;
+      margin-right: 10px;
+    }
+    label {
+      float: left;
+      display: block;
+      margin-left: 30px;
+      margin-right: 10px;
+      line-height: 30px;
+    }
+    .input-group.date {
+      float: left;
+      width: 170px;
+    }
+    .attach-file {
+      margin: 0 25px;
+      line-height: 30px;
+    }
+    .btn {
+      float: right;
+    }
+  }
 }
 
 aside.personal-info {
-    header {
-        a {
-            font-size: 16px;
-            span {
-                font-size: 30px;
-                position: relative;
-                top: 4px;
-            }
-        }
+  header {
+    a {
+      font-size: 16px;
+      span {
+        font-size: 30px;
+        position: relative;
+        top: 4px;
+      }
     }
+  }
 
-    h4 {
-        font-size: 18px;
-        font-weight: bold;
+  h4 {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  ul {
+    padding-left: 10px;
+    li {
+      font-size: 16px;
     }
-    ul {
-        padding-left: 10px;
-        li {
-            font-size: 16px;
-        }
-    }
+  }
 }
 
 .errors {
-    padding: 5px 0;
-    color: red;
+  padding: 5px 0;
+  color: red;
 }
 
 .single-added-note {
-    border-color: #407ebc;
-    h4.title {
-        background: #407ebc;
-    }
+  border-color: #407ebc;
+  h4.title {
+    background: #407ebc;
+  }
 
-    padding-bottom: 0px;
-    p {
-        display: block;
-        clear: both;
-        font-size: 16px;
-        padding: 0 10px;
-    }
+  padding-bottom: 0px;
+  p {
+    display: block;
+    clear: both;
+    font-size: 16px;
+    padding: 0 10px;
+  }
 
-    span.date {
-        font-size: 12px;
-        text-align: left;
-        display: block;
+  span.date {
+    font-size: 12px;
+    text-align: left;
+    display: block;
+  }
+  .footer {
+    font-size: 12px;
+    text-align: left;
+    display: block;
+    padding: 10px;
+    background: #f1f1f1;
+    overflow: hidden;
+    span {
+      float: left;
     }
-    .footer {
-        font-size: 12px;
-        text-align: left;
-        display: block;
-        padding: 10px;
-        background: #f1f1f1;
-        overflow: hidden;
-        span {
-            float: left;
-        }
-        .actions {
-            float: right;
-            padding: 0px;
-        }
+    .actions {
+      float: right;
+      padding: 0px;
     }
+  }
 }
 
 .form-group div span {
@@ -282,62 +287,62 @@ aside.personal-info {
 /*****/
 
 .tasks-container {
-    .add-new-task {
-        background: #fff;
-        position: absolute;
-        top: 20px;
-        right: 0px;
-        padding: 10px;
-        width: 300px;
-        z-index: 10;
-        -webkit-box-shadow: 0px 1px 5px 0px rgba(50, 50, 50, 0.75);
-        -moz-box-shadow:    0px 1px 5px 0px rgba(50, 50, 50, 0.75);
-        box-shadow: 0px 1px 5px 0px rgba(50, 50, 50, 0.75);
-        fieldset {
-            margin-bottom: 10px;
-        }
-        .close-popup {
-            color: #4d90fc;
-            font-size: 14px;
-            cursor: pointer;
-            position: relative;
-            top: 8px;
-        }
+  .add-new-task {
+    background: #fff;
+    position: absolute;
+    top: 20px;
+    right: 0px;
+    padding: 10px;
+    width: 300px;
+    z-index: 10;
+    -webkit-box-shadow: 0px 1px 5px 0px rgba(50, 50, 50, 0.75);
+    -moz-box-shadow: 0px 1px 5px 0px rgba(50, 50, 50, 0.75);
+    box-shadow: 0px 1px 5px 0px rgba(50, 50, 50, 0.75);
+    fieldset {
+      margin-bottom: 10px;
     }
-    .task-list {
-        position: relative;
-        margin-bottom: 20px;
-        h3 {
-            font-size: 16px;
-            font-weight: bold;
-            text-transform: uppercase;
-            span {
-                color: #4d90fc;
-                font-size: 14px;
-                cursor: pointer;
-            }
-        }
-        article {
-            position: relative;
-            padding-left: 20px;
-            margin-bottom: 5px;
-            p {
-                line-height: 25px;
-                margin-bottom: 0px;
-            }
-            .assigne {
-                font-size: 12px;
-                span {
-                    font-size: 16px;
-                    cursor: pointer;
-                    color: red;
-                }
-            }
-        }
-        .icon {
-            position: absolute;
-            left: 0px;
-            top: 2px;
-        }
+    .close-popup {
+      color: #4d90fc;
+      font-size: 14px;
+      cursor: pointer;
+      position: relative;
+      top: 8px;
     }
+  }
+  .task-list {
+    position: relative;
+    margin-bottom: 20px;
+    h3 {
+      font-size: 16px;
+      font-weight: bold;
+      text-transform: uppercase;
+      span {
+        color: #4d90fc;
+        font-size: 14px;
+        cursor: pointer;
+      }
+    }
+    article {
+      position: relative;
+      padding-left: 20px;
+      margin-bottom: 5px;
+      p {
+        line-height: 25px;
+        margin-bottom: 0px;
+      }
+      .assigne {
+        font-size: 12px;
+        span {
+          font-size: 16px;
+          cursor: pointer;
+          color: red;
+        }
+      }
+    }
+    .icon {
+      position: absolute;
+      left: 0px;
+      top: 2px;
+    }
+  }
 }
