@@ -13,14 +13,9 @@
 
             {{lead.subtitle}}</p>
 
-        </header>
+            <p ng-show="cv"><a href="/file/download/{{ lead.cv._id }}">{{ lead.cv.originalName }}</a></p>
 
-        <div class="bordered-container" ng-show="cv">
-            <h4 class="title">Attached CV</h4>
-            <div class="inner">
-                <a href="/file/download/{{ lead.cv._id }}">{{ lead.cv.originalName }}</a>
-            </div>
-        </div>
+        </header>
 
         <div class="bordered-container">
             <h4 class="title">Tags</h4>
