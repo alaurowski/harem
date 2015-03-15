@@ -217,6 +217,7 @@
         $scope.taskData = {owner: 'Natalia'};
 
         $scope.taskData.parentId = $routeParams.leadId;
+        $scope.taskData.parentType = 'Lead';
 
         $scope.processTask = function () {
             console.log($scope.taskData);
