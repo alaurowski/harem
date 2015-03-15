@@ -12,11 +12,11 @@ var leadSchema = new mongoose.Schema({
     title: { type: String, required: true, trim: true }, /** could be name of contract */
     subtitle: { type: String, required: true, trim: true }, /** Stanowisko */
 
-    state: Array,
+    state: mongoose.Schema.Mixed,
     stateHistory: Array,
 
     tags : Array,
-    files: Array,
+    files: [mongoose.Schema.Mixed],
 
     source: String,
     contact: { type: mongoose.Schema.ObjectId, ref: 'Contact'},
