@@ -107,12 +107,7 @@
                 .success(function (data) {
                     console.log(data);
                     if (data.code === 200) {
-                        swal({
-                            title: "Good Job!",
-                            text: "You've successfully added note!",
-                            type: "success",
-                            confirmButtonText: "Close"
-                        });
+                        $.growl.notice({ title: "Good Job!", message: "You've successfully added note!" });
 
                         $scope.message = data.message;
 
@@ -244,13 +239,12 @@
                     if (data.code === 200) {
                         // if successful, bind success message to message
                         $location.path('/leads/' + data.lead_id);
-                        //swal({
-                        //    title: "Good Job!",
-                        //    text: "You've successfully added lead!",
-                        //    type: "success",
-                        //    confirmButtonText: "Close"
-                        //});
-                        $.growl.notice({ title: "Good Job!", message: "You've successfully added lead!" });
+                        swal({
+                            title: "Good Job!",
+                            text: "You've successfully added lead!",
+                            type: "success",
+                            confirmButtonText: "Close"
+                        });
 
                         $scope.message = data.message;
                     }
