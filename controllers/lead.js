@@ -115,7 +115,7 @@ module.exports = function (app) {
 
 
         var filter = {}; // TODO: add filtering capabilities
-        var query = Lead.find(filter, 'contact title subtitle source state createdAt modifiedAt owner', {}).populate('contact');
+        var query = Lead.find(filter, 'contact title subtitle source state createdAt modifiedAt owner tags', {}).populate('contact');
         query.exec(function (err, docs) {
             res.json(docs);
         });
@@ -185,6 +185,10 @@ module.exports = function (app) {
             existingLead.state = req.body.state;
             existingLead.source = req.body.source;
             existingLead.cv = req.body.files;
+            // social media
+            existingLead.social.linkedin = req.body.linkedin;
+            existingLead.social.goldenline = req.body.goldenline;
+            existingLead.social.facebook = req.body.facebook;
 
 
             Contact.findById(contactId, function (err, existingContact) {

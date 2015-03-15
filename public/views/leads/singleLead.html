@@ -7,18 +7,15 @@
 
             <h2>{{lead.contact.firstName}} {{lead.contact.lastName}}</h2>
 
-            <p>{{lead.state.name}}</p>
-            <select ng-options="state as state.name for state in allStates"
-                    ng-model="lead.state" ng-change="updateState()"></select>
+            <p>
+            <select ng-options="state.code as state.name for state in allStates"
+                    ng-model="lead.state.code" ng-change="updateState()"></select>
+
+            {{lead.subtitle}}</p>
+
+            <p ng-show="cv"><a href="/file/download/{{ lead.cv._id }}">{{ lead.cv.originalName }}</a></p>
 
         </header>
-
-        <div class="bordered-container" ng-show="cv">
-            <h4 class="title">Attached CV</h4>
-            <div class="inner">
-                <a href="/file/download/{{ lead.cv._id }}">{{ lead.cv.originalName }}</a>
-            </div>
-        </div>
 
         <div class="bordered-container">
             <h4 class="title">Tags</h4>

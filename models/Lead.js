@@ -20,6 +20,12 @@ var leadSchema = new mongoose.Schema({
 
     cv : {},
 
+    social : {
+        linkedin : String,
+        goldenline : String,
+        facebook : String
+    },
+
     source: String,
     contact: { type: mongoose.Schema.ObjectId, ref: 'Contact'},
 
