@@ -221,13 +221,13 @@
                 confirmButtonColor: "#DD6B55",
                 confirmButtonText: "Yes, delete it!",
                 cancelButtonText: "No, cancel plx!",
-                closeOnConfirm: false
+                closeOnConfirm: true
             }, function (isConfirm) {
                 if (isConfirm) {
                     $http.get('/note/delete/' + $index).success(function (data) {
                         console.log(data);
                         if (data.code === 200) {
-                            swal("Deleted!", "Note has been deleted.", "success");
+                            $.growl.notice({title: "Good Job!", message: "Note has been deleted"});
                             $scope.message = data.message;
                             $scope.loadNotes();
                         }
@@ -246,6 +246,7 @@
         $scope.taskData = {owner: 'Natalia'};
 
         $scope.taskData.parentId = $routeParams.leadId;
+        $scope.taskData.parentType = 'Lead';
 
         $scope.processTask = function () {
             console.log($scope.taskData);
@@ -259,7 +260,6 @@
                     console.log(data);
                     if (data.code === 200) {
                         $.growl.notice({ title: "Good Job!", message: "You've successfully added task!" });
-
                         $scope.message = data.message;
 
                         $scope.loadTasks();
@@ -283,13 +283,13 @@
                 confirmButtonColor: "#DD6B55",
                 confirmButtonText: "Yes, delete it!",
                 cancelButtonText: "No, cancel plx!",
-                closeOnConfirm: false
+                closeOnConfirm: true
             }, function (isConfirm) {
                 if (isConfirm) {
                     $http.get('/task/delete/' + $index).success(function (data) {
                         console.log(data);
                         if (data.code === 200) {
-                            swal("Deleted!", "Task has been deleted.", "success");
+                            $.growl.notice({ title: "Good Job!", message: "You've successfully added task!" });
                             $scope.message = data.message;
                             $scope.loadTasks();
                         }

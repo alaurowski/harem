@@ -1,112 +1,182 @@
-<h1>{{ title }}</h1>
-<hr/>
-<div class="pull-left col-sm-6">
-    <form name="lead_add_form" novalidate ng-submit="lead_add_form.$valid && processForm()">
-        <div class="form-group">
-            <label for="leadFirstname">Firstname</label>
-            <input ng-model="formData.firstName" name="leadFirstname" type="text" class="form-control"
-                   id="leadFirstname" placeholder="Enter state" required="required">
+<section class="leadView">
+    <h1>{{ title }}</h1>
+    <hr/>
+        <pre>
+            {{ formData }}
+        </pre>
+    <hr/>
+    <div class="pull-left col-lg-9 clearfix">
+        <form name="lead_add_form" id="lead_add_form" novalidate ng-submit="lead_add_form.$valid && processForm()">
+            <div class="col-md-6">
+                <fieldset>
+                    <legend>Lead info</legend>
+                    <div class="form-group clearfix">
+                        <label for="leadFirstname">Firstname</label>
+                        <input ng-model="formData.firstName" name="leadFirstname" type="text" class="form-control"
+                               id="leadFirstname" placeholder="Enter state" required="required">
 
-            <div ng-show="lead_add_form.$submitted || lead_add_form.leadFirstname.$touched">
+                        <div ng-show="lead_add_form.$submitted || lead_add_form.leadFirstname.$touched">
                 <span ng-show="lead_add_form.leadFirstname.$error.required">
                   First name is required
                 </span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="leadLastname">Lastname</label>
-            <input ng-model="formData.lastName" name="leadLastname" type="text" class="form-control" id="leadLastname"
-                   placeholder="Enter state" required="required">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="leadLastname">Lastname</label>
+                        <input ng-model="formData.lastName" name="leadLastname" type="text" class="form-control"
+                               id="leadLastname"
+                               placeholder="Enter state" required="required">
 
-            <div ng-show="lead_add_form.$submitted || lead_add_form.leadLastname.$touched">
+                        <div ng-show="lead_add_form.$submitted || lead_add_form.leadLastname.$touched">
                 <span ng-show="lead_add_form.leadLastname.$error.required">
                   Last name is required
                 </span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="leadEmail">Email</label>
-            <input ng-model="formData.email" name="leadEmail" type="email" class="form-control" id="leadEmail"
-                   placeholder="Enter email" required="required">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="leadEmail">Email</label>
+                        <input ng-model="formData.email" name="leadEmail" type="email" class="form-control"
+                               id="leadEmail"
+                               placeholder="Enter email" required="required">
 
-            <div ng-show="lead_add_form.$submitted || lead_add_form.leadEmail.$touched">
+                        <div ng-show="lead_add_form.$submitted || lead_add_form.leadEmail.$touched">
                 <span ng-show="lead_add_form.leadEmail.$error.required">
                   Email is required
                 </span>
                 <span ng-show="lead_add_form.leadEmail.$error.email">
                   Email is incorrect
                 </span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="leadPhone">Phone</label>
-            <input ng-model="formData.phone" name="leadPhone" type="tel" class="form-control" id="leadPhone"
-                   placeholder="Enter phone number" required="required">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="leadPhone">Phone</label>
+                        <input ng-model="formData.phone" name="leadPhone" type="tel" class="form-control" id="leadPhone"
+                               placeholder="Enter phone number" required="required">
 
-            <div ng-show="lead_add_form.$submitted || lead_add_form.leadPhone.$touched">
+                        <div ng-show="lead_add_form.$submitted || lead_add_form.leadPhone.$touched">
                 <span ng-show="lead_add_form.leadPhone.$error.required">
                   Phone number is required
                 </span>
-            </div>
-        </div>
-        <hr/>
-        <div class="form-group">
-            <label for="leadTitle">Title</label>
-            <input ng-model="formData.title" name="leadTitle" type="text" class="form-control" id="leadTitle"
-                   placeholder="Enter title" required="required">
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="form-group">
+                        <label for="leadSubtitle">Position</label>
+                        <input ng-model="formData.subtitle" name="leadSubtitle" type="text" class="form-control"
+                               id="leadSubtitle"
+                               placeholder="Enter subtitle" required="required">
 
-            <div ng-show="lead_add_form.$submitted || lead_add_form.leadTitle.$touched">
-                <span ng-show="lead_add_form.leadTitle.$error.required">
-                  Title is required
-                </span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="leadSubtitle">Subtitle</label>
-            <input ng-model="formData.subtitle" name="leadSubtitle" type="text" class="form-control" id="leadSubtitle"
-                   placeholder="Enter subtitle" required="required">
-
-            <div ng-show="lead_add_form.$submitted || lead_add_form.leadSubtitle.$touched">
+                        <div ng-show="lead_add_form.$submitted || lead_add_form.leadSubtitle.$touched">
                 <span ng-show="lead_add_form.leadSubtitle.$error.required">
-                  Subtitle is required
+                  Position is required
                 </span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="leadState">State</label>
-            <input ng-model="formData.state" name="leadState" type="text" class="form-control" id="leadState"
-                   placeholder="Enter state" required="required">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="leadState">State</label>
+                        <input ng-model="formData.state" name="leadState" type="text" class="form-control"
+                               id="leadState"
+                               placeholder="Enter state" required="required">
 
-            <div ng-show="lead_add_form.$submitted || lead_add_form.leadState.$touched">
+                        <div ng-show="lead_add_form.$submitted || lead_add_form.leadState.$touched">
                 <span ng-show="lead_add_form.leadState.$error.required">
                   State is required
                 </span>
+                        </div>
+                    </div>
+                </fieldset>
             </div>
-        </div>
-        <div class="form-group">
-            <label for="leadSource">Source</label>
-            <input ng-model="formData.source" name="leadSource" type="text" class="form-control" id="leadSource"
-                   placeholder="Enter state" required="required">
 
-            <div ng-show="lead_add_form.$submitted || lead_add_form.leadSource.$touched">
+            <div class="col-md-6">
+                <fieldset class="lead_social_network">
+                    <legend>Social networks</legend>
+                    <div class="form-group clearfix">
+                        <label for="leadFirstname" class="pull-left">Linkedin profile</label>
+                        <input ng-model="formData.linedinProfile" name="linedinProfile" type="text" class="form-control"
+                               id="linedinProfile" placeholder="Enter linkedin profile" required="required">
+
+                        <div ng-show="lead_add_form.$submitted || lead_add_form.leadFirstname.$touched">
+                <span ng-show="lead_add_form.leadFirstname.$error.required">
+                  LinkedIn profile is required
+                </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="leadLastname">Goldenline profil</label>
+                        <input ng-model="formData.goldenlineProfile" name="goldenlineProfile" type="text"
+                               class="form-control"
+                               id="goldenlineProfile"
+                               placeholder="Enter goldenline profile" required="required">
+
+                        <div ng-show="lead_add_form.$submitted || lead_add_form.leadLastname.$touched">
+                <span ng-show="lead_add_form.leadLastname.$error.required">
+                  Goldenline profile is required
+                </span>
+                        </div>
+                    </div>
+
+                </fieldset>
+                <fieldset class="lead_source">
+                    <legend>Lead source</legend>
+                    <div class="form-group clearfix">
+                        <label for="leadFirstname" class="pull-left">Referenced by</label>
+                        <input ng-model="formData.referencedName" name="referencedName" type="text" class="form-control"
+                               id="referencedName" placeholder="Enter state" required="required">
+
+                        <div ng-show="lead_add_form.$submitted || lead_add_form.leadFirstname.$touched">
+                <span ng-show="lead_add_form.leadFirstname.$error.required">
+                  Referenced by is required
+                </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="leadSource">Source</label>
+                        <input ng-model="formData.source" name="leadSource" type="text" class="form-control"
+                               id="leadSource"
+                               placeholder="Enter state" required="required">
+
+                        <div ng-show="lead_add_form.$submitted || lead_add_form.leadSource.$touched">
                 <span ng-show="lead_add_form.leadSource.$error.required">
                   Source is required
                 </span>
+                        </div>
+                    </div>
+                </fieldset>
             </div>
-        </div>
-        <input type="submit" class="btn btn-success" value="Send">
-    </form>
-    <form name="cv_upload_form" novalidate ng-submit="processUpload()">
-        <input type="file" nv-file-select uploader="uploader"/><br/>
-        <ul>
-            <li ng-repeat="item in uploader.queue">
-                attach file: <span ng-bind="item.file.name"></span>
-            </li>
-        </ul>
-    </form>
-</div>
-<div class="pull-left col-sm-6">
-        <pre>
-            {{ formData }}
-        </pre>
-</div>
+            <div class="col-md-12">
+                <fieldset>
+                    <legend>Tags</legend>
+                    <div class="form-group">
+                        <tags-input ng-model="formData.tags" on-tag-added="saveTags()"
+                                    on-tag-removed="saveTags()"></tags-input>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Description</legend>
+                    <div class="form-group">
+                        <textarea ng-model="formData.description" class="form-control" rows="5" id="leadDescription"></textarea>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Background</legend>
+                    <div class="form-group">
+                    </div>
+                </fieldset>
+                <input type="submit" class="btn btn-lg btn-success pull-right" value="Save this person">
+            </div>
+        </form>
+    </div>
+    <div class="pull-left col-l-3">
+        <form name="cv_upload_form" novalidate ng-submit="processUpload()">
+            <fieldset>
+                <legend>CV upload</legend>
+                <input type="file" nv-file-select uploader="uploader"/><br/>
+                <ul>
+                    <li ng-repeat="item in uploader.queue">
+                        attach file: <span ng-bind="item.file.name"></span>
+                    </li>
+                </ul>
+            </fieldset>
+        </form>
+    </div>
+</section>

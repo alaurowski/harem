@@ -27,6 +27,32 @@ module.exports = function (app) {
 
     });
 
+
+    /**
+     * Get available subtitles for autocomplete
+     */
+    app.get('/lead/subtitle/fetch_all', function(req, res){
+        Lead.find().distinct('subtitle', function(error, titles) {
+            return res.json(titles);
+        });
+    });
+
+
+    /**
+     * Get available subtitles for autocomplete
+     */
+    app.get('/lead/tags/fetch_all', function(req, res){
+        var query = Lead.find().distinct('tags', function(error, titles) {});
+        var tags = new Array();
+
+        query.exec(function (err, result) {
+            for (var key in result) {
+                tags.push( result[key].text)
+            }
+            return res.json(tags);
+        });
+    });
+
     /**
      * Change lead state in workflow
      */
@@ -185,6 +211,10 @@ module.exports = function (app) {
             existingLead.state = req.body.state;
             existingLead.source = req.body.source;
             existingLead.cv = req.body.files;
+            // social media
+            existingLead.social.linkedin = req.body.linkedin;
+            existingLead.social.goldenline = req.body.goldenline;
+            existingLead.social.facebook = req.body.facebook;
 
 
             Contact.findById(contactId, function (err, existingContact) {

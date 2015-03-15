@@ -9,7 +9,7 @@ var leadSchema = new mongoose.Schema({
     createdAt: Date,
     updatedAt: Date,
 
-    title: { type: String, required: true, trim: true }, /** could be name of contract */
+    //title: { type: String, required: true, trim: true }, /** could be name of contract */
     subtitle: { type: String, required: true, trim: true }, /** Stanowisko */
 
     state: {},
@@ -19,6 +19,12 @@ var leadSchema = new mongoose.Schema({
     files: [mongoose.Schema.Mixed],
 
     cv : {},
+
+    social : {
+        linkedin : String,
+        goldenline : String,
+        facebook : String
+    },
 
     source: String,
     contact: { type: mongoose.Schema.ObjectId, ref: 'Contact'},
