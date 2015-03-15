@@ -168,7 +168,7 @@
                             confirmButtonText: "Close"
                         });
 
-                        $scope.message = data.message;
+                        //$scope.message = data.message;
 
                     }
                     else {

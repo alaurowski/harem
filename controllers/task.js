@@ -36,19 +36,18 @@ module.exports = function(app){
      * Insert task
      */
     app.post('/task/insert',function(req, res) {
-
-        /*req.assert('content', 'Content cannot be blank').notEmpty();
-        req.assert('due', 'Due date cannot be blank').notEmpty();
-        req.assert('parentId', 'ParentId cannot be blank').notEmpty();
-        req.assert('parentType', 'ParentType cannot be blank').notEmpty();
-        req.assert('status', 'Status cannot be blank').notEmpty();
-        req.assert('owner', 'Owner cannot be blank').notEmpty();*/
-
-       /* var errors = req.validationErrors();
-        if (errors) {
-            req.flash('errors', errors);
-            return res.redirect('/');
-        }*/
+        //req.assert('content', 'Content cannot be blank').notEmpty();
+        //req.assert('due', 'Due date cannot be blank').notEmpty();
+        //req.assert('parentId', 'ParentId cannot be blank').notEmpty();
+        //req.assert('parentType', 'ParentType cannot be blank').notEmpty();
+        //req.assert('status', 'Status cannot be blank').notEmpty();
+        //req.assert('owner', 'Owner cannot be blank').notEmpty();
+        //
+        //var errors = req.validationErrors();
+        //if (errors) {
+        //    req.flash('errors', errors);
+        //    return res.redirect('/');
+        //}
 
         var task = new Task({
             createdAt: new Date(),
@@ -63,14 +62,9 @@ module.exports = function(app){
 
         task.save(function(err) {
             if (err) {
-                res.json({ status: err, code: ApiStatus.CODE_ERROR });
-
-                return next(err);
+                return res.json({ status: err, code: ApiStatus.CODE_ERROR });
             }
-
-
-            res.json({ status: ApiStatus.STATUS_SUCCESS, code: ApiStatus.CODE_SUCCESS });
-            return;
+            return res.json({ status: ApiStatus.STATUS_SUCCESS, code: ApiStatus.CODE_SUCCESS });
         });
     });
 
