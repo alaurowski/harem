@@ -125,6 +125,43 @@
                 });
         };
 
+        //tasks
+
+        $scope.taskData = [];
+
+        $scope.taskData.parentId = $routeParams.leadId;
+
+        $scope.processTask = function () {
+            console.log($scope.taskData);
+            $http({
+                method: 'POST',
+                url: '/task/insert',
+                data: $.param($scope.taskData),  // pass in data as strings
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}  // set the headers so angular passing info as form data (not request payload)
+            })
+                .success(function (data) {
+                    console.log(data);
+                    if (data.code === 200) {
+                        swal({
+                            title: "Good Job!",
+                            text: "You've successfully added task!",
+                            type: "success",
+                            confirmButtonText: "Close"
+                        });
+
+                        $scope.message = data.message;
+
+                    }
+                    else {
+                        swal("Error!", 'Something went wrong', "error");
+                    }
+                });
+        };
+
+
+        //tasks end
+
+
         $scope.notes = [];
 
         $scope.loadNotes = function () {
@@ -136,13 +173,12 @@
 
         $scope.loadNotes();
 
-        $scope.deleteNote = function () {
-
-            if (!confirm('Are you sure?')) return;
-            leads.deleteNote($scope.note._id, function () {
-
-            })
-
+        $scope.deleteNote = function (id) {
+            console.log(id);
+            $http.get('/note/delete/:' + id).success(function (data) {
+                $scope.notes = data;
+                console.log($scope.notes);
+            });
         }
 
 /*        $scope.tags = [

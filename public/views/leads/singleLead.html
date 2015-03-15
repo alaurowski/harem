@@ -82,7 +82,7 @@
                 <div class="footer">
                     <span class="date">{{note.type}} added at {{note.createdAt | date}}</span>
                     <div class="actions">
-                        <a href="" ng-click="deleteNote()"><span class="ion-trash-a"></span>Delete</a>
+                        <a href="" ng-click="deleteNote(note._id)"><span class="ion-trash-a"></span>Delete</a>
                     </div>
                 </div>
             </div>
@@ -99,6 +99,26 @@
             </a>
 
         </header>
+
+        <!-- taski -->
+
+        <div class="tasks">
+            <div class="add-new-tast">
+                <form name="note_add_form" novalidate ng-submit="processTask()">
+                    <input ng-model="taskData.parentId" type="hidden" value="{{ taskData.parentId }}"/>
+                    <div>
+                        <label>Description</label>
+                        <input type="text" ng-model="taskData.content"/>
+                    </div>
+                    <div>
+                        <input type="submit" class="btn btn-success" value="save"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- taski -->
+
 
         <div class="personal-info-details">
             <h4>Personal information</h4>

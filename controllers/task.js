@@ -36,18 +36,19 @@ module.exports = function(app){
      * Insert task
      */
     app.post('/task/insert',function(req, res) {
-        req.assert('content', 'Content cannot be blank').notEmpty();
+
+        /*req.assert('content', 'Content cannot be blank').notEmpty();
         req.assert('due', 'Due date cannot be blank').notEmpty();
         req.assert('parentId', 'ParentId cannot be blank').notEmpty();
         req.assert('parentType', 'ParentType cannot be blank').notEmpty();
         req.assert('status', 'Status cannot be blank').notEmpty();
-        req.assert('owner', 'Owner cannot be blank').notEmpty();
+        req.assert('owner', 'Owner cannot be blank').notEmpty();*/
 
-        var errors = req.validationErrors();
+       /* var errors = req.validationErrors();
         if (errors) {
             req.flash('errors', errors);
             return res.redirect('/');
-        }
+        }*/
 
         var task = new Task({
             createdAt: new Date(),

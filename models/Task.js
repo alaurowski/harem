@@ -6,10 +6,10 @@ var mongoose = require('mongoose');
 var taskSchema = new mongoose.Schema({
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
-    content: { type: String, required: true },
+    content: { type: String},
     due: Date,
-    parentId: {type: mongoose.Schema.ObjectId, required: true },
-    parentType: { type: String, required: true },
+    parentId: {type: mongoose.Schema.ObjectId },
+    parentType: { type: String },
     status: String,
     owner: String
 });

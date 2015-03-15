@@ -17,17 +17,8 @@
 
         };
 
-        var _deleteNote = function(clientId, success){
-
-            success = success||function(){};
-            $http.post('/note/delete/:'+ note_id)
-                .success(success);
-
-        };
-
         return {
-            getLead: _getLead,
-            deleteNote: _deleteNote
+            getLead: _getLead
         };
     }]);
 
