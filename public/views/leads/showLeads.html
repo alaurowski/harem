@@ -12,9 +12,6 @@
             <a class="btn btn-success" href="/#/leads/add">
                 Leads add
             </a>
-            <a class="btn btn-success growl" href="#">
-                Growl
-            </a>
         </div>
         <div class>
             <h3>Active records: {{ (users | filter:filters.search | filter:{state: filters.state}).length }}</h3>
@@ -26,10 +23,10 @@
             <th ng-click="changeOrder('contact.firstName')">Firstname</th>
             <th ng-click="changeOrder('contact.lastName')">Lastname</th>
             <th ng-click="changeOrder('contact.email')">Email</th>
-            <th ng-click="changeOrder('title')">Title</th>
+            <th ng-click="changeOrder('phone')">Phone</th>
             <th ng-click="changeOrder('subtitle')">Subtitle</th>
             <th ng-click="changeOrder('state')">State</th>
-            <th ng-click="changeOrder('source')">Source</th>
+            <!--<th ng-click="changeOrder('source')">Source</th>-->
             <th>Details</th>
             </thead>
             <tbody>
@@ -50,17 +47,14 @@
                     {{ user.contact.phone }}
                 </td>
                 <td>
-                    {{ user.title }}
-                </td>
-                <td>
                     {{ user.subtitle }}
                 </td>
                 <td>
                     {{ user.state.name}}
                 </td>
-                <td>
-                    {{ user.source }}
-                </td>
+                <!--<td>-->
+                <!--{{ user.source }}-->
+                <!--</td>-->
                 <td>
                     <a href="/#/leads/{{ user._id }}" class="btn btn-success">Details</a>
                 </td>

@@ -18,6 +18,8 @@ var leadSchema = new mongoose.Schema({
     tags : Array,
     files: [mongoose.Schema.Mixed],
 
+    cv : {},
+
     source: String,
     contact: { type: mongoose.Schema.ObjectId, ref: 'Contact'},
 
