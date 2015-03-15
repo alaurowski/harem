@@ -141,7 +141,7 @@
 
         //tasks
 
-        $scope.taskData = {};
+        $scope.taskData = {owner: 'Natalia'};
 
         $scope.taskData.parentId = $routeParams.leadId;
 
@@ -161,6 +161,7 @@
                         $scope.message = data.message;
 
                         $scope.loadTasks();
+                        $scope.addNewTask = false;
 
                     }
                     else {
@@ -181,7 +182,7 @@
 
         $scope.loadTasks();
 
-
+        $scope.addNewTask = false;
         //tasks end
 
 
