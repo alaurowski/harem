@@ -74,16 +74,13 @@ module.exports = function(app){
     /**
      * Delete note
      */
-    app.post('/note/delete/:note_id', function(req, res) {
+    app.get('/note/delete/:note_id', function(req, res) {
         var noteId = req.params.note_id;
         Note.remove({ _id: noteId }, function(err) {
             if (err) {
-                res.json({ status: err, code: ApiStatus.CODE_ERROR });
-
-                return next(err);
+                return res.json({ status: err, code: ApiStatus.CODE_ERROR });
             }
-
-            res.json({ status: ApiStatus.STATUS_SUCCESS, code: ApiStatus.CODE_SUCCESS });
+            return res.json({ status: ApiStatus.STATUS_SUCCESS, code: ApiStatus.CODE_SUCCESS });
         });
     });
 
