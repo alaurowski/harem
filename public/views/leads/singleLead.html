@@ -113,20 +113,39 @@
 
         <!-- taski -->
 
-        <div class="tasks">
-            <div class="add-new-tast">
-                <form name="note_add_form" novalidate ng-submit="processTask()">
-                    <input ng-model="taskData.parentId" type="hidden" value="{{ taskData.parentId }}"/>
+        <div class="tasks-container">
 
-                    <div>
-                        <label>Description</label>
-                        <input type="text" ng-model="taskData.content"/>
-                    </div>
-                    <div>
-                        <input type="submit" class="btn btn-success" value="save"/>
-                    </div>
-                </form>
+            <div class="task-list">
+                <div class="add-new-task">
+                    <form name="note_add_form" novalidate ng-submit="processTask()">
+                        <input ng-model="taskData.parentId" type="hidden" value="{{ taskData.parentId }}"/>
+                        <fieldset>
+                            <label>Description</label>
+                            <input class="form-control" type="text" ng-model="taskData.content"/>
+                        </fieldset>
+                        <fieldset>
+                            <label>When it's due?</label>
+                            <div class="input-group date" id="task-date">
+                                <input type="text" class="form-control" ng-model="taskData.due"/>
+                            <span class="input-group-addon">
+                                <span class="ion-calendar">
+                                </span>
+                            </span>
+                            </div>
+
+                        </fieldset>
+                        <fieldset>
+                            <input type="submit" class="btn btn-success" value="save"/>
+                        </fieldset>
+
+                    </form>
+                </div>
+                <h3>Tasks: <span class="pull-right"><span class="ion-plus-round"></span>add new task</span> </h3>
+                <article ng-repeat="task in tasks.slice().reverse()">
+                    <span class="icon ion-clipboard"></span> <p>({{task.due | date}}) {{task.content}}</p>
+                </article>
             </div>
+
         </div>
 
         <!-- taski -->
