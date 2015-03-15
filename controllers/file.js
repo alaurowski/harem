@@ -7,7 +7,7 @@ var File = require('../models/File');
 var fs = require("fs");
 var ApiStatus = require('../models/ApiStatus');
 
-var allowedMimeTypes = new Array("image/png", "image/jpg", "image/gif");
+var allowedMimeTypes = new Array("image/png", "image/jpg", "image/jpeg", "image/gif");
 
 module.exports = function(app){
 
@@ -84,7 +84,7 @@ module.exports = function(app){
                         res.json(file);
                     });
                 }else{
-                    return res.json({ status: err, code: ApiStatus.CODE_ERROR });
+                    return res.json({ status: ApiStatus.STATUS_ERROR, code: ApiStatus.CODE_ERROR });
                 }
             }
         });

@@ -132,17 +132,6 @@ module.exports = function (app) {
             Lead.findById(leadId, function (err, existingLead) {
                 if (existingLead) {
 
-                    var additionalData = {};
-
-                    existingLead.notes = Note.findOne({"parentId": leadId}, function (err, existingNote) {
-                        return existingNote;
-                    });
-
-                    existingLead.tasks = Task.findOne({"parentId": leadId}, function (err, existingTask) {
-                        return existingTask;
-                    });
-
-
                     console.log(existingLead);
 
                     res.json(existingLead);
@@ -195,6 +184,7 @@ module.exports = function (app) {
             existingLead.subtitle = req.body.subtitle;
             existingLead.state = req.body.state;
             existingLead.source = req.body.source;
+            existingLead.cv = req.body.files;
 
 
             Contact.findById(contactId, function (err, existingContact) {
@@ -227,6 +217,40 @@ module.exports = function (app) {
 
                     existingLead.contact = existingContact._id;
                     existingLead.save(function (err2, savedLead) {
+
+                        //if (req.files.cvfile.size !== 0) {
+                        //    fs.exists(req.files.cvfile.path, function(exists) {
+                        //        if(exists){
+                        //            var fileName = req.files.cvfile.name;
+                        //            var originalName = req.files.cvfile.originalname;
+                        //            var mimeType = req.files.cvfile.mimetype;
+                        //            // check is allowed
+                        //            if(allowedMimeTypes.indexOf(mimeType) !== -1){
+                        //                var file = new File({
+                        //                    src: fileName,
+                        //                    originalName: originalName,
+                        //                    content : 'Cv',
+                        //                    parentId : savedLead._id
+                        //                });
+                        //
+                        //                file.save(function(err, savedFile) {
+                        //                    if (err) return res.json({ status: err, code: ApiStatus.CODE_ERROR });
+                        //                    savedLead.file = savedFile;
+                        //
+                        //                    savedLead.save(function(err) {
+                        //                        if (err) {
+                        //                            return res.json({ status: err, code: ApiStatus.CODE_ERROR });
+                        //                        }
+                        //                    });
+                        //                });
+                        //
+                        //            }else{
+                        //                return res.json({ status: err, code: ApiStatus.CODE_ERROR });
+                        //            }
+                        //        }
+                        //    });
+                        //}
+
 
                         if (err2 && err2.errors) {
                             err2.errors.status = ApiStatus.STATUS_VALIDATION_ERROR;

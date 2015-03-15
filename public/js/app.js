@@ -129,13 +129,32 @@
 
         $scope.loadNotes();
 
-        $scope.deleteNote = function () {
-
-            if (!confirm('Are you sure?')) return;
-            leads.deleteNote($scope.note._id, function () {
-
-            })
-
+        $scope.deleteNote = function ($index) {
+            swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover this note!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "No, cancel plx!",
+                closeOnConfirm: false
+            }, function (isConfirm) {
+                if (isConfirm) {
+                    $http.get('/note/delete/' + $index).success(function (data) {
+                        console.log(data);
+                        if (data.code === 200) {
+                            swal("Deleted!", "Note has been deleted.", "success");
+                            $scope.message = data.message;
+                            $scope.loadNotes();
+                        }
+                        else {
+                            swal("Error!", 'Something went wrong', "error");
+                        }
+                    });
+                } else {
+                }
+            });
         };
 
 
@@ -184,7 +203,6 @@
 
         $scope.addNewTask = false;
         //tasks end
-
 
 
         //States
@@ -269,13 +287,33 @@
     }]);
 
 
-    app.controller('leadsAdd', ['$scope', '$location', '$http', function ($scope, $location, $http) {
+    app.controller('leadsAdd', ['$scope', '$location', '$http',  'FileUploader', function ($scope, $location, $http, FileUploader) {
 
         $scope.title = 'Leads add form'
 
         // create a blank object to hold our form information
         // $scope will allow this to pass between controller and view
         $scope.formData = {};
+
+        $scope.cvFileUploaded = function (item, response, status, headers) {
+
+            if (!$scope.formData.files) {
+                $scope.formData.files = new Array();
+                $scope.formData.files.push(response);
+            }
+        }
+
+        $scope.uploader = new FileUploader({
+
+            url: "/file/insert",
+            alias: "userfile",
+            autoUpload: true,
+            onSuccessItem: $scope.cvFileUploaded
+        }); // file uploader
+
+        $scope.processUpload = function () {
+            console.log('Uploading file ..');
+        }
 
         // process the form
         $scope.processForm = function () {
