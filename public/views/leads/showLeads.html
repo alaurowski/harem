@@ -26,7 +26,7 @@
             <th ng-click="changeOrder('phone')">Phone</th>
             <th ng-click="changeOrder('subtitle')">Subtitle</th>
             <th ng-click="changeOrder('state')">State</th>
-            <!--<th ng-click="changeOrder('source')">Source</th>-->
+            <th ng-click="changeOrder('source')">Socials</th>
             <th>Details</th>
             </thead>
             <tbody>
@@ -52,9 +52,17 @@
                 <td>
                     {{ user.state.name}}
                 </td>
-                <!--<td>-->
-                <!--{{ user.source }}-->
-                <!--</td>-->
+                <td class="social-links-icons">
+                    <a href="{{ user.social.linkedin }}" target="_blank" ng-show="user.social.linkedin">
+                        <i class="ion-social-linkedin"></i>
+                    </a>
+                    <a href="{{ user.social.goldenline }}" target="_blank" ng-show="user.social.goldenline">
+                        <i class="ion-social-instagram"></i>
+                    </a>
+                    <a href="{{ user.social.facebook }}" target="_blank" ng-show="user.social.facebook">
+                        <i class="ion-social-facebook"></i>
+                    </a>
+                </td>
                 <td>
                     <a href="/#/leads/{{ user._id }}" class="btn btn-success">Details</a>
                 </td>
@@ -87,7 +95,7 @@
             <div>
                 <div ng-repeat="leadState in leadStatesGroup">
                     <label><b><input type="checkbox" ng-model="useLeadStates[leadState]"/>{{lsName(leadState)}}</b>
-                    <span>({{ (filteredUsers | filter:query | filter:count('state', 'code', leadState)).length }})</span>
+                        <span>({{ (filteredUsers | filter:query | filter:count('state', 'code', leadState)).length }})</span>
                     </label>
                 </div>
             </div>

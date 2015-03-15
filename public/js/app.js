@@ -11,7 +11,7 @@
         for (var i = 0; i < data.length; i++) {
             var value = data[i][key];
 
-            if(subkey)
+            if (subkey)
                 value = value[subkey];
 
             if (result.indexOf(value) == -1 && value) {
@@ -28,7 +28,7 @@
         for (var i = 0; i < data.length; i++) {
             var value = data[i][key];
 
-            if(value) {
+            if (value) {
                 for (sk in value) {
 
                     var subarrayVal = value[sk];
@@ -45,7 +45,6 @@
         }
         return result;
     };
-
 
 
     app.config(['$routeProvider', function ($routeProvider) {
@@ -79,7 +78,7 @@
         $scope.lead = {};
 
 
-        $scope.changeTaskStatus = function(task){
+        $scope.changeTaskStatus = function (task) {
             console.log(task);
 
             $http({
@@ -108,13 +107,13 @@
             function (data) {
                 $scope.lead = data;
 
-                if(!$scope.lead.state.hasOwnProperty('code'))
+                if (!$scope.lead.state.hasOwnProperty('code'))
                     $scope.lead.state = {code: 'new', name: 'New'};
 
 
-                if(data.cv){
+                if (data.cv) {
                     $scope.cv = true;
-                }else{
+                } else {
                     $scope.cv = false;
                 }
 
@@ -259,7 +258,7 @@
                 .success(function (data) {
                     console.log(data);
                     if (data.code === 200) {
-                        $.growl.notice({ title: "Good Job!", message: "You've successfully added task!" });
+                        $.growl.notice({title: "Good Job!", message: "You've successfully added task!"});
                         $scope.message = data.message;
 
                         $scope.loadTasks();
@@ -289,7 +288,7 @@
                     $http.get('/task/delete/' + $index).success(function (data) {
                         console.log(data);
                         if (data.code === 200) {
-                            $.growl.notice({ title: "Good Job!", message: "You've successfully added task!" });
+                            $.growl.notice({title: "Good Job!", message: "You've successfully added task!"});
                             $scope.message = data.message;
                             $scope.loadTasks();
                         }
@@ -324,7 +323,7 @@
             $http.get('/lead/states').success(function (data) {
                 $scope.allStates = data;
 
-                for(key in data) {
+                for (key in data) {
                     var ls = data[key];
                     $scope.leadStateNames[ls.code] = ls.name;
                 }
@@ -334,15 +333,14 @@
         $scope.loadStates();
 
 
-        $scope.lsName = function(code){
+        $scope.lsName = function (code) {
             console.log(code);
         }
 
         $scope.updateState = function () {
 
-            for(var key in $scope.allStates){
-                if($scope.allStates[key].code == $scope.lead.state.code)
-                {
+            for (var key in $scope.allStates) {
+                if ($scope.allStates[key].code == $scope.lead.state.code) {
                     $scope.lead.state = $scope.allStates[key];
                 }
             }
@@ -379,12 +377,23 @@
 
         $scope.allStates = [];
         $scope.leadStateNames = [];
+
+        $http.get('lead/index').success(function (data) {
+            $scope.users = data;
+
+            if (data.cv) {
+                $scope.cv = true;
+            } else {
+                $scope.cv = false;
+            }
+        });
+
         //States
         $scope.loadStates = function () {
             $http.get('/lead/states').success(function (data) {
                 $scope.allStates = data;
 
-                for(key in data) {
+                for (key in data) {
                     var ls = data[key];
                     $scope.leadStateNames[ls.code] = ls.name;
                 }
@@ -394,7 +403,7 @@
         $scope.loadStates();
 
 
-        $scope.lsName = function(code){
+        $scope.lsName = function (code) {
             return $scope.leadStateNames[code];
         }
 
@@ -412,20 +421,19 @@
 
             $scope.count = function (prop, subprop, value) {
                 return function (el) {
-                    if(subprop) el = el[prop];
+                    if (subprop) el = el[prop];
                     return el[subprop] == value;
                 };
             };
 
             $scope.countArray = function (prop, subprop, value) {
                 return function (el) {
-                    if(el[prop] && el[prop].length > 0) {
+                    if (el[prop] && el[prop].length > 0) {
 
                         var found = false;
-                        for(var t in el[prop])
-                        {
+                        for (var t in el[prop]) {
                             var tag = el[prop][t];
-                            if(tag[subprop] == value)
+                            if (tag[subprop] == value)
                                 found = true;
                         }
                         return found;
@@ -462,9 +470,9 @@
                 for (var i in $scope.useTags) {
                     if ($scope.useTags[i]) {
 
-                        for(t in p.tags){
+                        for (t in p.tags) {
                             var tag = p.tags[t];
-                            if(tag && tag.text == i){
+                            if (tag && tag.text == i) {
 
                                 selected = true;
 
@@ -497,9 +505,6 @@
             }
         }, true);
 
-        $http.get('lead/index').success(function (data) {
-            $scope.users = data;
-        });
 
         $scope.filters = {
             x: false,
@@ -542,7 +547,6 @@
     }]);
 
 
-
     app.controller('TaskIndexCtrl', ['$scope', '$http', function ($scope, $http) {
 
         $scope.title = 'ToDo';
@@ -559,7 +563,7 @@
         $scope.orderByColumn = '$index'
         $scope.orderByDir = false;
 
-        $scope.changeStatus = function(task){
+        $scope.changeStatus = function (task) {
             console.log(task);
 
             $http({
@@ -597,7 +601,7 @@
     }]);
 
 
-    app.controller('leadsAdd', ['$scope', '$location', '$http',  'FileUploader', function ($scope, $location, $http, FileUploader) {
+    app.controller('leadsAdd', ['$scope', '$location', '$http', 'FileUploader', function ($scope, $location, $http, FileUploader) {
 
         $scope.title = 'Leads add form'
 
