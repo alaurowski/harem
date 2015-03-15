@@ -125,10 +125,10 @@
             <div class="task-list">
                 <div class="add-new-task" ng-show="addNewTask">
                     <form name="note_add_form" novalidate ng-submit="processTask()">
-                        <input ng-model="taskData.parentId" type="hidden" value="{{ taskData.parentId }}"/>
+                        <input ng-model="taskData.parentId" type="hidden" value="{{ taskData.parentId }}" />
                         <fieldset>
                             <label>Description</label>
-                            <input class="form-control" type="text" ng-model="taskData.content"/>
+                            <input class="form-control" type="text" name="content" ng-model="taskData.content" autofocus/>
                         </fieldset>
                         <fieldset>
                             <label>When it's due?</label>
@@ -142,7 +142,7 @@
                         </fieldset>
                         <fieldset>
                             <label>Who is responsible?</label>
-                            <select class="form-control"  ng-options="color for color in ['Natalia', 'Ola']" ng-model="taskData.owner">
+                            <select class="form-control"  ng-options="owner for owner in ['Natalia', 'Ola']" ng-model="taskData.owner">
                                 <option value="Natalia" selected>Natalia</option>
                             </select>
                         </fieldset>
