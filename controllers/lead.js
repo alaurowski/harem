@@ -132,17 +132,6 @@ module.exports = function (app) {
             Lead.findById(leadId, function (err, existingLead) {
                 if (existingLead) {
 
-                    var additionalData = {};
-
-                    existingLead.notes = Note.findOne({"parentId": leadId}, function (err, existingNote) {
-                        return existingNote;
-                    });
-
-                    existingLead.tasks = Task.findOne({"parentId": leadId}, function (err, existingTask) {
-                        return existingTask;
-                    });
-
-
                     console.log(existingLead);
 
                     res.json(existingLead);
