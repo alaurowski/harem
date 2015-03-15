@@ -8,7 +8,7 @@ var taskSchema = new mongoose.Schema({
     updatedAt: { type: Date, default: Date.now },
     content: { type: String},
     due: Date,
-    parentId: {type: mongoose.Schema.ObjectId },
+    parentId: {type: mongoose.Schema.ObjectId},
     parentType: { type: String },
     status: String,
     owner: String

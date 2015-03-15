@@ -12,9 +12,6 @@
             <a class="btn btn-success" href="/#/leads/add">
                 Leads add
             </a>
-            <a class="btn btn-success growl" href="#">
-                Growl
-            </a>
         </div>
         <div class>
             <h3>Active records: {{ (users | filter:filters.search | filter:{state: filters.state}).length }}</h3>
