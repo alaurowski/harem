@@ -189,6 +189,35 @@
                 });
         };
 
+        $scope.deleteTask = function ($index) {
+            swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover this task!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "No, cancel plx!",
+                closeOnConfirm: false
+            }, function (isConfirm) {
+                if (isConfirm) {
+                    $http.get('/task/delete/' + $index).success(function (data) {
+                        console.log(data);
+                        if (data.code === 200) {
+                            swal("Deleted!", "Task has been deleted.", "success");
+                            $scope.message = data.message;
+                            $scope.loadTasks();
+                        }
+                        else {
+                            swal("Error!", 'Something went wrong', "error");
+                        }
+                    });
+                } else {
+                }
+            });
+        };
+
+
         $scope.tasks = [];
 
         $scope.loadTasks = function () {

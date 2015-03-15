@@ -71,17 +71,14 @@ module.exports = function(app){
     /**
      * Delete task
      */
-    app.post('/task/delete/:task_id', function(req, res) {
+
+    app.get('/task/delete/:task_id', function(req, res) {
         var taskId = req.params.task_id;
-        Task.remove({ _id: new mongoose.Schema.ObjectId(taskId) }, function(err) {
-            if (err)  {
-                res.json({ status: err, code: ApiStatus.CODE_ERROR });
-
-                return next(err);
+        Task.remove({ _id: taskId }, function(err) {
+            if (err) {
+                return res.json({ status: err, code: ApiStatus.CODE_ERROR });
             }
-
-            res.json({ status: ApiStatus.STATUS_SUCCESS, code: ApiStatus.CODE_SUCCESS });
-            return
+            return res.json({ status: ApiStatus.STATUS_SUCCESS, code: ApiStatus.CODE_SUCCESS });
         });
     });
 

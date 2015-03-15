@@ -159,7 +159,7 @@
                 <article ng-repeat="task in tasks.slice().reverse()">
                     <span class="icon ion-clipboard"></span> <p>({{task.due | date}}) {{task.content}}</p>
                     <p class="assigne">Assigned to: <strong>{{task.owner}}</strong>
-                        <span class="pull-right remove ion-trash-a"></span>
+                        <span ng-click="deleteTask(task._id)" class="pull-right remove ion-trash-a"></span>
                     </p>
                 </article>
             </div>
