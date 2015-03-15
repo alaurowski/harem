@@ -22,6 +22,7 @@
 
         <div class="bordered-container">
             <h4 class="title">Tags</h4>
+
             <div class="inner">
                 <tags-input ng-model="tags" on-tag-added="saveTags()" on-tag-removed="saveTags()"></tags-input>
             </div>
@@ -48,7 +49,9 @@
 
                     <div class="actions">
 
-                        <select class="form-control"  ng-options="color for color in ['Interview', 'Score', 'Attachment', 'Other', 'Note']" ng-model="noteData.type">
+                        <select class="form-control"
+                                ng-options="color for color in ['Interview', 'Score', 'Attachment', 'Other', 'Note']"
+                                ng-model="noteData.type">
                             <option value="Note" selected>Note</option>
                         </select>
 
@@ -80,22 +83,24 @@
 
         <div class="bordered-container single-added-note" ng-repeat="note in notes.slice().reverse()">
             <h4 class="title">{{ note.type }} about {{lead.contact.firstName}} {{lead.contact.lastName}}</h4>
+
             <div class="inner">
                 <p>{{note.content | date}}</p>
                 <ul class="files">
 
                     <li ng-repeat="file in note.files">
                         <a href="/file/download/{{file._id}}">{{ file.originalName }}</a>
-
                     </li>
 
                 </ul>
-
+                <pre>
+                    {{note}}
+                </pre>
                 <div class="footer">
                     <span class="date">{{note.type}} added at {{note.createdAt | date}}</span>
 
                     <div class="actions">
-                        <a href="" ng-click="deleteNote(note._id)"><span class="ion-trash-a"></span>Delete</a>
+                        <a ng- href="" ng-click="deleteNote(note._id)"><span class="ion-trash-a"></span>Delete</a>
                     </div>
                 </div>
             </div>
@@ -118,7 +123,7 @@
         <div class="tasks-container">
 
             <div class="task-list">
-                <div class="add-new-task">
+                <div class="add-new-task" ng-show="addNewTask">
                     <form name="note_add_form" novalidate ng-submit="processTask()">
                         <input ng-model="taskData.parentId" type="hidden" value="{{ taskData.parentId }}"/>
                         <fieldset>
@@ -134,17 +139,35 @@
                                 </span>
                             </span>
                             </div>
-
+                        </fieldset>
+                        <fieldset>
+                            <label>Who is responsible?</label>
+                            <select class="form-control"  ng-options="color for color in ['Natalia', 'Ola']" ng-model="taskData.owner">
+                                <option value="Natalia" selected>Natalia</option>
+                            </select>
                         </fieldset>
                         <fieldset>
                             <input type="submit" class="btn btn-success" value="save"/>
+                            <span class="close-popup pull-right" ng-show="addNewTask" ng-click="addNewTask=false"><span class="ion-close-circled"></span>close</span>
                         </fieldset>
 
                     </form>
                 </div>
-                <h3>Tasks: <span class="pull-right"><span class="ion-plus-round"></span>add new task</span> </h3>
+                <h3>Tasks:
+                    <span class="pull-right">
+                        <span ng-hide="addNewTask" ng-click="addNewTask=true">
+                            <span class="ion-plus-round"></span>add new task
+                        </span>
+                        <span ng-show="addNewTask" ng-click="addNewTask=false">
+                            <span class="ion-close-circled"></span>cancel
+                        </span>
+                    </span>
+                </h3>
                 <article ng-repeat="task in tasks.slice().reverse()">
                     <span class="icon ion-clipboard"></span> <p>({{task.due | date}}) {{task.content}}</p>
+                    <p class="assigne">Assigned to: <strong>{{task.owner}}</strong>
+                        <span ng-click="deleteTask(task._id)" class="pull-right remove ion-trash-a"></span>
+                    </p>
                 </article>
             </div>
 

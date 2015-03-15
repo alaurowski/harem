@@ -136,19 +136,38 @@
 
         $scope.loadNotes();
 
-        $scope.deleteNote = function () {
-
-            if (!confirm('Are you sure?')) return;
-            leads.deleteNote($scope.note._id, function () {
-
-            })
-
+        $scope.deleteNote = function ($index) {
+            swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover this note!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "No, cancel plx!",
+                closeOnConfirm: false
+            }, function (isConfirm) {
+                if (isConfirm) {
+                    $http.get('/note/delete/' + $index).success(function (data) {
+                        console.log(data);
+                        if (data.code === 200) {
+                            swal("Deleted!", "Note has been deleted.", "success");
+                            $scope.message = data.message;
+                            $scope.loadNotes();
+                        }
+                        else {
+                            swal("Error!", 'Something went wrong', "error");
+                        }
+                    });
+                } else {
+                }
+            });
         };
 
 
         //tasks
 
-        $scope.taskData = {};
+        $scope.taskData = {owner: 'Natalia'};
 
         $scope.taskData.parentId = $routeParams.leadId;
 
@@ -168,6 +187,7 @@
                         $scope.message = data.message;
 
                         $scope.loadTasks();
+                        $scope.addNewTask = false;
 
                     }
                     else {
@@ -175,6 +195,35 @@
                     }
                 });
         };
+
+        $scope.deleteTask = function ($index) {
+            swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover this task!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "No, cancel plx!",
+                closeOnConfirm: false
+            }, function (isConfirm) {
+                if (isConfirm) {
+                    $http.get('/task/delete/' + $index).success(function (data) {
+                        console.log(data);
+                        if (data.code === 200) {
+                            swal("Deleted!", "Task has been deleted.", "success");
+                            $scope.message = data.message;
+                            $scope.loadTasks();
+                        }
+                        else {
+                            swal("Error!", 'Something went wrong', "error");
+                        }
+                    });
+                } else {
+                }
+            });
+        };
+
 
         $scope.tasks = [];
 
@@ -188,9 +237,8 @@
 
         $scope.loadTasks();
 
-
+        $scope.addNewTask = false;
         //tasks end
-
 
 
         //States
