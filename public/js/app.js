@@ -102,6 +102,8 @@
 
         }
 
+        $scope.test = [];
+
         leads.getLead(
             $routeParams.leadId,
             function (data) {
@@ -118,13 +120,16 @@
                 }
 
                 $scope.tags = data.tags;
-                console.log($scope.lead);
+
+                $scope.test = $scope.lead.contact.firstName;
             },
             function (data, status) {
                 console.log(data);
                 console.log(status);
             }
         );
+        console.log('satsadasdasdasdasd');
+        console.log($scope.test);
 
         /**
          *
@@ -246,6 +251,7 @@
 
         $scope.taskData.parentId = $routeParams.leadId;
         $scope.taskData.parentType = 'Lead';
+        $scope.taskData.extra = '';
 
         $scope.processTask = function () {
             console.log($scope.taskData);
