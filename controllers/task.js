@@ -4,6 +4,19 @@ var ApiStatus = require('../models/ApiStatus');
 
 module.exports = function(app){
 
+
+    /**
+     * Fetch all all tasks
+     *
+     * @return json
+     */
+    app.get('/task/index',function(req, res){
+        var query = Task.find({ completed: {'$ne': true}  }).sort({due: 'desc'});
+        query.exec(function (err, docs) {
+            res.json(docs);
+        });
+    });
+
     /**
      * Fetch all tasks by parentId
      *
@@ -11,7 +24,7 @@ module.exports = function(app){
      */
     app.get('/task/fetchall/:parent_id',function(req, res){
         var parentId = req.params.parent_id;
-        var filter = {"parentId" : parentId};
+        var filter = {"parentId" : parentId, completed: {'$ne': true} };
         var query = Task.find(filter).sort({due: 'desc'});
         query.exec(function (err, docs) {
             res.json(docs);
@@ -57,6 +70,8 @@ module.exports = function(app){
             parentId : req.body.parentId || '',
             parentType : req.body.parentType || '',
             status : req.body.status || '',
+            completed:  req.body.completed || '',
+            extra: req.body.extra || '',
             owner : req.body.owner || ''
         });
 
@@ -94,7 +109,9 @@ module.exports = function(app){
             ExistingTask.parentId = req.body.parentId || '';
             ExistingTask.parentType = req.body.parentType || '';
             ExistingTask.status = req.body.status || '';
+            ExistingTask.completed = req.body.completed || '';
             ExistingTask.owner = req.body.owner || '';
+            ExistingTask.extra = req.body.extra || '';
             ExistingTask.save(function(err) {
                 if (err) {
                     res.json({ status: err, code: ApiStatus.CODE_ERROR });
@@ -107,4 +124,28 @@ module.exports = function(app){
             });
         });
     });
+
+    /**
+     * Edit task
+     */
+    app.post('/task/toggle/:task_id',function(req, res) {
+        var taskId = req.params.task_id;
+        Task.findById(taskId, function(err, ExistingTask) {
+            if (err) return next(err);
+
+            ExistingTask.completed = ExistingTask.completed ? false : true;
+
+            ExistingTask.save(function(err) {
+                if (err) {
+                    res.json({ status: err, code: ApiStatus.CODE_ERROR });
+
+                    return next(err);
+                }
+
+                res.json({ status: ApiStatus.STATUS_SUCCESS, code: ApiStatus.CODE_SUCCESS });
+
+            });
+        });
+    });
+
 }
