@@ -7,7 +7,10 @@
 
             <h2>{{lead.contact.firstName}} {{lead.contact.lastName}}</h2>
 
-            <p>{{lead.subtitle}}</p>
+            <p>{{lead.state.name}}</p>
+            <select ng-options="state as state.name for state in allStates"
+                    ng-model="lead.state" ng-change="updateState()"></select>
+
         </header>
 
         <div class="bordered-container">
@@ -23,7 +26,8 @@
             <div class="inner">
                 <form name="note_add_form" novalidate ng-submit="processNote()">
 
-                    <textarea required="required" name="noteText" id="noteText" ng-model="noteData.content" class="form-control"></textarea>
+                    <textarea required="required" name="noteText" id="noteText" ng-model="noteData.content"
+                              class="form-control"></textarea>
 
                     <div ng-show="note_add_form.$submitted || note_add_form.noteText.$touched" class="errors">
                     <span ng-show="note_add_form.noteText.$error.required">
@@ -42,8 +46,9 @@
                         </select>
 
                         <label for="note-date">When did it happen:</label>
+
                         <div class="input-group date" id="note-date">
-                            <input type="text" class="form-control" ng-model="noteData.updatedAt" />
+                            <input type="text" class="form-control" ng-model="noteData.updatedAt"/>
                         <span class="input-group-addon">
                             <span class="ion-calendar">
                             </span>
@@ -55,7 +60,7 @@
                         <div class="clearfix"></div>
                     </div>
                 </form>
-                <form name="note_upload_form" novalidate ng-submit="processUpload()" >
+                <form name="note_upload_form" novalidate ng-submit="processUpload()">
                     <input type="file" nv-file-select uploader="uploader"/><br/>
                     <ul>
                         <li ng-repeat="item in uploader.queue">
@@ -81,6 +86,7 @@
 
                 <div class="footer">
                     <span class="date">{{note.type}} added at {{note.createdAt | date}}</span>
+
                     <div class="actions">
                         <a href="" ng-click="deleteNote(note._id)"><span class="ion-trash-a"></span>Delete</a>
                     </div>

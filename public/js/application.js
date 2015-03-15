@@ -23,6 +23,7 @@
 //= require lib/bootstrap-datepicker/js/bootstrap-datepicker
 //= require lib/ng-tags-input
 //= require lib/angular-file-upload.min
+//= require lib/jquery.growl
 //= require main
 //= require services
 //= require app

@@ -47,9 +47,9 @@
         /**
          *
          */
-        $scope.noteFileUploaded = function(item, response, status, headers){
+        $scope.noteFileUploaded = function (item, response, status, headers) {
 
-            if(!$scope.noteData.files) {
+            if (!$scope.noteData.files) {
                 $scope.noteData.files = new Array();
 
                 $scope.noteData.files.push(response);
@@ -58,10 +58,10 @@
 
         $scope.uploader = new FileUploader({
 
-             url: "/file/insert",
-             alias: "userfile",
-             autoUpload: true,
-             onSuccessItem: $scope.noteFileUploaded
+            url: "/file/insert",
+            alias: "userfile",
+            autoUpload: true,
+            onSuccessItem: $scope.noteFileUploaded
         }); // file uploader
 
         $scope.noteData = { type: 'Note', updatedAt: new Date()};
@@ -76,12 +76,11 @@
         }
 
 
-
         $scope.saveTags = function () {
             $http({
                 method: 'POST',
                 url: '/lead/save_tags',
-                data: { _id: $scope.lead._id, tags: $scope.tags},
+                data: {_id: $scope.lead._id, tags: $scope.tags},
                 headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
             })
                 .success(function (data) {
@@ -125,6 +124,26 @@
                 });
         };
 
+        $scope.notes = [];
+
+        $scope.loadNotes = function () {
+            $http.get('/note/fetchall/' + $scope.noteData.parentId).success(function (data) {
+                $scope.notes = data;
+            });
+        };
+
+        $scope.loadNotes();
+
+        $scope.deleteNote = function () {
+
+            if (!confirm('Are you sure?')) return;
+            leads.deleteNote($scope.note._id, function () {
+
+            })
+
+        };
+
+
         //tasks
 
         $scope.taskData = [];
@@ -162,63 +181,34 @@
         //tasks end
 
 
-        $scope.notes = [];
 
-        $scope.loadNotes = function () {
-            $http.get('/note/fetchall/' + $scope.noteData.parentId).success(function (data) {
-                $scope.notes = data;
-                console.log($scope.notes);
+        //States
+        $scope.loadStates = function () {
+            $http.get('/lead/states').success(function (data) {
+                $scope.allStates = data;
             });
         };
 
-        $scope.loadNotes();
+        $scope.loadStates();
 
-        $scope.deleteNote = function (id) {
-            console.log(id);
-            $http.get('/note/delete/:' + id).success(function (data) {
-                $scope.notes = data;
-                console.log($scope.notes);
-            });
-        }
-
-/*        $scope.tags = [
-            { text: 'Tag1' },
-            { text: 'Tag2' },
-            { text: 'Tag3' }
-        ];
-        */
-
+        $scope.updateState = function () {
+            $http({
+                method: 'POST',
+                url: '/lead/change_state',
+                data: {_id: $scope.lead._id, state: $scope.lead.state},
+                headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
+            })
+                .success(function (data) {
+                    if (data.code === 200) {
+                        $scope.message = data.message;
+                    }
+                    else {
+                        swal("Error!", 'Something went wrong', "error");
+                    }
+                });
+        };
 
     }]);
-
-    var uniqueItems = function (data, key) {
-        var result = [];
-
-        for (var i = 0; i < data.length; i++) {
-            var value = data[i][key];
-
-            if (result.indexOf(value) == -1) {
-                result.push(value);
-            }
-
-        }
-        return result;
-    };
-
-    // SEARCH AND FILTER
-    var uniqueItems = function (data, key) {
-        var result = [];
-
-        for (var i = 0; i < data.length; i++) {
-            var value = data[i][key];
-
-            if (result.indexOf(value) == -1) {
-                result.push(value);
-            }
-
-        }
-        return result;
-    };
 
     app.controller('leadsIndex', ['$scope', '$http', function ($scope, $http) {
 
@@ -292,12 +282,13 @@
                     if (data.code === 200) {
                         // if successful, bind success message to message
                         $location.path('/leads/' + data.lead_id);
-                        swal({
-                            title: "Good Job!",
-                            text: "You've successfully added lead!",
-                            type: "success",
-                            confirmButtonText: "Close"
-                        });
+                        //swal({
+                        //    title: "Good Job!",
+                        //    text: "You've successfully added lead!",
+                        //    type: "success",
+                        //    confirmButtonText: "Close"
+                        //});
+                        $.growl.notice({ title: "Good Job!", message: "You've successfully added lead!" });
 
                         $scope.message = data.message;
                     }
