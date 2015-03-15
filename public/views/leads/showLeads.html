@@ -30,7 +30,7 @@
             <th>Details</th>
             </thead>
             <tbody>
-            <tr ng-repeat="user in users | filter:filters.search | filter:search.state">
+            <tr ng-repeat="user in filteredUsers | filter:filters.search | filter:{'state.code': filters.state}">
                 <td>
                     {{ $index }}
                 </td>
@@ -84,13 +84,30 @@
             States filter
         </h3>
         <ul>
-            <li ng-repeat="state in leadStates">
-                <label for="{{state.code}}">
-                    <input id="{{state.code}}" type="checkbox" ng-model="search.state" ng-true-value='{{state.name}}'
-                           ng-false-value=''/>
-                    {{state.name}}
-                </label>
-            </li>
+            <div>
+                <div ng-repeat="leadState in leadStatesGroup">
+                    <label><b><input type="checkbox" ng-model="useLeadStates[leadState]"/>{{lsName(leadState)}}</b>
+                    <span>({{ (filteredUsers | filter:query | filter:count('state', 'code', leadState)).length }})</span>
+                    </label>
+                </div>
+            </div>
+
         </ul>
+
+        <hr/>
+        <h3>
+            Tags filter
+        </h3>
+        <ul>
+            <div>
+                <div ng-repeat="tag in tagsGroup">
+                    <label><b><input type="checkbox" ng-model="useTags[tag]"/>{{tag}}</b>
+                        <span>({{ (filteredUsers | filter:query | filter:countArray('tags', 'text', tag)).length }})</span>
+                    </label>
+                </div>
+            </div>
+
+        </ul>
+
     </aside>
 </section>

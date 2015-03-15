@@ -7,9 +7,13 @@
 
             <h2>{{lead.contact.firstName}} {{lead.contact.lastName}}</h2>
 
-            <p>{{lead.state.name}}</p>
-            <select ng-options="state as state.name for state in allStates"
-                    ng-model="lead.state" ng-change="updateState()"></select>
+            <p>
+            <select ng-options="state.code as state.name for state in allStates"
+                    ng-model="lead.state.code" ng-change="updateState()"></select>
+
+            {{lead.subtitle}}</p>
+
+            <p ng-show="cv"><a href="/file/download/{{ lead.cv._id }}">{{ lead.cv.originalName }}</a></p>
 
         </header>
 
@@ -80,15 +84,10 @@
             <div class="inner">
                 <p>{{note.content | date}}</p>
                 <ul class="files">
-
                     <li ng-repeat="file in note.files">
                         <a href="/file/download/{{file._id}}">{{ file.originalName }}</a>
                     </li>
-
                 </ul>
-                <pre>
-                    {{note}}
-                </pre>
                 <div class="footer">
                     <span class="date">{{note.type}} added at {{note.createdAt | date}}</span>
 
@@ -97,10 +96,7 @@
                     </div>
                 </div>
             </div>
-
         </div>
-
-
     </div>
     <aside class="personal-info col-xs-3">
         <header>
@@ -118,10 +114,12 @@
             <div class="task-list">
                 <div class="add-new-task" ng-show="addNewTask">
                     <form name="note_add_form" novalidate ng-submit="processTask()">
-                        <input ng-model="taskData.parentId" type="hidden" value="{{ taskData.parentId }}"/>
+                        <input ng-model="taskData.parentId" type="hidden" value="{{ taskData.parentId }}" />
+                        <input ng-model="taskData.parentType" type="hidden" value="Lead" />
+                        <input name="extra" ng-model="taskData.extra" type="hidden" value="{{lead.contact.firstName}} {{lead.contact.lastName}}" />
                         <fieldset>
                             <label>Description</label>
-                            <input class="form-control" type="text" ng-model="taskData.content"/>
+                            <input class="form-control" type="text" name="content" ng-model="taskData.content" autofocus/>
                         </fieldset>
                         <fieldset>
                             <label>When it's due?</label>
@@ -135,7 +133,7 @@
                         </fieldset>
                         <fieldset>
                             <label>Who is responsible?</label>
-                            <select class="form-control"  ng-options="color for color in ['Natalia', 'Ola']" ng-model="taskData.owner">
+                            <select class="form-control"  ng-options="owner for owner in ['Natalia', 'Ola']" ng-model="taskData.owner">
                                 <option value="Natalia" selected>Natalia</option>
                             </select>
                         </fieldset>

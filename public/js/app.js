@@ -5,6 +5,49 @@
 (function () {
     var app = angular.module('crmApp', ['ngRoute', 'crmService', 'ngTagsInput', 'ngResource', 'angularFileUpload']);
 
+    var uniqueItems = function (data, key, subkey) {
+        var result = [];
+
+        for (var i = 0; i < data.length; i++) {
+            var value = data[i][key];
+
+            if(subkey)
+                value = value[subkey];
+
+            if (result.indexOf(value) == -1 && value) {
+                result.push(value);
+            }
+
+        }
+        return result;
+    };
+
+    var uniqueArrayItems = function (data, key, subkey) {
+        var result = [];
+
+        for (var i = 0; i < data.length; i++) {
+            var value = data[i][key];
+
+            if(value) {
+                for (sk in value) {
+
+                    var subarrayVal = value[sk];
+
+                    if (subkey)
+                        subarrayVal = subarrayVal[subkey];
+
+                    if (result.indexOf(subarrayVal) == -1 && subarrayVal) {
+                        result.push(subarrayVal);
+                    }
+                }
+            }
+
+        }
+        return result;
+    };
+
+
+
     app.config(['$routeProvider', function ($routeProvider) {
 
         $routeProvider
@@ -35,6 +78,17 @@
             $routeParams.leadId,
             function (data) {
                 $scope.lead = data;
+
+                if(!$scope.lead.state.hasOwnProperty('code'))
+                    $scope.lead.state = {code: 'new', name: 'New'};
+
+
+                if(data.cv){
+                    $scope.cv = true;
+                }else{
+                    $scope.cv = false;
+                }
+
                 $scope.tags = data.tags;
                 console.log($scope.lead);
             },
@@ -138,13 +192,13 @@
                 confirmButtonColor: "#DD6B55",
                 confirmButtonText: "Yes, delete it!",
                 cancelButtonText: "No, cancel plx!",
-                closeOnConfirm: false
+                closeOnConfirm: true
             }, function (isConfirm) {
                 if (isConfirm) {
                     $http.get('/note/delete/' + $index).success(function (data) {
                         console.log(data);
                         if (data.code === 200) {
-                            swal("Deleted!", "Note has been deleted.", "success");
+                            $.growl.notice({title: "Good Job!", message: "Note has been deleted"});
                             $scope.message = data.message;
                             $scope.loadNotes();
                         }
@@ -163,6 +217,7 @@
         $scope.taskData = {owner: 'Natalia'};
 
         $scope.taskData.parentId = $routeParams.leadId;
+        $scope.taskData.parentType = 'Lead';
 
         $scope.processTask = function () {
             console.log($scope.taskData);
@@ -176,7 +231,6 @@
                     console.log(data);
                     if (data.code === 200) {
                         $.growl.notice({ title: "Good Job!", message: "You've successfully added task!" });
-
                         $scope.message = data.message;
 
                         $scope.loadTasks();
@@ -189,6 +243,8 @@
                 });
         };
 
+        $scope.allStates = [];
+        $scope.leadStatesNames = [];
         $scope.deleteTask = function ($index) {
             swal({
                 title: "Are you sure?",
@@ -198,13 +254,13 @@
                 confirmButtonColor: "#DD6B55",
                 confirmButtonText: "Yes, delete it!",
                 cancelButtonText: "No, cancel plx!",
-                closeOnConfirm: false
+                closeOnConfirm: true
             }, function (isConfirm) {
                 if (isConfirm) {
                     $http.get('/task/delete/' + $index).success(function (data) {
                         console.log(data);
                         if (data.code === 200) {
-                            swal("Deleted!", "Task has been deleted.", "success");
+                            $.growl.notice({ title: "Good Job!", message: "You've successfully added task!" });
                             $scope.message = data.message;
                             $scope.loadTasks();
                         }
@@ -238,12 +294,30 @@
         $scope.loadStates = function () {
             $http.get('/lead/states').success(function (data) {
                 $scope.allStates = data;
+
+                for(key in data) {
+                    var ls = data[key];
+                    $scope.leadStateNames[ls.code] = ls.name;
+                }
             });
         };
 
         $scope.loadStates();
 
+
+        $scope.lsName = function(code){
+            console.log(code);
+        }
+
         $scope.updateState = function () {
+
+            for(var key in $scope.allStates){
+                if($scope.allStates[key].code == $scope.lead.state.code)
+                {
+                    $scope.lead.state = $scope.allStates[key];
+                }
+            }
+
             $http({
                 method: 'POST',
                 url: '/lead/change_state',
@@ -270,6 +344,129 @@
         $scope.title = 'Leads list';
 
         $scope.users = [];
+        $scope.filteredUsers = [];
+        $scope.useLeadStates = {};
+        $scope.useTags = {};
+
+        $scope.allStates = [];
+        $scope.leadStateNames = [];
+        //States
+        $scope.loadStates = function () {
+            $http.get('/lead/states').success(function (data) {
+                $scope.allStates = data;
+
+                for(key in data) {
+                    var ls = data[key];
+                    $scope.leadStateNames[ls.code] = ls.name;
+                }
+            });
+        };
+
+        $scope.loadStates();
+
+
+        $scope.lsName = function(code){
+            return $scope.leadStateNames[code];
+        }
+
+        // Watch the pants that are selected
+        $scope.$watch(function () {
+            return {
+                users: $scope.users,
+                filteredUsers: $scope.filteredUsers,
+                useLeadStates: $scope.useLeadStates,
+                useTags: $scope.useTags,
+                leadStateNames: $scope.leadStateNames
+            }
+        }, function (value) {
+            var selected;
+
+            $scope.count = function (prop, subprop, value) {
+                return function (el) {
+                    if(subprop) el = el[prop];
+                    return el[subprop] == value;
+                };
+            };
+
+            $scope.countArray = function (prop, subprop, value) {
+                return function (el) {
+                    if(el[prop] && el[prop].length > 0) {
+
+                        var found = false;
+                        for(var t in el[prop])
+                        {
+                            var tag = el[prop][t];
+                            if(tag[subprop] == value)
+                                found = true;
+                        }
+                        return found;
+
+                    }
+                    return false;
+                };
+            };
+
+            $scope.leadStatesGroup = uniqueItems($scope.filteredUsers, 'state', 'code');
+            var filterAfterLeadStates = [];
+            selected = false;
+            for (var j in $scope.filteredUsers) {
+                var p = $scope.filteredUsers[j];
+                for (var i in $scope.useLeadStates) {
+                    if ($scope.useLeadStates[i]) {
+                        selected = true;
+                        if (i == p.state.code) {
+                            filterAfterLeadStates.push(p);
+                            break;
+                        }
+                    }
+                }
+            }
+            if (!selected) {
+                filterAfterLeadStates = $scope.users;
+            }
+
+            $scope.tagsGroup = uniqueArrayItems($scope.filteredUsers, 'tags', 'text');
+            var filteredAfterTags = [];
+            selected = false;
+            for (var j in $scope.filteredUsers) {
+                var p = $scope.filteredUsers[j];
+                for (var i in $scope.useTags) {
+                    if ($scope.useTags[i]) {
+
+                        for(t in p.tags){
+                            var tag = p.tags[t];
+                            if(tag && tag.text == i){
+
+                                selected = true;
+
+                                filteredAfterTags.push(p);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            if (!selected) {
+                filteredAfterTags = filterAfterLeadStates;
+            }
+
+            $scope.filteredUsers = filteredAfterTags;
+        }, true);
+
+
+        app.filter('groupBy',
+            function () {
+                return function (collection, key) {
+                    if (collection === null) return;
+                    return uniqueItems(collection, key);
+                };
+            });
+
+        $scope.$watch('filtered', function (newValue) {
+            if (angular.isArray(newValue)) {
+                console.log(newValue.length);
+            }
+        }, true);
 
         $http.get('lead/index').success(function (data) {
             $scope.users = data;
@@ -327,8 +524,7 @@
         $scope.cvFileUploaded = function (item, response, status, headers) {
 
             if (!$scope.formData.files) {
-                $scope.formData.files = new Array();
-                $scope.formData.files.push(response);
+                $scope.formData.files = response;
             }
         }
 
