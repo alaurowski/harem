@@ -116,6 +116,7 @@
                     <form name="note_add_form" novalidate ng-submit="processTask()">
                         <input ng-model="taskData.parentId" type="hidden" value="{{ taskData.parentId }}" />
                         <input ng-model="taskData.parentType" type="hidden" value="Lead" />
+                        <input name="extra" ng-model="taskData.extra" type="hidden" value="{{lead.contact.firstName}} {{lead.contact.lastName}}" />
                         <fieldset>
                             <label>Description</label>
                             <input class="form-control" type="text" name="content" ng-model="taskData.content" autofocus/>
