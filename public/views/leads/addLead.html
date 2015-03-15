@@ -96,6 +96,14 @@
         </div>
         <input type="submit" class="btn btn-success" value="Send">
     </form>
+    <form name="cv_upload_form" novalidate ng-submit="processUpload()">
+        <input type="file" nv-file-select uploader="uploader"/><br/>
+        <ul>
+            <li ng-repeat="item in uploader.queue">
+                attach file: <span ng-bind="item.file.name"></span>
+            </li>
+        </ul>
+    </form>
 </div>
 <div class="pull-left col-sm-6">
         <pre>

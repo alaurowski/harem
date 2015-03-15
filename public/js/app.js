@@ -256,13 +256,33 @@
     }]);
 
 
-    app.controller('leadsAdd', ['$scope', '$location', '$http', function ($scope, $location, $http) {
+    app.controller('leadsAdd', ['$scope', '$location', '$http',  'FileUploader', function ($scope, $location, $http, FileUploader) {
 
         $scope.title = 'Leads add form'
 
         // create a blank object to hold our form information
         // $scope will allow this to pass between controller and view
         $scope.formData = {};
+
+        $scope.cvFileUploaded = function (item, response, status, headers) {
+
+            if (!$scope.formData.files) {
+                $scope.formData.files = new Array();
+                $scope.formData.files.push(response);
+            }
+        }
+
+        $scope.uploader = new FileUploader({
+
+            url: "/file/insert",
+            alias: "userfile",
+            autoUpload: true,
+            onSuccessItem: $scope.cvFileUploaded
+        }); // file uploader
+
+        $scope.processUpload = function () {
+            console.log('Uploading file ..');
+        }
 
         // process the form
         $scope.processForm = function () {
