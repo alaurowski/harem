@@ -9,7 +9,7 @@ var leadSchema = new mongoose.Schema({
     createdAt: Date,
     updatedAt: Date,
 
-    title: { type: String, required: true, trim: true }, /** could be name of contract */
+    //title: { type: String, required: true, trim: true }, /** could be name of contract */
     subtitle: { type: String, required: true, trim: true }, /** Stanowisko */
 
     state: {},
