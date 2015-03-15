@@ -244,12 +244,13 @@
                     if (data.code === 200) {
                         // if successful, bind success message to message
                         $location.path('/leads/' + data.lead_id);
-                        swal({
-                            title: "Good Job!",
-                            text: "You've successfully added lead!",
-                            type: "success",
-                            confirmButtonText: "Close"
-                        });
+                        //swal({
+                        //    title: "Good Job!",
+                        //    text: "You've successfully added lead!",
+                        //    type: "success",
+                        //    confirmButtonText: "Close"
+                        //});
+                        $.growl.notice({ title: "Good Job!", message: "You've successfully added lead!" });
 
                         $scope.message = data.message;
                     }
