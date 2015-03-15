@@ -35,6 +35,13 @@
             $routeParams.leadId,
             function (data) {
                 $scope.lead = data;
+
+                if(data.cv){
+                    $scope.cv = true;
+                }else{
+                    $scope.cv = false;
+                }
+
                 $scope.tags = data.tags;
                 console.log($scope.lead);
             },
@@ -279,8 +286,7 @@
         $scope.cvFileUploaded = function (item, response, status, headers) {
 
             if (!$scope.formData.files) {
-                $scope.formData.files = new Array();
-                $scope.formData.files.push(response);
+                $scope.formData.files = response;
             }
         }
 

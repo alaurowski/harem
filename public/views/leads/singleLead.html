@@ -13,6 +13,13 @@
 
         </header>
 
+        <div class="bordered-container" ng-show="cv">
+            <h4 class="title">Attached CV</h4>
+            <div class="inner">
+                <a href="/file/download/{{ lead.cv._id }}">{{ lead.cv.originalName }}</a>
+            </div>
+        </div>
+
         <div class="bordered-container">
             <h4 class="title">Tags</h4>
             <div class="inner">
