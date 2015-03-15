@@ -27,6 +27,16 @@ module.exports = function (app) {
 
     });
 
+
+    /**
+     * Get available subtitles for autocomplete
+     */
+    app.get('/lead/subtitle/fetch_all', function(req, res){
+        Lead.find().distinct('subtitle', function(error, titles) {
+            return res.json(titles);
+        });
+    });
+
     /**
      * Change lead state in workflow
      */
