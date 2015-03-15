@@ -64,7 +64,7 @@
             onSuccessItem: $scope.noteFileUploaded
         }); // file uploader
 
-        $scope.noteData = { type: 'Note', updatedAt: new Date()};
+        $scope.noteData = {type: 'Note', updatedAt: new Date()};
 
         $scope.noteData.parentId = $routeParams.leadId;
 
@@ -107,7 +107,7 @@
                 .success(function (data) {
                     console.log(data);
                     if (data.code === 200) {
-                        $.growl.notice({ title: "Good Job!", message: "You've successfully added note!" });
+                        $.growl.notice({title: "Good Job!", message: "You've successfully added note!"});
 
                         $scope.message = data.message;
 
@@ -158,6 +158,9 @@
                 .success(function (data) {
                     if (data.code === 200) {
                         $scope.message = data.message;
+
+                        $.growl.notice({title: "Good Job!", message: "You've successfully updated state!"});
+
                     }
                     else {
                         swal("Error!", 'Something went wrong', "error");
@@ -190,14 +193,14 @@
 
         $scope.actions = {
             updateState: function () {
-           /*     if ($scope.filters.x) {
-                    $scope.filters.state = 'New';
-                    var a = $scope.filters.state.length;
-                } else if ($scope.filters.y) {
-                    $scope.filters.state = 'Employee';
-                } else {
-                    $scope.filters.state = '';
-                }*/
+                //if ($scope.filters.x) {
+                //    $scope.filters.state = 'New';
+                //    var a = $scope.filters.state.length;
+                //} else if ($scope.filters.y) {
+                //    $scope.filters.state = 'Employee';
+                //} else {
+                //    $scope.filters.state = '';
+                //}
             }
         };
 
