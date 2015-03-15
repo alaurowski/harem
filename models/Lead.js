@@ -12,7 +12,7 @@ var leadSchema = new mongoose.Schema({
     title: { type: String, required: true, trim: true }, /** could be name of contract */
     subtitle: { type: String, required: true, trim: true }, /** Stanowisko */
 
-    //state: mongoose.Schema.Mixed,
+    state: {},
     stateHistory: Array,
 
     tags : Array,
