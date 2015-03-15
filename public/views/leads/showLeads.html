@@ -23,14 +23,15 @@
             <th ng-click="changeOrder('contact.firstName')">Firstname</th>
             <th ng-click="changeOrder('contact.lastName')">Lastname</th>
             <th ng-click="changeOrder('contact.email')">Email</th>
+            <th ng-click="changeOrder('phone')">Phone</th>
             <th ng-click="changeOrder('title')">Title</th>
             <th ng-click="changeOrder('subtitle')">Subtitle</th>
             <th ng-click="changeOrder('state')">State</th>
-            <th ng-click="changeOrder('source')">Source</th>
+            <!--<th ng-click="changeOrder('source')">Source</th>-->
             <th>Details</th>
             </thead>
             <tbody>
-            <tr ng-repeat="user in users | filter:filters.search | filter:{state: filters.state}">
+            <tr ng-repeat="user in users | filter:filters.search | filter:search.state">
                 <td>
                     {{ $index }}
                 </td>
@@ -55,9 +56,9 @@
                 <td>
                     {{ user.state.name}}
                 </td>
-                <td>
-                    {{ user.source }}
-                </td>
+                <!--<td>-->
+                    <!--{{ user.source }}-->
+                <!--</td>-->
                 <td>
                     <a href="/#/leads/{{ user._id }}" class="btn btn-success">Details</a>
                 </td>
@@ -89,7 +90,8 @@
         <ul>
             <li ng-repeat="state in leadStates">
                 <label for="{{state.code}}">
-                    <input id="{{state.code}}" type="checkbox" />
+                    <input id="{{state.code}}" type="checkbox" ng-model="search.state" ng-true-value='{{state.name}}'
+                           ng-false-value=''/>
                     {{state.name}}
                 </label>
             </li>
