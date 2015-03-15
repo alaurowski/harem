@@ -115,7 +115,7 @@ module.exports = function (app) {
 
 
         var filter = {}; // TODO: add filtering capabilities
-        var query = Lead.find(filter, 'contact title subtitle source state createdAt modifiedAt owner', {}).populate('contact');
+        var query = Lead.find(filter, 'contact title subtitle source state createdAt modifiedAt owner tags', {}).populate('contact');
         query.exec(function (err, docs) {
             res.json(docs);
         });

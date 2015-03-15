@@ -84,7 +84,7 @@ module.exports = function(app){
                         res.json(file);
                     });
                 }else{
-                    return res.json({ status: err, code: ApiStatus.CODE_ERROR });
+                    return res.json({ status: "Not allowed extension!", code: ApiStatus.CODE_ERROR });
                 }
             }
         });

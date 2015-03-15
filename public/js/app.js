@@ -5,6 +5,49 @@
 (function () {
     var app = angular.module('crmApp', ['ngRoute', 'crmService', 'ngTagsInput', 'ngResource', 'angularFileUpload']);
 
+    var uniqueItems = function (data, key, subkey) {
+        var result = [];
+
+        for (var i = 0; i < data.length; i++) {
+            var value = data[i][key];
+
+            if(subkey)
+                value = value[subkey];
+
+            if (result.indexOf(value) == -1 && value) {
+                result.push(value);
+            }
+
+        }
+        return result;
+    };
+
+    var uniqueArrayItems = function (data, key, subkey) {
+        var result = [];
+
+        for (var i = 0; i < data.length; i++) {
+            var value = data[i][key];
+
+            if(value) {
+                for (sk in value) {
+
+                    var subarrayVal = value[sk];
+
+                    if (subkey)
+                        subarrayVal = subarrayVal[subkey];
+
+                    if (result.indexOf(subarrayVal) == -1 && subarrayVal) {
+                        result.push(subarrayVal);
+                    }
+                }
+            }
+
+        }
+        return result;
+    };
+
+
+
     app.config(['$routeProvider', function ($routeProvider) {
 
         $routeProvider
@@ -35,6 +78,10 @@
             $routeParams.leadId,
             function (data) {
                 $scope.lead = data;
+
+                if(!$scope.lead.state.hasOwnProperty('code'))
+                    $scope.lead.state = {code: 'new', name: 'New'};
+
                 $scope.tags = data.tags;
                 console.log($scope.lead);
             },
@@ -143,17 +190,36 @@
 
         };
 
-
+        $scope.allStates = [];
+        $scope.leadStatesNames = [];
         //States
         $scope.loadStates = function () {
             $http.get('/lead/states').success(function (data) {
                 $scope.allStates = data;
+
+                for(key in data) {
+                    var ls = data[key];
+                    $scope.leadStateNames[ls.code] = ls.name;
+                }
             });
         };
 
         $scope.loadStates();
 
+
+        $scope.lsName = function(code){
+            console.log(code);
+        }
+
         $scope.updateState = function () {
+
+            for(var key in $scope.allStates){
+                if($scope.allStates[key].code == $scope.lead.state.code)
+                {
+                    $scope.lead.state = $scope.allStates[key];
+                }
+            }
+
             $http({
                 method: 'POST',
                 url: '/lead/change_state',
@@ -177,6 +243,129 @@
         $scope.title = 'Leads list';
 
         $scope.users = [];
+        $scope.filteredUsers = [];
+        $scope.useLeadStates = {};
+        $scope.useTags = {};
+
+        $scope.allStates = [];
+        $scope.leadStateNames = [];
+        //States
+        $scope.loadStates = function () {
+            $http.get('/lead/states').success(function (data) {
+                $scope.allStates = data;
+
+                for(key in data) {
+                    var ls = data[key];
+                    $scope.leadStateNames[ls.code] = ls.name;
+                }
+            });
+        };
+
+        $scope.loadStates();
+
+
+        $scope.lsName = function(code){
+            return $scope.leadStateNames[code];
+        }
+
+        // Watch the pants that are selected
+        $scope.$watch(function () {
+            return {
+                users: $scope.users,
+                filteredUsers: $scope.filteredUsers,
+                useLeadStates: $scope.useLeadStates,
+                useTags: $scope.useTags,
+                leadStateNames: $scope.leadStateNames
+            }
+        }, function (value) {
+            var selected;
+
+            $scope.count = function (prop, subprop, value) {
+                return function (el) {
+                    if(subprop) el = el[prop];
+                    return el[subprop] == value;
+                };
+            };
+
+            $scope.countArray = function (prop, subprop, value) {
+                return function (el) {
+                    if(el[prop] && el[prop].length > 0) {
+
+                        var found = false;
+                        for(var t in el[prop])
+                        {
+                            var tag = el[prop][t];
+                            if(tag[subprop] == value)
+                                found = true;
+                        }
+                        return found;
+
+                    }
+                    return false;
+                };
+            };
+
+            $scope.leadStatesGroup = uniqueItems($scope.filteredUsers, 'state', 'code');
+            var filterAfterLeadStates = [];
+            selected = false;
+            for (var j in $scope.filteredUsers) {
+                var p = $scope.filteredUsers[j];
+                for (var i in $scope.useLeadStates) {
+                    if ($scope.useLeadStates[i]) {
+                        selected = true;
+                        if (i == p.state.code) {
+                            filterAfterLeadStates.push(p);
+                            break;
+                        }
+                    }
+                }
+            }
+            if (!selected) {
+                filterAfterLeadStates = $scope.users;
+            }
+
+            $scope.tagsGroup = uniqueArrayItems($scope.filteredUsers, 'tags', 'text');
+            var filteredAfterTags = [];
+            selected = false;
+            for (var j in $scope.filteredUsers) {
+                var p = $scope.filteredUsers[j];
+                for (var i in $scope.useTags) {
+                    if ($scope.useTags[i]) {
+
+                        for(t in p.tags){
+                            var tag = p.tags[t];
+                            if(tag && tag.text == i){
+
+                                selected = true;
+
+                                filteredAfterTags.push(p);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            if (!selected) {
+                filteredAfterTags = filterAfterLeadStates;
+            }
+
+            $scope.filteredUsers = filteredAfterTags;
+        }, true);
+
+
+        app.filter('groupBy',
+            function () {
+                return function (collection, key) {
+                    if (collection === null) return;
+                    return uniqueItems(collection, key);
+                };
+            });
+
+        $scope.$watch('filtered', function (newValue) {
+            if (angular.isArray(newValue)) {
+                console.log(newValue.length);
+            }
+        }, true);
 
         $http.get('lead/index').success(function (data) {
             $scope.users = data;
