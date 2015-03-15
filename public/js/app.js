@@ -141,7 +141,7 @@
 
         //tasks
 
-        $scope.taskData = [];
+        $scope.taskData = {};
 
         $scope.taskData.parentId = $routeParams.leadId;
 
@@ -156,14 +156,11 @@
                 .success(function (data) {
                     console.log(data);
                     if (data.code === 200) {
-                        swal({
-                            title: "Good Job!",
-                            text: "You've successfully added task!",
-                            type: "success",
-                            confirmButtonText: "Close"
-                        });
+                        $.growl.notice({ title: "Good Job!", message: "You've successfully added task!" });
 
                         $scope.message = data.message;
+
+                        $scope.loadTasks();
 
                     }
                     else {
@@ -171,6 +168,18 @@
                     }
                 });
         };
+
+        $scope.tasks = [];
+
+        $scope.loadTasks = function () {
+            $http.get('/task/fetchall/' + $scope.taskData.parentId).success(function (data) {
+                $scope.tasks = data;
+
+                console.log($scope.tasks)
+            });
+        };
+
+        $scope.loadTasks();
 
 
         //tasks end
