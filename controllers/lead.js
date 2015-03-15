@@ -205,17 +205,13 @@ module.exports = function (app) {
                 contactId = existingLead.contact;
             }
 
-            // populate existing lead data
-            existingLead.title = req.body.title;
             existingLead.subtitle = req.body.subtitle;
             existingLead.state = req.body.state;
-            existingLead.source = req.body.source;
+            existingLead.source.sourceName = req.body.source;
+            existingLead.source.recommendedBy = req.body.recommendedBy;
             existingLead.cv = req.body.files;
-            // social media
-            existingLead.social.linkedin = req.body.linkedin;
-            existingLead.social.goldenline = req.body.goldenline;
-            existingLead.social.facebook = req.body.facebook;
-
+            existingLead.description = req.body.description;
+            existingLead.tags = req.body.tags;
 
             Contact.findById(contactId, function (err, existingContact) {
 
@@ -227,13 +223,14 @@ module.exports = function (app) {
                 existingContact.firstName = req.body.firstName;
                 existingContact.lastName = req.body.lastName;
                 existingContact.email = req.body.email;
-                existingContact.linkedinUrl = req.body.linkedinUrl;
-                existingContact.facebookUrl = req.body.facebookUrl;
                 existingContact.country = req.body.country;
                 existingContact.city = req.body.city;
                 existingContact.address = req.body.address;
                 existingContact.phone = req.body.phone;
-
+                // social media
+                existingContact.social.linkedin = req.body.linkedin;
+                existingContact.social.goldenline = req.body.goldenline;
+                existingContact.social.facebook = req.body.facebook;
 
                 existingContact.save(function (err) {
                     if (err && err.errors) {
@@ -247,40 +244,6 @@ module.exports = function (app) {
 
                     existingLead.contact = existingContact._id;
                     existingLead.save(function (err2, savedLead) {
-
-                        //if (req.files.cvfile.size !== 0) {
-                        //    fs.exists(req.files.cvfile.path, function(exists) {
-                        //        if(exists){
-                        //            var fileName = req.files.cvfile.name;
-                        //            var originalName = req.files.cvfile.originalname;
-                        //            var mimeType = req.files.cvfile.mimetype;
-                        //            // check is allowed
-                        //            if(allowedMimeTypes.indexOf(mimeType) !== -1){
-                        //                var file = new File({
-                        //                    src: fileName,
-                        //                    originalName: originalName,
-                        //                    content : 'Cv',
-                        //                    parentId : savedLead._id
-                        //                });
-                        //
-                        //                file.save(function(err, savedFile) {
-                        //                    if (err) return res.json({ status: err, code: ApiStatus.CODE_ERROR });
-                        //                    savedLead.file = savedFile;
-                        //
-                        //                    savedLead.save(function(err) {
-                        //                        if (err) {
-                        //                            return res.json({ status: err, code: ApiStatus.CODE_ERROR });
-                        //                        }
-                        //                    });
-                        //                });
-                        //
-                        //            }else{
-                        //                return res.json({ status: err, code: ApiStatus.CODE_ERROR });
-                        //            }
-                        //        }
-                        //    });
-                        //}
-
 
                         if (err2 && err2.errors) {
                             err2.errors.status = ApiStatus.STATUS_VALIDATION_ERROR;

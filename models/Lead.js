@@ -8,28 +8,19 @@ var leadSchema = new mongoose.Schema({
 
     createdAt: Date,
     updatedAt: Date,
-
-    title: { type: String, required: true, trim: true }, /** could be name of contract */
     subtitle: { type: String, required: true, trim: true }, /** Stanowisko */
-
     state: {},
     stateHistory: Array,
-
     tags : Array,
     files: [mongoose.Schema.Mixed],
-
     cv : {},
-
-    social : {
-        linkedin : String,
-        goldenline : String,
-        facebook : String
+    source: {
+        sourceName : String,
+        recommendedBy : String
     },
-
-    source: String,
     contact: { type: mongoose.Schema.ObjectId, ref: 'Contact'},
-
-    owner: String
+    owner: String,
+    description : String
 });
 
 
