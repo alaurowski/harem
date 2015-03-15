@@ -1,0 +1,52 @@
+<section id="task-list">
+    <div class="task-list__left col-sm-9">
+        <header class="clearfix">
+            <h2 class="pull-left">{{ title }}</h2>
+
+        </header>
+
+        <div class>
+        <table class="table leads-table">
+            <thead>
+            <th ng-click="changeOrder('completed')"></th>
+            <th ng-click="changeOrder('due')">Due date</th>
+            <th>Content</th>
+            <th ng-click="changeOrder('owner')">Owner</th>
+            <th>Lead</th>
+            </thead>
+            <tbody>
+            <tr ng-repeat="task in tasks | filter:filters.search">
+                <td>
+                    <input type="checkbox" ng-model="task.completed" ng-change="changeStatus(task)"/>
+                </td>
+                <td>
+                    {{ task.due | date }}
+                </td>
+                <td>
+                    {{ task.content }}
+                </td>
+                <td>
+                    {{ task.owner }}
+                </td>
+                <td>
+                    <a href="/#/leads/{{ task.parentId }}" class="btn btn-success">{{ task.extra }}</a>
+                </td>
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <aside class="col-sm-3">
+        <h3>
+            Search
+        </h3>
+
+        <div class="form-group">
+            <input id="leadSearch" type="text" class="form-control" ng-model="filters.search"
+                   placeholder="content, owner">
+        </div>
+
+
+    </aside>
+</section>
