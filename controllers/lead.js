@@ -37,6 +37,22 @@ module.exports = function (app) {
         });
     });
 
+
+    /**
+     * Get available subtitles for autocomplete
+     */
+    app.get('/lead/tags/fetch_all', function(req, res){
+        var query = Lead.find().distinct('tags', function(error, titles) {});
+        var tags = new Array();
+
+        query.exec(function (err, result) {
+            for (var key in result) {
+                tags.push( result[key].text)
+            }
+            return res.json(tags);
+        });
+    });
+
     /**
      * Change lead state in workflow
      */
