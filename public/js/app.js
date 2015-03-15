@@ -605,6 +605,9 @@
         // $scope will allow this to pass between controller and view
         $scope.formData = {};
 
+        $scope.formData.state = 'New';
+        $scope.formData.owner = 'lead';
+
         $scope.cvFileUploaded = function (item, response, status, headers) {
 
             if (!$scope.formData.files) {
