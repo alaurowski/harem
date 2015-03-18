@@ -25,7 +25,7 @@ Lead editing screen
 ![Lead preview screen](https://www.dropbox.com/s/zompc4pug76udzt/Zrzut%20ekranu%202015-03-18%2009.43.27.png?dl=1)
 
 Adding new task to lead
-![Lead tasks screen](https://www.dropbox.com/s/xm4ayped48df1kx/Zrzut%20ekranu%202015-03-18%2009.48.15.png?dl=0)
+![Lead tasks screen](https://www.dropbox.com/s/xm4ayped48df1kx/Zrzut%20ekranu%202015-03-18%2009.48.15.png?dl=1)
 
 Leads filtering screen
 ![Lead list screen](https://www.dropbox.com/s/0xycjum69feot5y/Zrzut%20ekranu%202015-03-18%2009.44.03.png?dl=1)
