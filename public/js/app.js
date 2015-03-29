@@ -680,6 +680,8 @@
 
         $scope.test = [];
 
+
+
         leads.getLead(
             $routeParams.leadId,
             function (data) {
@@ -698,18 +700,33 @@
                 $scope.tags = data.tags;
                 $scope.test = $scope.lead.contact.lastName;
 
+                $scope.formData = {
+                    firstName: $scope.lead.contact.firstName,
+                    lastName: $scope.lead.contact.lastName,
+                    email: $scope.lead.contact.email,
+                    phone: $scope.lead.contact.phone,
+                    country: $scope.lead.contact.country,
+                    subtitle: $scope.lead.subtitle,
+                    linkedin: $scope.lead.social.linkedin,
+                    goldenline: $scope.lead.social.goldenline,
+                    facebook: $scope.lead.social.facebook,
+                    source: $scope.lead.source,
+                    leadId: $scope.lead._id,
+                    state: 'New',
+                    owner: 'lead'
+                }
+
+
             },
             function (data, status) {
-
+                console.log(data);
+                console.log(status);
             }
         );
 
         // create a blank object to hold our form information
         // $scope will allow this to pass between controller and view
-        $scope.formData = {
-            state: 'Edit',
-            owner: 'lead'
-        };
+
 
         $scope.cvFileUploaded = function (item, response, status, headers) {
 
@@ -735,7 +752,7 @@
             $http({
                 method: 'POST',
                 url: '/lead/edit',
-                data: $.param($scope.lead),  // pass in data as strings
+                data: $.param($scope.formData),  // pass in data as strings
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}  // set the headers so angular passing info as form data (not request payload)
             })
                 .success(function (data) {
@@ -754,13 +771,12 @@
                     }
                     else {
                         swal("Error!", 'Something went wrong', "error");
-                        $scope.errorName = data.errors.name;
+                        $scope.message = data.message;
                         //$scope.errorSuperhero = data.errors.superheroAlias;
                     }
                 });
         };
 
-        console.log($scope.lead)
 
     }
     ]);

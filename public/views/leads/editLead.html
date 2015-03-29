@@ -3,17 +3,20 @@
     <hr/>
         <pre>
             {{ lead }}
+            {{ formData }}
         </pre>
     <hr/>
     <div class="pull-left col-lg-9 clearfix">
         <form name="lead_add_form" id="lead_add_form" novalidate ng-submit="lead_add_form.$valid && processForm()">
             <div class="col-md-6">
                 <fieldset>
+                    <input ng-model="formData.leadId" name="leadId" class="form-control"
+                           id="leadId" >
                     <legend>Lead info</legend>
                     <div class="form-group clearfix">
                         <label for="leadFirstname">Firstname</label>
-                        <input ng-model="lead.contact.firstName" name="leadFirstname" type="text" class="form-control"
-                               id="leadFirstname" required="required">
+                        <input ng-model="formData.firstName" name="leadFirstname" type="text" class="form-control"
+                               id="leadFirstname" placeholder="Enter state" required="required">
 
                         <div ng-show="lead_add_form.$submitted || lead_add_form.leadFirstname.$touched">
                 <span ng-show="lead_add_form.leadFirstname.$error.required">
@@ -23,7 +26,7 @@
                     </div>
                     <div class="form-group">
                         <label for="leadLastname">Lastname</label>
-                        <input ng-model="lead.contact.lastName" name="leadLastname" type="text" class="form-control"
+                        <input ng-model="formData.lastName" name="leadLastname" type="text" class="form-control"
                                id="leadLastname"
                                placeholder="Enter state" required="required">
 
@@ -35,7 +38,7 @@
                     </div>
                     <div class="form-group">
                         <label for="leadEmail">Email</label>
-                        <input ng-model="lead.contact.email" name="leadEmail" type="email" class="form-control"
+                        <input ng-model="formData.email" name="leadEmail" type="email" class="form-control"
                                id="leadEmail"
                                placeholder="Enter email" required="required">
 
@@ -50,7 +53,7 @@
                     </div>
                     <div class="form-group">
                         <label for="leadPhone">Phone</label>
-                        <input ng-model="lead.contact.phone" name="leadPhone" type="tel" class="form-control" id="leadPhone"
+                        <input ng-model="formData.phone" name="leadPhone" type="tel" class="form-control" id="leadPhone"
                                placeholder="Enter phone number" required="required">
 
                         <div ng-show="lead_add_form.$submitted || lead_add_form.leadPhone.$touched">
@@ -61,7 +64,7 @@
                     </div>
                     <div class="form-group">
                         <label for="leadCountry">Country</label>
-                        <input ng-model="lead.contact.country" name="leadCountry" type="text" class="form-control"
+                        <input ng-model="formData.country" name="leadCountry" type="text" class="form-control"
                                id="leadCountry"
                                placeholder="Enter lead country" required="required">
 
@@ -74,7 +77,7 @@
                     <hr/>
                     <div class="form-group">
                         <label for="leadSubtitle">Position</label>
-                        <input ng-model="lead.subtitle" name="leadSubtitle" type="text" class="form-control"
+                        <input ng-model="formData.subtitle" name="leadSubtitle" type="text" class="form-control"
                                id="leadSubtitle"
                                placeholder="Enter subtitle" required="required">
 
@@ -91,41 +94,23 @@
                 <fieldset class="lead_social_network">
                     <legend>Social networks</legend>
                     <div class="form-group clearfix">
-                        <label for="linedinProfile" class="pull-left">Linkedin profile</label>
-                        <input ng-model="lead.social.linkedin" name="linedinProfile" type="text" class="form-control"
-                               id="linedinProfile" placeholder="Enter linkedin profile" required="required">
-
-                        <div ng-show="lead_add_form.$submitted || lead_add_form.linedinProfile.$touched">
-                            <span ng-show="lead_add_form.linedinProfile.$error.required">
-                              LinkedIn profile is required
-                            </span>
-                        </div>
+                        <label for="linkedinProfile" class="pull-left">Linkedin profile</label>
+                        <input ng-model="formData.linkedin" name="linkedinProfile" type="text" class="form-control"
+                               id="linkedinProfile" placeholder="Enter linkedin profile">
                     </div>
                     <div class="form-group">
                         <label for="goldenlineProfile">Goldenline profile</label>
-                        <input ng-model="lead.social.goldenline" name="goldenlineProfile" type="text"
+                        <input ng-model="formData.goldenline" name="goldenlineProfile" type="text"
                                class="form-control"
                                id="goldenlineProfile"
-                               placeholder="Enter goldenline profile" required="required">
-
-                        <div ng-show="lead_add_form.$submitted || lead_add_form.goldenlineProfile.$touched">
-                            <span ng-show="lead_add_form.goldenlineProfile.$error.required">
-                              Goldenline profile is required
-                            </span>
-                        </div>
+                               placeholder="Enter goldenline profile">
                     </div>
                     <div class="form-group">
                         <label for="facebookProfile">Facebook profile</label>
-                        <input ng-model="lead.social.facebook" name="facebookProfile" type="text"
+                        <input ng-model="formData.facebook" name="facebookProfile" type="text"
                                class="form-control"
                                id="facebookProfile"
-                               placeholder="Enter facebook profile" required="required">
-
-                        <div ng-show="lead_add_form.$submitted || lead_add_form.facebookProfile.$touched">
-                            <span ng-show="lead_add_form.facebookProfile.$error.required">
-                              Goldenline profile is required
-                            </span>
-                        </div>
+                               placeholder="Enter facebook profile">
                     </div>
 
                 </fieldset>
