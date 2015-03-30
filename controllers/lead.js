@@ -190,15 +190,16 @@ module.exports = function (app) {
      */
     app.post('/lead/edit', function (req, res) {
 
-        Lead.findById(req.body._id, function (err, existingLead) {
+        console.log(req.body);
+        console.log('---------------------------------');
 
+        Lead.findById(req.body._id, function (err, existingLead) {
 
             var existingContact = null;
             if (!existingLead) {
                 existingLead = new Lead();
                 existingLead.createdAt = new Date();
             }
-
 
             var contactId = null;
             if (existingLead.contact) {
@@ -212,6 +213,8 @@ module.exports = function (app) {
             existingLead.cv = req.body.files;
             existingLead.description = req.body.description;
             existingLead.tags = req.body.tags;
+
+            console.log(existingLead);
 
             Contact.findById(contactId, function (err, existingContact) {
 

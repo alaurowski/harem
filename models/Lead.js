@@ -5,7 +5,6 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var leadSchema = new mongoose.Schema({
-
     createdAt: Date,
     updatedAt: Date,
     subtitle: { type: String, required: true, trim: true }, /** Stanowisko */
@@ -15,8 +14,8 @@ var leadSchema = new mongoose.Schema({
     files: [mongoose.Schema.Mixed],
     cv : {},
     source: {
-        sourceName : String,
-        recommendedBy : String
+        sourceName : { type: String, default: '' },
+        recommendedBy : { type: String, default: '' }
     },
     contact: { type: mongoose.Schema.ObjectId, ref: 'Contact'},
     owner: String,
