@@ -2,6 +2,7 @@
     <h1>{{ title }}</h1>
     <hr/>
         <pre>
+            {{ lead }}
             {{ formData }}
         </pre>
     <hr/>
@@ -9,6 +10,8 @@
         <form name="lead_add_form" id="lead_add_form" novalidate ng-submit="lead_add_form.$valid && processForm()">
             <div class="col-md-6">
                 <fieldset>
+                    <input ng-model="formData._id" name="_id" class="form-control" type="hidden"
+                           id="_id" >
                     <legend>Lead info</legend>
                     <div class="form-group clearfix">
                         <label for="leadFirstname">Firstname</label>
@@ -52,6 +55,12 @@
                         <label for="leadPhone">Phone</label>
                         <input ng-model="formData.phone" name="leadPhone" type="tel" class="form-control" id="leadPhone"
                                placeholder="Enter phone number">
+
+                        <div ng-show="lead_add_form.$submitted || lead_add_form.leadPhone.$touched">
+                            <span ng-show="lead_add_form.leadPhone.$error.required">
+                              Phone number is required
+                            </span>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="leadCountry">Country</label>
@@ -85,9 +94,9 @@
                 <fieldset class="lead_social_network">
                     <legend>Social networks</legend>
                     <div class="form-group clearfix">
-                        <label for="linedinProfile" class="pull-left">Linkedin profile</label>
-                        <input ng-model="formData.linkedin" name="linedinProfile" type="text" class="form-control"
-                               id="linedinProfile" placeholder="Enter linkedin profile">
+                        <label for="linkedinProfile" class="pull-left">Linkedin profile</label>
+                        <input ng-model="formData.linkedin" name="linkedinProfile" type="text" class="form-control"
+                               id="linkedinProfile" placeholder="Enter linkedin profile">
                     </div>
                     <div class="form-group">
                         <label for="goldenlineProfile">Goldenline profile</label>

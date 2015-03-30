@@ -62,6 +62,10 @@
                 controller: 'LeadDetailsCtrl',
                 templateUrl: 'views/leads/singleLead.html'
             })
+            .when('/leads/edit/:leadId', {
+                controller: 'leadsEdit',
+                templateUrl: 'views/leads/editLead.html'
+            })
             .when('/tasks', {
                 controller: 'TaskIndexCtrl',
                 templateUrl: 'views/leads/showTasks.html'
@@ -128,8 +132,7 @@
                 console.log(status);
             }
         );
-        console.log('satsadasdasdasdasd');
-        console.log($scope.test);
+        console.log($scope.lead);
 
         /**
          *
@@ -666,6 +669,124 @@
                     }
                 });
         };
+    }
+    ]);
+
+    app.controller('leadsEdit', ['$scope', '$location', '$http','$routeParams', 'FileUploader','leads', function ($scope, $location, $http,$routeParams, FileUploader,leads) {
+
+        $scope.title = 'Leads edit form'
+        $scope.lead = {};
+        $scope.leads = {};
+
+        $scope.test = [];
+
+
+
+        leads.getLead(
+            $routeParams.leadId,
+            function (data) {
+                $scope.lead = data;
+
+                if (!$scope.lead.state.hasOwnProperty('code'))
+                    $scope.lead.state = {code: 'new', name: 'New'};
+
+                if (data.cv) {
+                    $scope.cv = true;
+                } else {
+                    $scope.cv = false;
+                }
+
+                $scope.tags = data.tags;
+                $scope.test = $scope.lead.contact.lastName;
+
+                if (typeof $scope.lead.social === "undefined"){
+                    $scope.lead.social = {
+                        linkedin: '',
+                        goldenline: '',
+                        facebook: ''
+                    }
+                }
+
+                $scope.formData = {
+                    firstName: $scope.lead.contact.firstName,
+                    lastName: $scope.lead.contact.lastName,
+                    email: $scope.lead.contact.email,
+                    phone: $scope.lead.contact.phone,
+                    country: $scope.lead.contact.country,
+                    subtitle: $scope.lead.subtitle,
+                    linkedin: $scope.lead.social.linkedin,
+                    goldenline: $scope.lead.social.goldenline,
+                    facebook: $scope.lead.social.facebook,
+                    source: $scope.lead.source,
+                    _id: $scope.lead._id,
+                    state: 'New',
+                    owner: 'lead'
+                }
+
+
+            },
+            function (data, status) {
+                console.log(data);
+                console.log(status);
+            }
+        );
+
+
+
+        // create a blank object to hold our form information
+        // $scope will allow this to pass between controller and view
+
+
+        $scope.cvFileUploaded = function (item, response, status, headers) {
+
+            if (!$scope.formData.files) {
+                $scope.formData.files = response;
+            }
+        }
+
+        $scope.uploader = new FileUploader({
+
+            url: "/file/insert",
+            alias: "userfile",
+            autoUpload: true,
+            onSuccessItem: $scope.cvFileUploaded
+        }); // file uploader
+
+        $scope.processUpload = function () {
+            console.log('Uploading file ..');
+        }
+
+        // process the form
+        $scope.processForm = function () {
+            $http({
+                method: 'POST',
+                url: '/lead/edit',
+                data: $.param($scope.formData),  // pass in data as strings
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}  // set the headers so angular passing info as form data (not request payload)
+            })
+                .success(function (data) {
+                    console.log(data);
+                    if (data.code === 200) {
+                        // if successful, bind success message to message
+                        $location.path('/leads/' + data.lead_id);
+                        swal({
+                            title: "Good Job!",
+                            text: "You've successfully added lead!",
+                            type: "success",
+                            confirmButtonText: "Close"
+                        });
+
+                        $scope.message = data.message;
+                    }
+                    else {
+                        swal("Error!", 'Something went wrong', "error");
+                        $scope.message = data.message;
+                        //$scope.errorSuperhero = data.errors.superheroAlias;
+                    }
+                });
+        };
+
+
     }
     ]);
 
