@@ -15,6 +15,20 @@ var csv = require("fast-csv");
 module.exports = function (app) {
 
     /**
+     * Delete lead
+     */
+    app.post('/lead/delete/:lead_id', function(req, res) {
+        var leadId = req.params.lead_id;
+        Lead.remove({ _id: leadId }, function(err) {
+            if (err) {
+                return res.json({ status: err, code: ApiStatus.CODE_ERROR });
+            }else{
+                return res.json({ status: ApiStatus.STATUS_SUCCESS, code: ApiStatus.CODE_SUCCESS });
+            }
+        });
+    });
+
+    /**
      * Get available lead states
      */
     app.get('/lead/states', function(req, res){
