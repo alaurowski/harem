@@ -690,7 +690,6 @@
                 if (!$scope.lead.state.hasOwnProperty('code'))
                     $scope.lead.state = {code: 'new', name: 'New'};
 
-
                 if (data.cv) {
                     $scope.cv = true;
                 } else {
@@ -699,6 +698,14 @@
 
                 $scope.tags = data.tags;
                 $scope.test = $scope.lead.contact.lastName;
+
+                if (typeof $scope.lead.social === "undefined"){
+                    $scope.lead.social = {
+                        linkedin: '',
+                        goldenline: '',
+                        facebook: ''
+                    }
+                }
 
                 $scope.formData = {
                     firstName: $scope.lead.contact.firstName,
@@ -711,7 +718,7 @@
                     goldenline: $scope.lead.social.goldenline,
                     facebook: $scope.lead.social.facebook,
                     source: $scope.lead.source,
-                    leadId: $scope.lead._id,
+                    _id: $scope.lead._id,
                     state: 'New',
                     owner: 'lead'
                 }
@@ -723,6 +730,8 @@
                 console.log(status);
             }
         );
+
+
 
         // create a blank object to hold our form information
         // $scope will allow this to pass between controller and view

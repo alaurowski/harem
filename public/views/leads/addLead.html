@@ -51,19 +51,13 @@
                     <div class="form-group">
                         <label for="leadPhone">Phone</label>
                         <input ng-model="formData.phone" name="leadPhone" type="tel" class="form-control" id="leadPhone"
-                               placeholder="Enter phone number" required="required">
-
-                        <div ng-show="lead_add_form.$submitted || lead_add_form.leadPhone.$touched">
-                            <span ng-show="lead_add_form.leadPhone.$error.required">
-                              Phone number is required
-                            </span>
-                        </div>
+                               placeholder="Enter phone number">
                     </div>
                     <div class="form-group">
                         <label for="leadCountry">Country</label>
                         <input ng-model="formData.country" name="leadCountry" type="text" class="form-control"
                                id="leadCountry"
-                               placeholder="Enter lead country" required="required">
+                               placeholder="Enter lead country">
 
                         <div ng-show="lead_add_form.$submitted || lead_add_form.leadCountry.$touched">
                             <span ng-show="lead_add_form.leadCountry.$error.required">
