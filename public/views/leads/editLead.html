@@ -3,7 +3,11 @@
     <hr/>
         <pre>
             {{ lead }}
+            <hr/>
             {{ formData }}
+
+
+
         </pre>
     <hr/>
     <div class="pull-left col-lg-9 clearfix">
@@ -141,7 +145,7 @@
                 <fieldset>
                     <legend>Tags</legend>
                     <div class="form-group">
-                        <tags-input ng-model="formData.tags"></tags-input>
+                        <tags-input ng-model="tags" on-tag-added="saveTags()" on-tag-removed="saveTags()"></tags-input>
                     </div>
                 </fieldset>
                 <fieldset>
@@ -163,6 +167,13 @@
         </form>
     </div>
     <div class="pull-left col-l-3">
+
+        <ul class="files">
+            <li ng-repeat="file in note.files">
+                <a href="/file/download/{{file._id}}">{{ file.originalName }}</a>
+            </li>
+        </ul>
+
         <form name="cv_upload_form" novalidate ng-submit="processUpload()">
             <fieldset>
                 <legend>CV upload</legend>

@@ -679,7 +679,7 @@
         $scope.leads = {};
 
         $scope.test = [];
-
+        $scope.tags = [];
 
 
         leads.getLead(
@@ -717,8 +717,11 @@
                     linkedin: $scope.lead.social.linkedin,
                     goldenline: $scope.lead.social.goldenline,
                     facebook: $scope.lead.social.facebook,
-                    source: $scope.lead.source,
+                    source: $scope.lead.source.sourceName,
+                    recommendedBy: $scope.lead.source.recommendedBy,
+                    description: $scope.lead.description,
                     _id: $scope.lead._id,
+                    tags: $scope.tags,
                     state: 'New',
                     owner: 'lead'
                 }
@@ -731,11 +734,8 @@
             }
         );
 
-
-
         // create a blank object to hold our form information
         // $scope will allow this to pass between controller and view
-
 
         $scope.cvFileUploaded = function (item, response, status, headers) {
 
@@ -785,6 +785,36 @@
                     }
                 });
         };
+
+        $scope.saveTags = function () {
+            $http({
+                method: 'POST',
+                url: '/lead/save_tags',
+                data: {_id: $scope.lead._id, tags: $scope.tags},
+                headers: {'Content-Type': 'application/json'}  // set the headers so angular passing info as form data (not request payload)
+            })
+                .success(function (data) {
+                    console.log(data);
+                    if (data.code === 200) {
+                        $scope.message = data.message;
+                    }
+                    else {
+                        swal("Error!", 'Something went wrong', "error");
+                    }
+                });
+        };
+
+
+        $scope.files = [];
+
+        $scope.loadFile = function () {
+            $http.get('/file/fetch/' + $scope.lead._id).success(function (data) {
+                $scope.files = data;
+            });
+        };
+
+        $scope.loadFile();
+
 
 
     }
