@@ -7,7 +7,14 @@ var File = require('../models/File');
 var fs = require("fs");
 var ApiStatus = require('../models/ApiStatus');
 
-var allowedMimeTypes = new Array("image/png", "image/jpg", "image/jpeg", "image/gif");
+var allowedMimeTypes = new Array(
+    "image/png",
+    "image/jpg",
+    "image/jpeg",
+    "image/gif",
+    "application/msword",
+    "application/pdf"
+);
 
 module.exports = function(app){
 
