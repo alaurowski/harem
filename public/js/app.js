@@ -728,14 +728,6 @@
                 $scope.tags = data.tags;
                 $scope.test = $scope.lead.contact.lastName;
 
-                if (typeof $scope.lead.social === "undefined"){
-                    $scope.lead.social = {
-                        linkedin: '',
-                        goldenline: '',
-                        facebook: ''
-                    }
-                }
-
                 $scope.formData = {
                     firstName: $scope.lead.contact.firstName,
                     lastName: $scope.lead.contact.lastName,
@@ -743,9 +735,9 @@
                     phone: $scope.lead.contact.phone,
                     country: $scope.lead.contact.country,
                     subtitle: $scope.lead.subtitle,
-                    linkedin: $scope.lead.social.linkedin,
-                    goldenline: $scope.lead.social.goldenline,
-                    facebook: $scope.lead.social.facebook,
+                    linkedin: $scope.lead.contact.social.linkedin,
+                    goldenline: $scope.lead.contact.social.goldenline,
+                    facebook: $scope.lead.contact.social.facebook,
                     source: $scope.lead.source.sourceName,
                     recommendedBy: $scope.lead.source.recommendedBy,
                     description: $scope.lead.description,

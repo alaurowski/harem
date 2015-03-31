@@ -1,5 +1,8 @@
 <section class="leadView">
     <h1>{{ title }}</h1>
+    <pre>
+        {{formData}}
+    </pre>
     <div class="pull-left col-lg-9 clearfix">
         <form name="lead_add_form" id="lead_add_form" novalidate ng-submit="lead_add_form.$valid && processForm()">
             <div class="col-md-6">
