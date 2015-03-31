@@ -1,10 +1,6 @@
 <section class="leadView">
     <h1>{{ title }}</h1>
-    <hr/>
-        <pre>
-            {{ formData }}
-        </pre>
-    <hr/>
+
     <div class="pull-left col-lg-9 clearfix">
         <form name="lead_add_form" id="lead_add_form" novalidate ng-submit="lead_add_form.$valid && processForm()">
             <div class="col-md-6">
@@ -153,7 +149,7 @@
             <input ng-model="formData.owner" type="hidden" required="required" value="lead">
         </form>
     </div>
-    <div class="pull-left col-l-3">
+    <div class="pull-left col-lg-3">
         <form name="cv_upload_form" novalidate ng-submit="processUpload()">
             <fieldset>
                 <legend>CV upload</legend>

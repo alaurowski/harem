@@ -808,7 +808,7 @@
         $scope.files = [];
 
         $scope.loadFile = function () {
-            $http.get('/file/fetch/' + $scope.lead._id).success(function (data) {
+            $http.get('/file/download/' + $scope.lead._id).success(function (data) {
                 $scope.files = data;
             });
         };
