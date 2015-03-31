@@ -224,7 +224,7 @@ module.exports = function (app) {
             existingLead.state = req.body.state;
             existingLead.source.sourceName = req.body.source;
             existingLead.source.recommendedBy = req.body.recommendedBy;
-            existingLead.cv = req.body.files;
+            //existingLead.cv = req.body.files;
             existingLead.description = req.body.description;
             existingLead.tags = req.body.tags;
 

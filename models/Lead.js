@@ -11,7 +11,7 @@ var leadSchema = new mongoose.Schema({
     state: {},
     stateHistory: Array,
     tags : Array,
-    files: [mongoose.Schema.Mixed],
+    //files: [mongoose.Schema.Mixed],
     cv : {},
     source: {
         sourceName : { type: String, default: '' },
