@@ -224,11 +224,13 @@ module.exports = function (app) {
             existingLead.state = req.body.state;
             existingLead.source.sourceName = req.body.source;
             existingLead.source.recommendedBy = req.body.recommendedBy;
-            existingLead.cv = req.body.files;
+
+            if(req.body.files !== undefined){
+                existingLead.cv = req.body.files;
+            }
+
             existingLead.description = req.body.description;
             existingLead.tags = req.body.tags;
-
-            console.log(existingLead);
 
             Contact.findById(contactId, function (err, existingContact) {
 
