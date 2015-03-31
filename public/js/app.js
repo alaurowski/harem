@@ -77,7 +77,7 @@
     }]);
 
 
-    app.controller('LeadDetailsCtrl', ['$scope', 'leads', '$routeParams', '$http', 'FileUploader', function ($scope, leads, $routeParams, $http, FileUploader) {
+    app.controller('LeadDetailsCtrl', ['$scope', 'leads','$location', '$routeParams', '$http', 'FileUploader', function ($scope, leads,$location, $routeParams, $http, FileUploader) {
 
         $scope.lead = {};
 
@@ -372,6 +372,35 @@
                     }
                 });
         };
+
+        $scope.deleteTask = function () {
+            swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover this lead!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "No, cancel plx!",
+                closeOnConfirm: true
+            }, function (isConfirm) {
+                if (isConfirm) {
+                    $http.post('/lead/delete/' + $scope.lead._id).success(function (data) {
+                        console.log(data);
+                        if (data.code === 200) {
+                            $.growl.notice({title: "Good Job!", message: "You've successfully removed lead"});
+                            $scope.message = data.message;
+                            $location.path('/');
+                        }
+                        else {
+                            swal("Error!", 'Something went wrong', "error");
+                        }
+                    });
+                } else {
+                }
+            });
+        };
+
 
     }]);
 

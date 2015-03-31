@@ -8,8 +8,6 @@
             <h2>{{lead.contact.firstName}} {{lead.contact.lastName}}</h2>
 
             <p>
-            <select ng-options="state.code as state.name for state in allStates"
-                    ng-model="lead.state.code" ng-change="updateState()"></select>
 
             {{lead.subtitle}}</p>
 
@@ -100,10 +98,18 @@
     </div>
     <aside class="personal-info col-xs-3">
         <header>
-            <a href="/#/leads/edit/{{lead._id}}">
-                <span class="ion-edit"></span>
-                Edit this person
-            </a>
+            <p>
+                <a href="/#/leads/edit/{{lead._id}}">
+                    <span class="ion-edit"></span>
+                    Edit this lead
+                </a>
+            </p>
+            <p>
+                <a href="" class="delete" ng-click="deleteTask()" >
+                    <span class="ion-trash-a"></span>
+                    Delete this lead
+                </a>
+            </p>
 
         </header>
 

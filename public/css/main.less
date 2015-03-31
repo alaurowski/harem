@@ -219,6 +219,13 @@ html, body {
 
 aside.personal-info {
   header {
+      p {
+          margin-bottom: 0;
+      }
+
+      .delete {
+          color: red;
+      }
     a {
       font-size: 16px;
       span {
@@ -227,6 +234,18 @@ aside.personal-info {
         top: 4px;
       }
     }
+      a {
+          display: block;
+          position: relative;
+          padding-left: 40px;
+          height: 40px;
+          line-height: 40px;
+          span {
+              position: absolute;
+              left: 0px;
+              top: 0px;
+          }
+      }
   }
 
   h4 {
