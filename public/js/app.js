@@ -413,10 +413,11 @@
 
         $scope.allStates = [];
         $scope.leadStateNames = [];
+        $scope.pages = [];
 
         $http.get('lead/index').success(function (data) {
-            $scope.users = data;
-
+            $scope.users = data.result;
+            $scope.pages = data.pages;
             if (data.cv) {
                 $scope.cv = true;
             } else {
@@ -425,9 +426,9 @@
         });
 
 
-        $scope.pagination = function(count, quantity){
-            $http.get('/lead/index?'+count+'?'+quantity).success(function (data) {
-                $scope.users = data;
+        $scope.pagination = function(page, items){
+            $http.get('/lead/index/'+page+'/'+items).success(function (data) {
+                $scope.users = data.result;
 
                 if (data.cv) {
                     $scope.cv = true;
