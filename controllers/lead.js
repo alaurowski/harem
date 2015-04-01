@@ -153,10 +153,12 @@ module.exports = function (app) {
     /**
      * List leads
      */
-    app.get('/lead/index', function (req, res) {
+    app.get('/lead/index/:now_page/:items_per_page', function (req, res) {
 
+        var page = req.params.now_page;
+        var perPage = req.params.items_per_page;
 
-        Lead.paginate({}, 1, 1, function(error, pageCount, paginatedResults, itemCount) {
+        Lead.paginate({}, page, perPage, function(error, pageCount, paginatedResults, itemCount) {
             if (error) {
                 console.error(error);
             } else {
