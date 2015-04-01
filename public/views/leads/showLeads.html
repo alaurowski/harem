@@ -5,16 +5,17 @@
 
         </header>
         <hr/>
-        <div class="pull-right">
-            <a class="btn btn-success" href="/#/">
+        <div>
+            <a class="btn btn-success pull-right" href="/#/">
                 Leads list
             </a>
-            <a class="btn btn-success" href="/#/leads/add">
+            <a class="btn btn-success pull-right" href="/#/leads/add">
                 Leads add
             </a>
+            <div class="clearfix"></div>
         </div>
-        <div class>
-            <h3>Active records: {{ (users | filter:filters.search | filter:{state: filters.state}).length }}</h3>
+        <div>
+            <!--<h3>Active records: {{ (users | filter:filters.search | filter:{state: filters.state}).length }}</h3>-->
         </div>
         <hr/>
         <table class="table leads-table">
@@ -33,7 +34,7 @@
                 <i ng-show="isOrderedBy('contact.phone')" ng-class="{'ion-arrow-up-b': !isOrderedReverse(), 'ion-arrow-down-b':isOrderedReverse()}"></i>
             </th>
             <th ng-click="changeOrder('subtitle')">Position
-                <i ng-show="isOrderedBy('contact.subtitle')" ng-class="{'ion-arrow-up-b': !isOrderedReverse(), 'ion-arrow-down-b':isOrderedReverse()}"></i>
+                <i ng-show="isOrderedBy('subtitle')" ng-class="{'ion-arrow-up-b': !isOrderedReverse(), 'ion-arrow-down-b':isOrderedReverse()}"></i>
             </th>
             <th ng-click="changeOrder('state.name')">State
                 <i ng-show="isOrderedBy('state.name')" ng-class="{'ion-arrow-up-b': !isOrderedReverse(), 'ion-arrow-down-b':isOrderedReverse()}"></i>
