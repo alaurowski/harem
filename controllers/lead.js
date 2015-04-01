@@ -11,6 +11,8 @@ var Contact = require('../models/Contact');
 var mongoose = require('mongoose');
 var fs = require("fs");
 var csv = require("fast-csv");
+var mongoosePaginate = require("mongoose-paginate");
+Schema = mongoose.Schema;
 
 module.exports = function (app) {
 
@@ -154,11 +156,26 @@ module.exports = function (app) {
     app.get('/lead/index', function (req, res) {
 
 
-        var filter = {}; // TODO: add filtering capabilities
-        var query = Lead.find(filter, 'contact title subtitle source state createdAt modifiedAt owner tags social', {}).populate('contact');
-        query.exec(function (err, docs) {
-            res.json(docs);
-        });
+        Lead.paginate({}, 1, 1, function(error, pageCount, paginatedResults, itemCount) {
+            if (error) {
+                console.error(error);
+            } else {
+
+                var results = {};
+                results.pages = pageCount;
+                results.result = paginatedResults;
+
+                console.log(results);
+
+                res.json(results);
+            }
+        }, {  populate: 'contact'});
+
+        //var filter = {}; // TODO: add filtering capabilities
+        //var query = Lead.find(filter, 'contact title subtitle source state createdAt modifiedAt owner tags social', {}).populate('contact');
+        //query.exec(function (err, docs) {
+        //    res.json(docs);
+        //});
     });
 
     /**
