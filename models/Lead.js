@@ -3,6 +3,7 @@
  */
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var mongoosePaginate = require("mongoose-paginate");
 
 var leadSchema = new mongoose.Schema({
     createdAt: Date,
@@ -22,5 +23,5 @@ var leadSchema = new mongoose.Schema({
     description : String
 });
 
-
+leadSchema.plugin( mongoosePaginate );
 module.exports = mongoose.model('Lead', leadSchema);
