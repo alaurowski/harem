@@ -29,14 +29,14 @@
             <th ng-click="changeOrder('contact.email')">Email
                 <i ng-show="isOrderedBy('contact.email')" ng-class="{'ion-arrow-up-b': !isOrderedReverse(), 'ion-arrow-down-b':isOrderedReverse()}"></i>
             </th>
-            <th ng-click="changeOrder('phone')">Phone
+            <th ng-click="changeOrder('contact.phone')">Phone
                 <i ng-show="isOrderedBy('contact.phone')" ng-class="{'ion-arrow-up-b': !isOrderedReverse(), 'ion-arrow-down-b':isOrderedReverse()}"></i>
             </th>
             <th ng-click="changeOrder('subtitle')">Position
                 <i ng-show="isOrderedBy('contact.subtitle')" ng-class="{'ion-arrow-up-b': !isOrderedReverse(), 'ion-arrow-down-b':isOrderedReverse()}"></i>
             </th>
-            <th ng-click="changeOrder('state')">State
-                <i ng-show="isOrderedBy('contact.state')" ng-class="{'ion-arrow-up-b': !isOrderedReverse(), 'ion-arrow-down-b':isOrderedReverse()}"></i>
+            <th ng-click="changeOrder('state.name')">State
+                <i ng-show="isOrderedBy('state.name')" ng-class="{'ion-arrow-up-b': !isOrderedReverse(), 'ion-arrow-down-b':isOrderedReverse()}"></i>
             </th>
             <!--<th>Socials</th>-->
             <th>Details</th>
@@ -62,7 +62,7 @@
                     {{ user.subtitle }}
                 </td>
                 <td>
-                    {{ user.state}}
+                    {{ user.state.name}}
                 </td>
                 <!--<td class="social-links-icons">
                     <a href="{{ user.contact.social.linkedin }}" target="_blank" ng-show="user.contact.social.facebook">
