@@ -5,11 +5,8 @@
         </header>
         <hr/>
         <div>
-            <a class="btn btn-success pull-right" href="/#/">
-                Leads list
-            </a>
-            <a class="btn btn-success pull-right" href="/#/leads/add">
-                Leads add
+            <a class="btn btn-success" href="/#/leads/add">
+                Add lead
             </a>
             <div class="clearfix"></div>
         </div>
@@ -38,7 +35,7 @@
             <th ng-click="changeOrder('state.name')">State
                 <i ng-show="isOrderedBy('state.name')" ng-class="{'ion-arrow-up-b': !isOrderedReverse(), 'ion-arrow-down-b':isOrderedReverse()}"></i>
             </th>
-            <!--<th>Socials</th>-->
+            <th>Socials</th>
             <th>Details</th>
             </thead>
             <tbody>
@@ -64,7 +61,7 @@
                 <td>
                     {{ user.state.name}}
                 </td>
-                <!--<td class="social-links-icons">
+                <td class="social-links-icons">
                     <a href="{{ user.contact.social.linkedin }}" target="_blank" ng-show="user.contact.social.facebook">
                         <i class="ion-social-linkedin"></i>
                     </a>
@@ -74,7 +71,7 @@
                     <a href="{{ user.contact.social.facebook }}" target="_blank" ng-show="user.contact.social.facebook">
                         <i class="ion-social-facebook"></i>
                     </a>
-                </td>-->
+                </td>
                 <td>
                     <a href="/#/leads/{{ user._id }}" class="btn btn-success">Details</a>
                 </td>
@@ -105,12 +102,6 @@
 
     <aside class="col-sm-3">
 
-        <header class="clearfix">
-            <h2>
-                Menu
-            </h2>
-        </header>
-        <hr/>
         <h3>
             Search
         </h3>
