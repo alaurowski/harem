@@ -424,6 +424,20 @@
             }
         });
 
+
+        $scope.pagination = function(count, quantity){
+            $http.get('/lead/index?'+count+'?'+quantity).success(function (data) {
+                $scope.users = data;
+
+                if (data.cv) {
+                    $scope.cv = true;
+                } else {
+                    $scope.cv = false;
+                }
+            });
+        };
+
+
         //States
         $scope.loadStates = function () {
             $http.get('/lead/states').success(function (data) {
