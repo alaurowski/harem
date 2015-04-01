@@ -138,12 +138,10 @@
          *
          */
         $scope.noteFileUploaded = function (item, response, status, headers) {
-
             if (!$scope.noteData.files) {
                 $scope.noteData.files = new Array();
-
-                $scope.noteData.files.push(response);
             }
+            $scope.noteData.files.push(response);
         }
 
         $scope.uploader = new FileUploader({

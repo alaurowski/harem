@@ -2,6 +2,7 @@
  * Created by pkarwatka on 13.03.15.
  */
 var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
 var noteSchema = new mongoose.Schema({
 
@@ -11,7 +12,7 @@ var noteSchema = new mongoose.Schema({
     content: String,
     type: String,
 
-    files: {},
+    files: [Schema.Types.Mixed],
 
     parentId: { type: mongoose.Schema.ObjectId },
     parentType: String,
