@@ -579,7 +579,15 @@
                 $scope.orderByColumn = columnName;
                 $scope.orderByDir = false;
             }
-        }
+        };
+
+        $scope.isOrderedBy = function (columnName) {
+            return ($scope.orderByColumn == columnName);
+        };
+
+        $scope.isOrderedReverse = function () {
+            return !$scope.orderByDir;
+        };
 
 
     }]);

@@ -20,13 +20,23 @@
         <table class="table leads-table">
             <thead>
             <th ng-click="changeOrder('$index')">ID</th>
-            <th ng-click="changeOrder('contact.firstName')">Firstname</th>
-            <th ng-click="changeOrder('contact.lastName')">Lastname</th>
-            <th ng-click="changeOrder('contact.email')">Email</th>
-            <th ng-click="changeOrder('phone')">Phone</th>
-            <th ng-click="changeOrder('subtitle')">Position</th>
+            <th ng-click="changeOrder('contact.firstName')">Firstname
+                <i ng-show="isOrderedBy('contact.firstName')" ng-class="{'ion-arrow-up-b': !isOrderedReverse(), 'ion-arrow-down-b':isOrderedReverse()}"></i>
+            </th>
+            <th ng-click="changeOrder('contact.lastName')">Lastname
+                <i ng-show="isOrderedBy('contact.lastName')" ng-class="{'ion-arrow-up-b': !isOrderedReverse(), 'ion-arrow-down-b':isOrderedReverse()}"></i>
+            </th>
+            <th ng-click="changeOrder('contact.email')">Email
+                <i ng-show="isOrderedBy('contact.email')" ng-class="{'ion-arrow-up-b': !isOrderedReverse(), 'ion-arrow-down-b':isOrderedReverse()}"></i>
+            </th>
+            <th ng-click="changeOrder('phone')">Phone
+                <i ng-show="isOrderedBy('contact.phone')" ng-class="{'ion-arrow-up-b': !isOrderedReverse(), 'ion-arrow-down-b':isOrderedReverse()}"></i>
+            </th>
+            <th ng-click="changeOrder('subtitle')">Position
+                <i ng-show="isOrderedBy('contact.subtitle')" ng-class="{'ion-arrow-up-b': !isOrderedReverse(), 'ion-arrow-down-b':isOrderedReverse()}"></i>
+            </th>
             <!--<th ng-click="changeOrder('state')">State</th>-->
-            <th ng-click="changeOrder('source')">Socials</th>
+            <th>Socials</th>
             <th>Details</th>
             </thead>
             <tbody>
