@@ -8,8 +8,10 @@
             <h2>{{lead.contact.firstName}} {{lead.contact.lastName}}</h2>
 
             <p>
+                <select ng-options="state.code as state.name for state in allStates"
+                        ng-model="lead.state.code" ng-change="updateState()"></select>
 
-            {{lead.subtitle}}</p>
+                {{lead.subtitle}}</p>
 
             <p ng-show="cv"><a href="/file/download/{{ lead.cv._id }}">{{ lead.cv.originalName }}</a></p>
 
