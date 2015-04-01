@@ -11,7 +11,7 @@ var noteSchema = new mongoose.Schema({
     content: String,
     type: String,
 
-    files: [mongoose.Schema.Mixed],
+    files: {},
 
     parentId: { type: mongoose.Schema.ObjectId },
     parentType: String,
