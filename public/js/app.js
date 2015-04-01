@@ -415,7 +415,7 @@
         $scope.leadStateNames = [];
         $scope.pages = [];
 
-        $http.get('lead/index').success(function (data) {
+        $http.get('lead/index/1/10').success(function (data) {
             $scope.users = data.result;
             $scope.pages = data.pages;
             if (data.cv) {
@@ -429,12 +429,8 @@
         $scope.pagination = function(page, items){
             $http.get('/lead/index/'+page+'/'+items).success(function (data) {
                 $scope.users = data.result;
-
-                if (data.cv) {
-                    $scope.cv = true;
-                } else {
-                    $scope.cv = false;
-                }
+                $scope.pages = data.pages;
+                console.log(data.result);
             });
         };
 
