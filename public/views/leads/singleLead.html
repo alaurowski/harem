@@ -190,16 +190,16 @@
             </ul>
         </div>
 
-        <div class="personal-info-details socials" ng-show="lead.social">
+        <div class="personal-info-details socials" ng-show="lead.contact.social">
             <h4>Socials</h4>
             <p>
-                <a href="{{ lead.contact.social.linkedin }}" target="_blank" ng-show="lead.social.linkedin">
+                <a href="{{ lead.contact.social.linkedin }}" target="_blank" ng-show="lead.contact.social.linkedin">
                     <i class="ion-social-linkedin"></i>
                 </a>
-                <a href="{{ lead.contact.social.goldenline }}" target="_blank" ng-show="lead.social.goldenline">
+                <a href="{{ lead.contact.social.goldenline }}" target="_blank" ng-show="lead.contact.social.linkedin">
                     GL
                 </a>
-                <a href="{{ lead.contact.social.facebook }}" target="_blank" ng-show="lead.social.facebook">
+                <a href="{{ lead.contact.social.facebook }}" target="_blank" ng-show="lead.contact.social.linkedin">
                     <i class="ion-social-facebook"></i>
                 </a>
             </p>
