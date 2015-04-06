@@ -17,6 +17,10 @@
             <!--<h3>Active records: {{ (users | filter:filters.search | filter:{state: filters.state}).length }}</h3>-->
         </div>
         <hr/>
+        <div class="per-page">
+            Show <input class="form-control" type="text" ng-model='perPage' ng-change="loadLeads()"/> leads per page
+        </div>
+
         <table class="table leads-table">
             <thead>
             <th ng-click="changeOrder('$index')">ID</th>
@@ -81,24 +85,24 @@
             </tr>
             </tbody>
         </table>
-        {{pages}}
-        <nav class="pagination-nav">
+
+
+
+        <nav class="pagination-nav" ng-show="pages > 1">
             <ul class="pagination">
-                <!--<li>
-                    <a href="#" aria-label="Previous">
+                <li ng-hide="activePage == 1">
+                    <a href="" aria-label="Previous"  ng-click="pagination(activePage - 1, perPage)">
                         <span aria-hidden="true">«</span>
                     </a>
-                </li>-->
-                <li><a ng-click="pagination(1,1)">1</a></li>
-                <li><a ng-click="pagination(2,1)">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">4</a></li>
-                <li><a href="#">5</a></li>
-                <!--<li>
-                    <a href="#" aria-label="Next">
+                </li>
+                <li ng-repeat="range in ranges" ng-class="{ 'active': range == activePage}">
+                    <a ng-click="pagination((range),(perPage))">{{range}}</a>
+                </li>
+                <li ng-hide="activePage == pages">
+                    <a href="" aria-label="Next"  ng-click="pagination(activePage + 1, perPage)">
                         <span aria-hidden="true">»</span>
                     </a>
-                </li>-->
+                </li>
             </ul>
         </nav>
     </div>

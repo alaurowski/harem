@@ -402,7 +402,7 @@
 
     }]);
 
-    app.controller('leadsIndex', ['$scope', '$http', function ($scope, $http) {
+    app.controller('leadsIndex', ['$scope', '$http','$location', function ($scope, $http, $location) {
 
         $scope.title = 'Leads list';
 
@@ -415,22 +415,42 @@
         $scope.leadStateNames = [];
         $scope.pages = [];
 
-        $http.get('lead/index/1/10').success(function (data) {
-            $scope.users = data.result;
-            $scope.pages = data.pages;
-            if (data.cv) {
-                $scope.cv = true;
-            } else {
-                $scope.cv = false;
-            }
-        });
+        $scope.perPage = 10;
+        $scope.currentPage = 1;
 
+        $scope.loadLeads = function () {
+            $http.get('lead/index/'+$scope.currentPage+'/'+$scope.perPage).success(function (data) {
+                $scope.users = data.result;
+                $scope.pages = data.pages;
+                if (data.cv) {
+                    $scope.cv = true;
+                } else {
+                    $scope.cv = false;
+                }
+
+                var ranges = [];
+                for(var i=0;i<$scope.pages;i++) {
+                    ranges.push(i+1);
+                }
+                $scope.ranges = ranges;
+
+                $scope.activePage = $scope.currentPage;
+
+            });
+        }
+
+        $scope.loadLeads();
+
+
+        //pagination
 
         $scope.pagination = function(page, items){
             $http.get('/lead/index/'+page+'/'+items).success(function (data) {
                 $scope.users = data.result;
                 $scope.pages = data.pages;
-                console.log(data.result);
+
+                $scope.activePage = page;
+
             });
         };
 
