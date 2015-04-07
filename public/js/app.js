@@ -435,28 +435,6 @@
         $scope.searchQuery = '';
 
         $scope.loadLeads = function () {
-            $http.get('lead/index/'+$scope.currentPage+'/'+$scope.perPage).success(function (data) {
-                $scope.users = data.result;
-                $scope.pages = data.pages;
-                if (data.cv) {
-                    $scope.cv = true;
-                } else {
-                    $scope.cv = false;
-                }
-
-                var ranges = [];
-                for(var i=0;i<$scope.pages;i++) {
-                    ranges.push(i+1);
-                }
-                $scope.ranges = ranges;
-
-                $scope.activePage = $scope.currentPage;
-
-            });
-        }
-        $scope.loadLeads();
-
-        $scope.searchLeads = function(){
             $scope.currentPage = 1;
             $http.get('lead/index/'+$scope.currentPage+'/'+$scope.perPage+'/'+$scope.searchQuery).success(function (data) {
                 $scope.users = data.result;
@@ -477,11 +455,12 @@
 
             });
         }
+        $scope.loadLeads();
 
         //pagination
 
         $scope.pagination = function(page, items){
-            $http.get('/lead/index/'+page+'/'+items).success(function (data) {
+            $http.get('/lead/index/'+page+'/'+items+'/'+$scope.searchQuery).success(function (data) {
                 $scope.users = data.result;
                 $scope.pages = data.pages;
 
