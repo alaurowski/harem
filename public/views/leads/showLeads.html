@@ -131,20 +131,25 @@
             <!--<input id="leadSearch" type="text" class="form-control" ng-model="filters.search"
                    placeholder="name, position, email...">-->
         </div>
-        <hr/>
-        <h3>
-            States filter
-        </h3>
-        <ul>
-            <div>
-                <div ng-repeat="leadState in leadStatesGroup">
-                    <label><b><input type="checkbox" ng-model="useLeadStates[leadState]"/>{{lsName(leadState)}}</b>
-                        <span>({{ (filteredUsers | filter:query | filter:count('state', 'code', leadState)).length }})</span>
-                    </label>
-                </div>
-            </div>
 
-        </ul>
+
+        <div class="status-container">
+            <hr/>
+            <h3>
+                States filter
+            </h3>
+            <ul>
+                <div>
+                    <div ng-repeat="status in statuses">
+                        <label><b><input type="checkbox" ng-model="useLeadStates[leadState]"/>{{lsName(leadState)}}</b>
+                            <span>({{ (filteredUsers | filter:query | filter:count('state', 'code', leadState)).length }})</span>
+                        </label>
+                    </div>
+                </div>
+
+            </ul>
+        </div>
+
 
         <hr/>
         <h3>

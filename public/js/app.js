@@ -639,6 +639,18 @@
         };
 
 
+        // states
+
+        $scope.tags = [];
+
+        $scope.loadTags = function () {
+            $http.get('/lead/tags/fetch_all').success(function (data) {
+                $scope.tags = data;
+            });
+        };
+
+        $scope.loadTags();
+
     }]);
 
 
