@@ -120,8 +120,10 @@
         </h3>
 
         <div class="form-group">
-            <input id="leadSearch" type="text" class="form-control" ng-model="filters.search"
+            <input id="leadSearch" type="text" class="form-control" ng-model="searchQuery" ng-enter="searchLeads()"
                    placeholder="name, position, email...">
+            <!--<input id="leadSearch" type="text" class="form-control" ng-model="filters.search"
+                   placeholder="name, position, email...">-->
         </div>
         <hr/>
         <h3>

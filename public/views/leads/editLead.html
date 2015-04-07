@@ -125,11 +125,14 @@
                             </span>
                         </div>
                     </div>
-                    <div class="form-group clearfix">
+
+                    <div class="form-group clearfix" ng-show="formData.source=='Recommended'">
                         <label for="leadFirstname" class="pull-left">Recommended by</label>
                         <input ng-model="formData.recommendedBy" name="referencedName" type="text" class="form-control"
                                id="referencedName" placeholder="Enter state">
                     </div>
+
+
                 </fieldset>
             </div>
             <div class="col-md-12">
