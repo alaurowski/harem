@@ -433,7 +433,7 @@
         $scope.currentPage = 1;
 
         $scope.searchQuery = '';
-
+        $scope.emptySearchResults = false;
         $scope.loadLeads = function () {
             $scope.currentPage = 1;
             $http.get('lead/index/'+$scope.currentPage+'/'+$scope.perPage+'/'+$scope.searchQuery).success(function (data) {
@@ -443,6 +443,11 @@
                     $scope.cv = true;
                 } else {
                     $scope.cv = false;
+                }
+                if($scope.users.length < 1){
+                    $scope.emptySearchResults = true;
+                }else{
+                    $scope.emptySearchResults = false;
                 }
 
                 var ranges = [];
