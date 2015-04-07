@@ -158,26 +158,21 @@ module.exports = function (app) {
         var page = req.params.now_page;
         var perPage = req.params.items_per_page;
 
-        Lead.paginate({}, page, perPage, function(error, pageCount, paginatedResults, itemCount) {
+        Lead.paginate({}, page, perPage, function (error, pageCount, paginatedResults, itemCount) {
             if (error) {
-                console.error(error);
+                if (error && error.errors) {
+                    error.errors.status = ApiStatus.STATUS_VALIDATION_ERROR;
+                    error.errors.code = ApiStatus.CODE_VALIDATION_ERROR;
+                    res.json(error.errors);
+                    return;
+                }
             } else {
-
                 var results = {};
                 results.pages = pageCount;
                 results.result = paginatedResults;
-
-                console.log(results);
-
                 res.json(results);
             }
-        }, {  populate: 'contact'});
-
-        //var filter = {}; // TODO: add filtering capabilities
-        //var query = Lead.find(filter, 'contact title subtitle source state createdAt modifiedAt owner tags social', {}).populate('contact');
-        //query.exec(function (err, docs) {
-        //    res.json(docs);
-        //});
+        }, {populate: 'contact'});
     });
 
     /**
