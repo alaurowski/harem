@@ -153,12 +153,13 @@ module.exports = function (app) {
     /**
      * List leads
      */
-    app.get('/lead/index/:now_page/:items_per_page', function (req, res) {
+    app.get('/lead/index/:now_page/:items_per_page/:q?', function (req, res) {
 
         var page = req.params.now_page;
         var perPage = req.params.items_per_page;
+        var q = req.params.q;
 
-        Lead.paginate({}, page, perPage, function (error, pageCount, paginatedResults, itemCount) {
+        Lead.paginate({'contact.firstName': q}, page, perPage, function (error, pageCount, paginatedResults, itemCount) {
             if (error) {
                 if (error && error.errors) {
                     error.errors.status = ApiStatus.STATUS_VALIDATION_ERROR;
