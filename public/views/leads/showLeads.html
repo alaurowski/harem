@@ -133,38 +133,34 @@
         </div>
 
 
-        <div class="status-container">
+        <div class="status-container" ng-show="statesLength">
             <hr/>
             <h3>
                 States filter
             </h3>
             <ul>
-                <div>
-                    <div ng-repeat="status in statuses">
-                        <label><b><input type="checkbox" ng-model="useLeadStates[leadState]"/>{{lsName(leadState)}}</b>
-                            <span>({{ (filteredUsers | filter:query | filter:count('state', 'code', leadState)).length }})</span>
+                <ul>
+                    <li ng-repeat="state in leadsStates">
+                        <label><input type="checkbox" value="{{state}}"/>{{state}}</b>
                         </label>
-                    </div>
-                </div>
+                    </li>
+                </ul>
 
             </ul>
         </div>
 
-
-        <hr/>
-        <h3>
-            Tags filter
-        </h3>
-        <ul>
-            <div>
-                <div ng-repeat="tag in tagsGroup">
-                    <label><b><input type="checkbox" ng-model="useTags[tag]"/>{{tag}}</b>
-                        <span>({{ (filteredUsers | filter:query | filter:countArray('tags', 'text', tag)).length }})</span>
+        <div class="tags-container" ng-show="tagsLength">
+            <hr/>
+            <h3>
+                Tags filter
+            </h3>
+            <ul>
+                <li ng-repeat="tag in leadsTags">
+                    <label><input type="checkbox" value="{{tag}}"/>{{tag}}</b>
                     </label>
-                </div>
-            </div>
-
-        </ul>
+                </li>
+            </ul>
+        </div>
 
     </aside>
 </section>

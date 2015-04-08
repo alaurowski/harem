@@ -641,11 +641,38 @@
 
         // states
 
-        $scope.tags = [];
+        $scope.statesLength = false;
+        $scope.leadsStates = [];
+
+        $scope.loadTags = function () {
+            $http.get('/lead/states').success(function (data) {
+                $scope.leadsStates = data;
+
+                if($scope.leadsStates.length < 1){
+                    $scope.statesLength = false;
+                }else{
+                    $scope.statesLength = true;
+                }
+            });
+        };
+
+        $scope.loadTags();
+
+        //tags
+
+        $scope.leadsTags = [];
+        $scope.tagsLength = false;
 
         $scope.loadTags = function () {
             $http.get('/lead/tags/fetch_all').success(function (data) {
-                $scope.tags = data;
+                $scope.leadsTags = data;
+
+                if($scope.leadsTags.length < 1){
+                    $scope.tagsLength = false;
+                }else{
+                    $scope.tagsLength = true;
+                }
+
             });
         };
 
