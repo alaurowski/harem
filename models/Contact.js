@@ -8,7 +8,7 @@ var contactSchema = new mongoose.Schema({
     updatedAt: Date,
     firstName: { type: String, required: true, trim: true},
     lastName: { type: String, required: true, trim: true },
-    email: { type: String, required: true, trim: true,  match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address'] },
+    email: { type: String, required: false, trim: true,  match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address'] },
     phone: { type: String, required: false, trim: true },
     social : {
         linkedin : { type: String, default: '' },
