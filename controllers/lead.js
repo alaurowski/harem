@@ -157,7 +157,11 @@ module.exports = function (app) {
     app.post('/lead/index/:now_page/:items_per_page', function (req, res) {
 
         var page = parseInt(req.params.now_page);
+        page -= 1;
+
         var perPage = parseInt(req.params.items_per_page);
+
+        console.log(page, perPage);
 
         var search =  new RegExp(req.body.q_search, 'i');
         var statusFilter =  new RegExp(req.body.q_status, 'i');
@@ -166,6 +170,7 @@ module.exports = function (app) {
         console.log(page, perPage, req.body.q_search, req.body.q_status, req.body.q_filter);
 
         var LeadQuery = Lead.find()
+            .populate('contact')
             .skip(page * perPage)
             .limit(perPage)
             .sort({ createdAt: 'desc'});
