@@ -436,7 +436,7 @@
         $scope.emptySearchResults = false;
         $scope.loadLeads = function () {
             $scope.currentPage = 1;
-            $http.get('lead/index/'+$scope.currentPage+'/'+$scope.perPage+'/'+$scope.searchQuery).success(function (data) {
+            $http.post('lead/index/'+$scope.currentPage+'/'+$scope.perPage+'/'+$scope.searchQuery).success(function (data) {
                 $scope.users = data.result;
                 $scope.pages = data.pages;
                 if (data.cv) {
@@ -465,7 +465,7 @@
         //pagination
 
         $scope.pagination = function(page, items){
-            $http.get('/lead/index/'+page+'/'+items+'/'+$scope.searchQuery).success(function (data) {
+            $http.post('/lead/index/'+page+'/'+items+'/'+$scope.searchQuery).success(function (data) {
                 $scope.users = data.result;
                 $scope.pages = data.pages;
 

@@ -5,11 +5,8 @@
         </header>
         <hr/>
         <div>
-            <a class="btn btn-success pull-right" href="/#/">
-                Leads list
-            </a>
             <a class="btn btn-success pull-right" href="/#/leads/add">
-                Leads add
+                Leads add <span class="ion-person-add"></span>
             </a>
             <div class="clearfix"></div>
         </div>
@@ -45,7 +42,7 @@
                     <i ng-show="isOrderedBy('state.name')" ng-class="{'ion-arrow-up-b': !isOrderedReverse(), 'ion-arrow-down-b':isOrderedReverse()}"></i>
                 </th>
                 <!--<th>Socials</th>-->
-                <th>Details</th>
+                <th class="text-center" width="100px">Details</th>
                 </thead>
                 <tbody>
                 <tr ng-repeat="user in filteredUsers | filter:filters.search | filter:{'state.code': filters.state}  | orderBy: orderByColumn : orderByDir">
@@ -53,19 +50,19 @@
                         {{ $index + 1 }}
                     </td>
                     <td>
-                        {{ user.contact.firstName }}
+                        {{ user.contact.firstName | limitTo:10}}{{user.contact.firstName.length > 10 ? '...' : ''}}
                     </td>
                     <td>
-                        {{ user.contact.lastName }}
+                        {{ user.contact.lastName | limitTo:10}}{{user.contact.lastName.length > 10 ? '...' : ''}}
                     </td>
                     <td>
-                        {{ user.contact.email }}
+                        {{ user.contact.email | limitTo:12}}{{user.contact.email.length > 12 ? '...' : ''}}
                     </td>
                     <td>
                         {{ user.contact.phone }}
                     </td>
                     <td>
-                        {{ user.subtitle }}
+                        {{ user.subtitle | limitTo:10}}{{user.subtitle.length > 10 ? '...' : ''}}
                     </td>
                     <td>
                         {{ user.state.name}}
@@ -81,8 +78,8 @@
                             <i class="ion-social-facebook"></i>
                         </a>
                     </td>-->
-                    <td>
-                        <a href="/#/leads/{{ user._id }}" class="btn btn-success">Details</a>
+                    <td class="text-right">
+                        <a href="/#/leads/{{ user._id }}" class="btn btn-success">Details <span class="ion-clipboard"></span></a>
                     </td>
                 </tr>
                 </tbody>
@@ -141,8 +138,9 @@
             <ul>
                 <ul>
                     <li ng-repeat="state in leadsStates">
-                        <label><input type="checkbox" value="{{state}}"/>{{state}}</b>
-                        </label>
+                        <div class="checkbox">
+                            <input id="state-{{state}}" type="checkbox" value="{{state}}"/><label for="state-{{state}}">{{state}}</label>
+                        </div>
                     </li>
                 </ul>
 
@@ -156,8 +154,9 @@
             </h3>
             <ul>
                 <li ng-repeat="tag in leadsTags">
-                    <label><input type="checkbox" value="{{tag}}"/>{{tag}}</b>
-                    </label>
+                    <div class="checkbox">
+                        <input id="tag-{{tag}}" type="checkbox" value="{{tag}}"/><label for="tag-{{tag}}">{{tag}}</label>
+                    </div>
                 </li>
             </ul>
         </div>
