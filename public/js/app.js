@@ -431,8 +431,20 @@
 
         $scope.perPage = 10;
         $scope.currentPage = 1;
-
         $scope.searchQuery = '';
+
+
+        $scope.selectedTags = [];
+        $scope.toggleTagSelection = function toggleTagSelection(tag) {
+            var idx = $scope.selectedTags.indexOf(tag);
+            if (idx > -1) {
+                $scope.selectedTags.splice(idx, 1);
+            }
+            else {
+                $scope.selectedTags.push(tag);
+            }
+        };
+
         $scope.emptySearchResults = false;
         $scope.loadLeads = function () {
             $scope.currentPage = 1;

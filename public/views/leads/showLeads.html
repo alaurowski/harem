@@ -147,6 +147,8 @@
             </ul>
         </div>
 
+
+
         <div class="tags-container" ng-show="tagsLength">
             <hr/>
             <h3>
@@ -155,10 +157,16 @@
             <ul>
                 <li ng-repeat="tag in leadsTags">
                     <div class="checkbox">
-                        <input id="tag-{{tag}}" type="checkbox" value="{{tag}}"/><label for="tag-{{tag}}">{{tag}}</label>
+                        <input id="tag-{{tag}}"
+                               type="checkbox"
+                               value="{{tag}}"
+                               ng-checked="selectedTags.indexOf(tag) > -1"
+                               ng-click="toggleTagSelection(tag)"
+                                /><label for="tag-{{tag}}">{{tag}}</label>
                     </div>
                 </li>
             </ul>
+            {{selectedTags}}
         </div>
 
     </aside>
