@@ -11,7 +11,8 @@ var Contact = require('../models/Contact');
 var mongoose = require('mongoose');
 var fs = require("fs");
 var csv = require("fast-csv");
-var mongoosePaginate = require("mongoose-paginate");
+var bodyParser = require('body-parser')
+
 Schema = mongoose.Schema;
 
 module.exports = function (app) {
@@ -153,27 +154,64 @@ module.exports = function (app) {
     /**
      * List leads
      */
-    app.get('/lead/index/:now_page/:items_per_page/:q?', function (req, res) {
+    app.post('/lead/index/:now_page/:items_per_page', function (req, res) {
 
-        var page = req.params.now_page;
-        var perPage = req.params.items_per_page;
-        var q = req.params.q;
+        var page = parseInt(req.params.now_page);
+        var perPage = parseInt(req.params.items_per_page);
 
-        Lead.paginate({'contact.firstName': q}, page, perPage, function (error, pageCount, paginatedResults, itemCount) {
-            if (error) {
-                if (error && error.errors) {
-                    error.errors.status = ApiStatus.STATUS_VALIDATION_ERROR;
-                    error.errors.code = ApiStatus.CODE_VALIDATION_ERROR;
-                    res.json(error.errors);
-                    return;
-                }
-            } else {
-                var results = {};
-                results.pages = pageCount;
-                results.result = paginatedResults;
-                res.json(results);
-            }
+        var search =  new RegExp(req.body.q_search, 'i');
+        var statusFilter =  new RegExp(req.body.q_status, 'i');
+        var tagFilter =  new RegExp(req.body.q_filter, 'i');
+
+        console.log(page, perPage, req.body.q_search, req.body.q_status, req.body.q_filter);
+
+        var LeadQuery = Lead.find()
+            .skip(page * perPage)
+            .limit(perPage)
+            .sort({ createdAt: 'desc'});
+
+        if(statusFilter){
+            LeadQuery.where('state').regex(statusFilter);
+        }
+
+        LeadQuery.exec(function (error, leads) {
+            console.log(leads);
+            var results = {};
+            results.pages = 10;
+            results.result = leads;
+            res.json(results);
         }, {populate: 'contact'});
+
+
+
+
+
+
+        //var page = req.params.now_page;
+        //var perPage = req.params.items_per_page;
+        //var q = req.params.q;
+        //
+        //Lead.paginate({'contact.firstName': q}, page, perPage, function (error, pageCount, paginatedResults, itemCount) {
+        //    if (error) {
+        //        if (error && error.errors) {
+        //            error.errors.status = ApiStatus.STATUS_VALIDATION_ERROR;
+        //            error.errors.code = ApiStatus.CODE_VALIDATION_ERROR;
+        //            res.json(error.errors);
+        //            return;
+        //        }
+        //    } else {
+        //        var results = {};
+        //        results.pages = pageCount;
+        //        results.result = paginatedResults;
+        //        res.json(results);
+        //    }
+        //}, {populate: 'contact'});
+
+
+
+
+
+
     });
 
     /**
