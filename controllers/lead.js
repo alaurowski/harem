@@ -148,9 +148,11 @@ module.exports = function (app) {
         var searchFilter =  req.body.q_search;
         var queryFilters;
 
-        if(searchFilter){
-            console.log('Search filter: '+searchFilter);
-            var queryFilters = { $or:[ {"contact.email" : new RegExp(searchFilter, 'i') }, {"contact.firstName" : new RegExp(searchFilter, 'i')}, {"contact.lastName" : new RegExp(searchFilter, 'i')} ] };
+        tagFilter = searchFilter;
+        if(tagFilter){
+            console.log('Tags filter: '+tagFilter);
+            var tags = tagFilter.split(',');
+            var queryFilters = { tags: { $elemMatch: { text: {$in:tags} } }  };
         }
 
         console.log(queryFilters);
@@ -161,6 +163,9 @@ module.exports = function (app) {
             .sort({ createdAt: 'desc'});
 
         LeadQuery.exec(function (error, leads) {
+
+            console.log(leads);
+
             if(error){
                 return res.json({ status: error, code: ApiStatus.CODE_ERROR });
             }
