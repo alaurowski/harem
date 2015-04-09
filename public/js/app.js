@@ -445,10 +445,12 @@
             }
         };
 
+        $scope.criterias = [];
+
         $scope.emptySearchResults = false;
         $scope.loadLeads = function () {
             $scope.currentPage = 1;
-            $http.post('lead/index/'+$scope.currentPage+'/'+$scope.perPage, {q_search: $scope.searchQuery}).success(function (data) {
+            $http.post('lead/index/'+$scope.currentPage+'/'+$scope.perPage, {q_search: $scope.searchQuery, q_tags: $scope.selectedTags }).success(function (data) {
                 $scope.users = data.result;
                 $scope.pages = data.pages;
                 if (data.cv) {
@@ -472,7 +474,7 @@
 
             });
         }
-        $scope.loadLeads();
+
 
         //pagination
 
