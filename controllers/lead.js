@@ -165,7 +165,7 @@ module.exports = function (app) {
                 return res.json({ status: error, code: ApiStatus.CODE_ERROR });
             }
 
-            Lead.count().exec(function(error, count) {
+            Lead.count(queryFilters).exec(function(error, count) {
                 if(error){
                     return res.json({ status: error, code: ApiStatus.CODE_ERROR });
                 }else{
