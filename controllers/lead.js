@@ -139,23 +139,28 @@ module.exports = function (app) {
      * List leads
      */
     app.post('/lead/index/:now_page/:items_per_page', function (req, res) {
+        console.log('BODY:');
+        console.log(req.body);
+
         var page = parseInt(req.params.now_page);
         page -= 1;
         var perPage = parseInt(req.params.items_per_page);
 
         var statusFilter =  req.body.q_status;
-        var tagFilter =  req.body.q_filter;
+        var tagFilter =  req.body.q_tags;
         var searchFilter =  req.body.q_search;
         var queryFilters;
 
-        tagFilter = searchFilter;
+        if(searchFilter){
+            console.log('Search filter: '+searchFilter);
+            var queryFilters = { $or:[ {"contact.email" : new RegExp(searchFilter, 'i') }, {"contact.firstName" : new RegExp(searchFilter, 'i')}, {"contact.lastName" : new RegExp(searchFilter, 'i')} ] };
+        }
+
         if(tagFilter){
             console.log('Tags filter: '+tagFilter);
             var tags = tagFilter.split(',');
             var queryFilters = { tags: { $elemMatch: { text: {$in:tags} } }  };
         }
-
-        console.log(queryFilters);
 
         var LeadQuery = Lead.find(queryFilters)
             .skip(page * perPage)
@@ -163,8 +168,6 @@ module.exports = function (app) {
             .sort({ createdAt: 'desc'});
 
         LeadQuery.exec(function (error, leads) {
-
-            console.log(leads);
 
             if(error){
                 return res.json({ status: error, code: ApiStatus.CODE_ERROR });
