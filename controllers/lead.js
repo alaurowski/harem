@@ -89,16 +89,20 @@ module.exports = function (app) {
         });
     });
 
+    app.get('/lead/export', function (req, res) {
 
-    app.post('/lead/import', function (req, res) {
+    });
 
-        var filename = "/Users/Marcin/Projects/data.csv";
+    app.get('/lead/import', function (req, res) {
+        var fileName = req.params.id;
 
-        var stream = fs.createReadStream(filename); //TODO: file upload support
+        var stream = fs.createReadStream(fileName);
 
         csv
             .fromStream(stream, {headers: true})
             .validate(function (data) {
+
+                var anames = data.name.trim(' ').replace("\t", '').split(' ');
 
                 var existingLead = new Lead();
                 existingLead.createdAt = new Date();
@@ -106,36 +110,18 @@ module.exports = function (app) {
                 existingLead.subtitle = data.title ? data.title : 'N/A';
                 existingLead.state = 'New';
                 existingLead.source = 'Linkedin';
-
-                var existingContact = new Contact();
-                var anames = data.name.trim(' ').replace("\t", '').split(' ');
-                existingContact.firstName = anames[1];
-                existingContact.lastName = anames[0];
-                existingContact.email = anames[1][0].replace(/[^\w\s]/gi, '') + anames[0].replace(/[^\w\s]/gi, '') + '@divante.pl';
-                existingContact.country = 'Polska'
+                existingLead.contact.firstName = anames[1];
+                existingLead.contact.lastName = anames[0];
+                existingLead.contact.email = anames[1][0].replace(/[^\w\s]/gi, '') + anames[0].replace(/[^\w\s]/gi, '') + '@divante.pl';
+                existingLead.contact.country = 'Polska'
 
                 console.log("Importing row: " + JSON.stringify(data) + " " + JSON.stringify(anames));
 
-
-                existingContact.lead = existingLead;
-                existingContact.save(function (err) {
+                existingLead.save(function (err) {
                     if (err && err.errors) {
                         res.json(err.errors);
                     }
-
-
-                    existingContact.lead.contact = existingContact._id;
-                    existingContact.lead.save(function (err2) {
-
-                        if (err2 && err2.errors) {
-                            res.json(err2.errors);
-                        }
-
-                    });
-
                 });
-
-
             })
             .on("data-invalid", function (data) {
                 //do something with invalid row
@@ -146,8 +132,6 @@ module.exports = function (app) {
             .on("end", function () {
                 console.log("done");
             });
-
-
     });
 
 
@@ -155,68 +139,43 @@ module.exports = function (app) {
      * List leads
      */
     app.post('/lead/index/:now_page/:items_per_page', function (req, res) {
-
         var page = parseInt(req.params.now_page);
         page -= 1;
-
         var perPage = parseInt(req.params.items_per_page);
 
-        console.log(page, perPage);
+        var statusFilter =  req.body.q_status;
+        var tagFilter =  req.body.q_filter;
+        var searchFilter =  req.body.q_search;
+        var queryFilters;
 
-        var search =  new RegExp(req.body.q_search, 'i');
-        var statusFilter =  new RegExp(req.body.q_status, 'i');
-        var tagFilter =  new RegExp(req.body.q_filter, 'i');
+        if(searchFilter){
+            console.log('Search filter: '+searchFilter);
+            var queryFilters = { $or:[ {"contact.email" : new RegExp(searchFilter, 'i') }, {"contact.firstName" : new RegExp(searchFilter, 'i')}, {"contact.lastName" : new RegExp(searchFilter, 'i')} ] };
+        }
 
-        console.log(page, perPage, req.body.q_search, req.body.q_status, req.body.q_filter);
+        console.log(queryFilters);
 
-        var LeadQuery = Lead.find()
-            .populate('contact')
+        var LeadQuery = Lead.find(queryFilters)
             .skip(page * perPage)
             .limit(perPage)
             .sort({ createdAt: 'desc'});
 
-        if(statusFilter){
-            LeadQuery.where('state').regex(statusFilter);
-        }
-
         LeadQuery.exec(function (error, leads) {
-            console.log(leads);
-            var results = {};
-            results.pages = 10;
-            results.result = leads;
-            res.json(results);
-        }, {populate: 'contact'});
+            if(error){
+                return res.json({ status: error, code: ApiStatus.CODE_ERROR });
+            }
 
-
-
-
-
-
-        //var page = req.params.now_page;
-        //var perPage = req.params.items_per_page;
-        //var q = req.params.q;
-        //
-        //Lead.paginate({'contact.firstName': q}, page, perPage, function (error, pageCount, paginatedResults, itemCount) {
-        //    if (error) {
-        //        if (error && error.errors) {
-        //            error.errors.status = ApiStatus.STATUS_VALIDATION_ERROR;
-        //            error.errors.code = ApiStatus.CODE_VALIDATION_ERROR;
-        //            res.json(error.errors);
-        //            return;
-        //        }
-        //    } else {
-        //        var results = {};
-        //        results.pages = pageCount;
-        //        results.result = paginatedResults;
-        //        res.json(results);
-        //    }
-        //}, {populate: 'contact'});
-
-
-
-
-
-
+            Lead.count().exec(function(error, count) {
+                if(error){
+                    return res.json({ status: error, code: ApiStatus.CODE_ERROR });
+                }else{
+                    var results = {};
+                    results.pages = parseInt(Math.ceil(count/perPage));
+                    results.result = leads;
+                    res.json(results);
+                }
+            });
+        });
     });
 
     /**
@@ -229,12 +188,9 @@ module.exports = function (app) {
         if (leadId) {
             Lead.findById(leadId, function (err, existingLead) {
                 if (existingLead) {
-
-                    console.log(existingLead);
-
                     res.json(existingLead);
                 }
-            }).populate("contact");
+            });
         }
     });
 
@@ -261,84 +217,52 @@ module.exports = function (app) {
      * Save lead
      */
     app.post('/lead/edit', function (req, res) {
-
-        console.log(req.body);
-        console.log('---------------------------------');
-
         Lead.findById(req.body._id, function (err, existingLead) {
 
-            var existingContact = null;
+            console.log(req.body);
+
             if (!existingLead) {
                 existingLead = new Lead();
                 existingLead.createdAt = new Date();
             }
 
-            var contactId = null;
-            if (existingLead.contact) {
-                contactId = existingLead.contact;
-            }
-
             existingLead.subtitle = req.body.subtitle;
             existingLead.state = req.body.state;
+            existingLead.description = req.body.description;
+            existingLead.tags = req.body.tags;
+
             existingLead.source.sourceName = req.body.source;
             existingLead.source.recommendedBy = req.body.recommendedBy;
+
+            existingLead.contact.firstName = req.body.firstName;
+            existingLead.contact.lastName = req.body.lastName;
+            existingLead.contact.email = req.body.email;
+            existingLead.contact.country = req.body.country;
+            existingLead.contact.city = req.body.city;
+            existingLead.contact.address = req.body.address;
+            existingLead.contact.phone = req.body.phone;
+            existingLead.contact.social.linkedin = req.body.linkedin;
+            existingLead.contact.social.goldenline = req.body.goldenline;
+            existingLead.contact.social.facebook = req.body.facebook;
 
             if(req.body.files !== undefined){
                 existingLead.cv = req.body.files;
             }
 
-            existingLead.description = req.body.description;
-            existingLead.tags = req.body.tags;
-
-            Contact.findById(contactId, function (err, existingContact) {
-
-                if (!existingContact) {
-                    existingContact = new Contact();
-                }
-
-                // populate existing contact data
-                existingContact.firstName = req.body.firstName;
-                existingContact.lastName = req.body.lastName;
-                existingContact.email = req.body.email;
-                existingContact.country = req.body.country;
-                existingContact.city = req.body.city;
-                existingContact.address = req.body.address;
-                existingContact.phone = req.body.phone;
-                // social media
-                existingContact.social.linkedin = req.body.linkedin;
-                existingContact.social.goldenline = req.body.goldenline;
-                existingContact.social.facebook = req.body.facebook;
-
-                existingContact.save(function (err) {
-                    if (err && err.errors) {
-                        err.errors.status = ApiStatus.STATUS_VALIDATION_ERROR;
-                        err.errors.code = ApiStatus.CODE_VALIDATION_ERROR;
-
-                        res.json(err.errors);
-                        return;
-                    }
-
-
-                    existingLead.contact = existingContact._id;
-                    existingLead.save(function (err2, savedLead) {
-
-                        if (err2 && err2.errors) {
-                            err2.errors.status = ApiStatus.STATUS_VALIDATION_ERROR;
-                            err2.errors.code = ApiStatus.CODE_VALIDATION_ERROR;
-                            res.json(err2.errors);
-                            return;
-                        }
-
-                        res.json({
-                            status: ApiStatus.STATUS_SUCCESS,
-                            code: ApiStatus.CODE_SUCCESS,
-                            lead_id: savedLead._id
-                        });
-                        return;
-
+            existingLead.save(function (error, savedLead) {
+                if (error && error.errors) {
+                    error.errors.status = ApiStatus.STATUS_VALIDATION_ERROR;
+                    error.errors.code = ApiStatus.CODE_VALIDATION_ERROR;
+                    res.json(error.errors);
+                    return false;
+                }else{
+                    res.json({
+                        status: ApiStatus.STATUS_SUCCESS,
+                        code: ApiStatus.CODE_SUCCESS,
+                        lead_id: savedLead._id
                     });
-
-                });
+                    return true;
+                }
             });
         });
 
