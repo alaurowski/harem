@@ -445,14 +445,15 @@
             }
         };
 
-        $scope.criterias = [];
-
         $scope.emptySearchResults = false;
         $scope.loadLeads = function () {
             $scope.currentPage = 1;
             $http.post('lead/index/'+$scope.currentPage+'/'+$scope.perPage, {q_search: $scope.searchQuery, q_tags: $scope.selectedTags.join(',') }).success(function (data) {
                 $scope.users = data.result;
                 $scope.pages = data.pages;
+
+                console.log($scope.users);
+
                 if (data.cv) {
                     $scope.cv = true;
                 } else {
@@ -473,8 +474,16 @@
                 $scope.activePage = $scope.currentPage;
 
             });
-        }
+        };
 
+        $scope.loadLeads();
+
+        // reste filters
+
+        $scope.resetFilters = function() {
+            $scope.selectedTags = [];
+            $scope.loadLeads();
+        };
 
         //pagination
 
