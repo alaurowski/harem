@@ -1,0 +1,214 @@
+<div class="single-lead-container">
+    <div class="lead-content col-xs-9">
+        <header>
+            <figure>
+                <span class="ion-person"></span>
+            </figure>
+
+            <h2>{{lead.contact.firstName}} {{lead.contact.lastName}}</h2>
+
+            <p>
+                <select ng-options="state.code as state.name for state in allStates"
+                        ng-model="lead.state.code" ng-change="updateState()"></select>
+
+                {{lead.subtitle}}</p>
+
+            <p ng-show="cv"><a href="/file/download/{{ lead.cv._id }}">{{ lead.cv.originalName }}</a></p>
+
+        </header>
+
+        <div class="bordered-container">
+            <h4 class="title">Tags</h4>
+
+            <div class="inner">
+                <tags-input ng-model="tags" on-tag-added="saveTags()" on-tag-removed="saveTags()"></tags-input>
+            </div>
+        </div>
+
+        <div class="bordered-container">
+            <h4 class="title">Add something about {{lead.contact.firstName}} {{lead.contact.lastName}}</h4>
+
+            <div class="inner">
+                <form name="note_add_form" novalidate ng-submit="processNote()">
+
+                    <textarea required="required" name="noteText" id="noteText" ng-model="noteData.content"
+                              class="form-control"></textarea>
+
+                    <div ng-show="note_add_form.$submitted || note_add_form.noteText.$touched" class="errors">
+                    <span ng-show="note_add_form.noteText.$error.required">
+                      Note is required
+                    </span>
+                    </div>
+
+                    <input ng-model="noteData.parentId" type="hidden" value="{{ noteData.parentId }}"/>
+                    <input ng-model="noteData.parentType" type="hidden" value="a"/>
+                    <input ng-model="noteData.owner" type="hidden" value="a"/>
+
+                    <div class="actions">
+
+                        <select class="form-control"
+                                ng-options="color for color in ['Interview', 'Score', 'Attachment', 'Other', 'Note']"
+                                ng-model="noteData.type">
+                            <option value="Note" selected>Note</option>
+                        </select>
+
+                        <label for="note-date">When did it happen:</label>
+
+                        <div class="input-group date" id="note-date">
+                            <input type="text" class="form-control" ng-model="noteData.updatedAt"/>
+                        <span class="input-group-addon">
+                            <span class="ion-calendar">
+                            </span>
+                        </span>
+                        </div>
+
+                        <input type="submit" class="btn btn-success" value="save"/>
+
+                        <div class="clearfix"></div>
+                    </div>
+                </form>
+                <form name="note_upload_form" novalidate ng-submit="processUpload()">
+                    <input type="file" nv-file-select uploader="uploader"/><br/>
+                    <ul>
+                        <li ng-repeat="item in uploader.queue">
+                            attach file: <span ng-bind="item.file.name"></span>
+                        </li>
+                    </ul>
+                </form>
+            </div>
+        </div>
+
+        <div class="bordered-container single-added-note" ng-repeat="note in notes.slice().reverse()">
+            <h4 class="title">{{ note.type }} about {{lead.contact.firstName}} {{lead.contact.lastName}}</h4>
+
+            <div class="inner">
+                <p>{{note.content | date}}</p>
+                <ul class="files">
+                    <li ng-repeat="file in note.files">
+                        <a href="/file/download/{{file._id}}">{{ file.originalName }}</a>
+                    </li>
+                </ul>
+                <div class="footer">
+                    <span class="date">{{note.type}} added at {{note.createdAt | date}}</span>
+
+                    <div class="actions">
+                        <a ng- href="" ng-click="deleteNote(note._id)"><span class="ion-trash-a"></span>Delete</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <aside class="personal-info col-xs-3">
+        <header>
+            <p>
+                <a href="/#/leads/edit/{{lead._id}}">
+                    <span class="ion-edit"></span>
+                    Edit this lead
+                </a>
+            </p>
+            <p>
+                <a href="" class="delete" ng-click="deleteTask()" >
+                    <span class="ion-trash-a"></span>
+                    Delete this lead
+                </a>
+            </p>
+
+        </header>
+
+        <!-- taski -->
+
+        <div class="tasks-container">
+
+            <div class="task-list">
+                <div class="add-new-task" ng-show="addNewTask">
+                    <form name="note_add_form" novalidate ng-submit="processTask()">
+                        <input ng-model="taskData.parentId" type="hidden" value="{{ taskData.parentId }}" />
+                        <input ng-model="taskData.parentType" type="hidden" value="Lead" />
+                        <input ng-model="taskData.extra" type="hidden" val="{{lead.contact.firstName}} {{lead.contact.lastName}}" />
+                        <fieldset>
+                            <label>Description</label>
+                            <input class="form-control" type="text" name="content" ng-model="taskData.content" autofocus/>
+                        </fieldset>
+                        <fieldset>
+                            <label>When it's due?</label>
+                            <div class="input-group date" id="task-date">
+                                <input type="text" class="form-control" ng-model="taskData.due"/>
+                            <span class="input-group-addon">
+                                <span class="ion-calendar">
+                                </span>
+                            </span>
+                            </div>
+                        </fieldset>
+                        <fieldset>
+                            <label>Who is responsible?</label>
+                            <select class="form-control"  ng-options="owner for owner in ['Natalia', 'Ola']" ng-model="taskData.owner">
+                                <option value="Natalia" selected>Natalia</option>
+                            </select>
+                        </fieldset>
+                        <fieldset>
+                            <input type="submit" class="btn btn-success" value="save"/>
+                            <span class="close-popup pull-right" ng-show="addNewTask" ng-click="addNewTask=false"><span class="ion-close-circled"></span>close</span>
+                        </fieldset>
+
+                    </form>
+                </div>
+                <h3>Tasks:
+                    <span class="pull-right">
+                        <span ng-hide="addNewTask" ng-click="addNewTask=true">
+                            <span class="ion-plus-round"></span>add new task
+                        </span>
+                        <span ng-show="addNewTask" ng-click="addNewTask=false">
+                            <span class="ion-close-circled"></span>cancel
+                        </span>
+                    </span>
+                </h3>
+                <article ng-repeat="task in tasks.slice().reverse()">
+                    <span class="icon ion-clipboard"></span> <p>({{task.due | date}}) {{task.content}}</p>
+                    <p class="assigne">Assigned to: <strong>{{task.owner}}</strong>
+                        <span ng-click="deleteTask(task._id)" class="pull-right remove ion-trash-a"></span>
+                    </p>
+                </article>
+            </div>
+
+        </div>
+
+        <!-- taski -->
+
+
+        <div class="personal-info-details">
+            <h4>Personal information</h4>
+            <ul>
+                <li>
+                    Phone: {{lead.contact.phone}}
+                </li>
+                <li>
+                    E-mail: {{lead.contact.email}}
+                </li>
+                <li>
+                    Added: {{lead.createdAt | date}}
+                </li>
+            </ul>
+        </div>
+
+        <div class="personal-info-details socials" ng-show="lead.contact.social">
+            <h4>Socials</h4>
+            <p>
+                <a href="{{ lead.contact.social.linkedin }}" target="_blank" ng-show="lead.contact.social.linkedin">
+                    <i class="ion-social-linkedin"></i>
+                </a>
+                <a href="{{ lead.contact.social.goldenline }}" target="_blank" ng-show="lead.contact.social.linkedin">
+                    GL
+                </a>
+                <a href="{{ lead.contact.social.facebook }}" target="_blank" ng-show="lead.contact.social.linkedin">
+                    <i class="ion-social-facebook"></i>
+                </a>
+            </p>
+        </div>
+    </aside>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $('.input-group.date').datepicker();
+    });
+</script>

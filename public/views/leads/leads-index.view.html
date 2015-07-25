@@ -1,0 +1,182 @@
+<section id="leads-list">
+    <div class="leads-list__left col-sm-9">
+        <header class="clearfix">
+            <h2 class="pull-left">{{ title }}</h2>
+        </header>
+        <hr/>
+        <div>
+            <a class="btn btn-success pull-right" href="/#/leads/add">
+                Leads add <span class="ion-person-add"></span>
+            </a>
+            <div class="clearfix"></div>
+        </div>
+        <div>
+            <!--<h3>Active records: {{ (users | filter:filters.search | filter:{state: filters.state}).length }}</h3>-->
+        </div>
+        <hr/>
+
+        <div  ng-hide="emptySearchResults">
+            <div class="per-page">
+                Show <input class="form-control" type="text" ng-model='perPage' ng-change="loadLeads()"/> leads per page
+            </div>
+
+            <table class="table leads-table">
+                <thead>
+                <th ng-click="changeOrder('$index')">ID</th>
+                <th ng-click="changeOrder('contact.firstName')">Firstname
+                    <i ng-show="isOrderedBy('contact.firstName')" ng-class="{'ion-arrow-up-b': !isOrderedReverse(), 'ion-arrow-down-b':isOrderedReverse()}"></i>
+                </th>
+                <th ng-click="changeOrder('contact.lastName')">Lastname
+                    <i ng-show="isOrderedBy('contact.lastName')" ng-class="{'ion-arrow-up-b': !isOrderedReverse(), 'ion-arrow-down-b':isOrderedReverse()}"></i>
+                </th>
+                <th ng-click="changeOrder('contact.email')">Email
+                    <i ng-show="isOrderedBy('contact.email')" ng-class="{'ion-arrow-up-b': !isOrderedReverse(), 'ion-arrow-down-b':isOrderedReverse()}"></i>
+                </th>
+                <th ng-click="changeOrder('contact.phone')">Phone
+                    <i ng-show="isOrderedBy('contact.phone')" ng-class="{'ion-arrow-up-b': !isOrderedReverse(), 'ion-arrow-down-b':isOrderedReverse()}"></i>
+                </th>
+                <th ng-click="changeOrder('subtitle')">Position
+                    <i ng-show="isOrderedBy('subtitle')" ng-class="{'ion-arrow-up-b': !isOrderedReverse(), 'ion-arrow-down-b':isOrderedReverse()}"></i>
+                </th>
+                <th ng-click="changeOrder('state.name')">State
+                    <i ng-show="isOrderedBy('state.name')" ng-class="{'ion-arrow-up-b': !isOrderedReverse(), 'ion-arrow-down-b':isOrderedReverse()}"></i>
+                </th>
+                <!--<th>Socials</th>-->
+                <th class="text-center" width="100px">Details</th>
+                </thead>
+                <tbody>
+                <tr ng-repeat="user in filteredUsers | filter:filters.search | filter:{'state.code': filters.state}  | orderBy: orderByColumn : orderByDir">
+                    <td>
+                        {{ $index + 1 }}
+                    </td>
+                    <td>
+                        {{ user.contact.firstName | limitTo:10}}{{user.contact.firstName.length > 10 ? '...' : ''}}
+                    </td>
+                    <td>
+                        {{ user.contact.lastName | limitTo:10}}{{user.contact.lastName.length > 10 ? '...' : ''}}
+                    </td>
+                    <td>
+                        {{ user.contact.email | limitTo:12}}{{user.contact.email.length > 12 ? '...' : ''}}
+                    </td>
+                    <td>
+                        {{ user.contact.phone }}
+                    </td>
+                    <td>
+                        {{ user.subtitle | limitTo:10}}{{user.subtitle.length > 10 ? '...' : ''}}
+                    </td>
+                    <td>
+                        {{ user.state.name}}
+                    </td>
+                    <!--<td class="social-links-icons">
+                        <a href="{{ user.contact.social.linkedin }}" target="_blank" ng-show="user.contact.social.facebook">
+                            <i class="ion-social-linkedin"></i>
+                        </a>
+                        <a href="{{ user.contact.social.goldenline }}" target="_blank" ng-show="user.contact.social.facebook">
+                            <i class="ion-social-instagram"></i>
+                        </a>
+                        <a href="{{ user.contact.social.facebook }}" target="_blank" ng-show="user.contact.social.facebook">
+                            <i class="ion-social-facebook"></i>
+                        </a>
+                    </td>-->
+                    <td class="text-right">
+                        <a href="/#/leads/{{ user._id }}" class="btn btn-success">Details <span class="ion-clipboard"></span></a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="alert alert-danger" role="alert" ng-show="emptySearchResults">
+            <span class="ion-alert-circled"></span>
+            Sorry, no leads matched your criteria
+        </div>
+
+        <nav class="pagination-nav" ng-show="pages > 1">
+            <ul class="pagination">
+                <li ng-hide="activePage == 1">
+                    <a href="" aria-label="Previous"  ng-click="pagination(activePage - 1, perPage)">
+                        <span aria-hidden="true">«</span>
+                    </a>
+                </li>
+                <li ng-repeat="range in ranges" ng-class="{ 'active': range == activePage}">
+                    <a ng-click="pagination((range),(perPage))">{{range}}</a>
+                </li>
+                <li ng-hide="activePage == pages">
+                    <a href="" aria-label="Next"  ng-click="pagination(activePage + 1, perPage)">
+                        <span aria-hidden="true">»</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <aside class="col-sm-3">
+
+        <header class="clearfix">
+            <h2>
+                Menu
+            </h2>
+        </header>
+        <hr/>
+        <h3>
+            Search
+        </h3>
+
+        <div class="form-group">
+            <input id="leadSearch" type="text" class="form-control" ng-model="searchQuery" ng-enter="loadLeads()"
+                   placeholder="name, position, email...">
+            <!--<input id="leadSearch" type="text" class="form-control" ng-model="filters.search"
+                   placeholder="name, position, email...">-->
+        </div>
+
+
+        <div class="status-container" ng-show="statesLength">
+            <hr/>
+            <h3>
+                States filter
+            </h3>
+            <ul>
+                <ul>
+                    <li ng-repeat="state in leadsStates" class="filter-option">
+                        <div class="checkbox">
+                            <input id="state-{{state}}" type="checkbox" value="{{state}}"/><label for="state-{{state}}">{{state}}</label>
+                        </div>
+                    </li>
+                </ul>
+
+            </ul>
+        </div>
+
+
+
+        <div class="tags-container" ng-show="tagsLength">
+            <hr/>
+            <h3>
+                Tags filter
+            </h3>
+            <ul>
+                <li ng-repeat="tag in leadsTags" class="filter-option">
+                    <div class="checkbox">
+                        <input id="tag-{{tag}}"
+                               type="checkbox"
+                               value="{{tag}}"
+                               ng-checked="selectedTags.indexOf(tag) > -1"
+                               ng-click="toggleTagSelection(tag)"
+                                /><label for="tag-{{tag}}">{{tag}}</label>
+                    </div>
+                </li>
+            </ul>
+
+        </div>
+
+        <div class="tags-container" ng-show="tagsLength || statesLength">
+            <span ng-click="loadLeads()" class="btn btn-success pull-left" href="#" style="margin-right: 10px;">
+                Filter <span class="ion-funnel"></span>
+            </span>
+            <span ng-click="resetFilters()" class="btn btn-warning pull-left" href="#">
+                Reset filters <span class="ion-refresh"></span>
+            </span>
+        </div>
+
+    </aside>
+</section>
