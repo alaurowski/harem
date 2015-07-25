@@ -58,6 +58,18 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="leadCountry">City</label>
+                        <input ng-model="formData.city" name="leadCity" type="text" class="form-control"
+                               id="leadCity"
+                               placeholder="Enter lead city">
+
+                        <div ng-show="lead_add_form.$submitted || lead_add_form.leadCity.$touched">
+                            <span ng-show="lead_add_form.leadCity.$error.required">
+                              City is required
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="leadCountry">Country</label>
                         <input ng-model="formData.country" name="leadCountry" type="text" class="form-control"
                                id="leadCountry"

@@ -13,6 +13,7 @@ angular.module('crmApp').controller('LeadsEditCtrl', ['$scope', '$location', '$h
         function (data) {
             $scope.lead = data;
 
+            console.log(data);
             if (!$scope.lead.state.hasOwnProperty('code'))
                 $scope.lead.state = {code: 'new', name: 'New'};
 
@@ -30,6 +31,7 @@ angular.module('crmApp').controller('LeadsEditCtrl', ['$scope', '$location', '$h
                 lastName: $scope.lead.contact.lastName,
                 email: $scope.lead.contact.email,
                 phone: $scope.lead.contact.phone,
+                city: $scope.lead.contact.city,
                 country: $scope.lead.contact.country,
                 subtitle: $scope.lead.subtitle,
                 linkedin: $scope.lead.contact.social.linkedin,

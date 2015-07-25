@@ -85,7 +85,7 @@ angular.module('crmApp').controller('LeadsIndexCtrl', ['$scope', '$http','$locat
         $http.get('/lead/states').success(function (data) {
             $scope.allStates = data;
 
-            for (key in data) {
+            for (var key in data) {
                 var ls = data[key];
                 $scope.leadStateNames[ls.code] = ls.name;
             }

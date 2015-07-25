@@ -1,6 +1,6 @@
 angular.module('crmApp').controller('LeadsAddCtrl', ['$scope', '$location', '$http', 'FileUploader', function ($scope, $location, $http, FileUploader) {
 
-    $scope.title = 'Leads add form'
+    $scope.title = 'Leads add form';
 
     // create a blank object to hold our form information
     // $scope will allow this to pass between controller and view

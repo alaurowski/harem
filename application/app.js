@@ -26,7 +26,7 @@ angular.module('crmApp').config(['$routeProvider', function ($routeProvider) {
             templateUrl: 'views/tasks/tasks-index.view.html'
         })
         .otherwise({
-            redirectTo: 'views/leads/leads-index.view.html'
+            redirectTo: '/'
         });
 
 }]);

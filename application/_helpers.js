@@ -15,6 +15,7 @@ var uniqueItems = function (data, key, subkey) {
     return result;
 };
 
+
 var uniqueArrayItems = function (data, key, subkey) {
     var result = [];
 
@@ -22,8 +23,7 @@ var uniqueArrayItems = function (data, key, subkey) {
         var value = data[i][key];
 
         if (value) {
-            for (sk in value) {
-
+            for (var sk in value) {
                 var subarrayVal = value[sk];
 
                 if (subkey)

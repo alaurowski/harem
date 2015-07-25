@@ -13,6 +13,7 @@
  * scripts down below using //= filename.js notation.
  */
 
+/* bower install */
 //= require vendor/bower_components/jquery/dist/jquery.min
 //= require vendor/bower_components/bootstrap/dist/js/bootstrap.min
 //= require vendor/bower_components/angular/angular.min

@@ -139,7 +139,7 @@
                 <ul>
                     <li ng-repeat="state in leadsStates" class="filter-option">
                         <div class="checkbox">
-                            <input id="state-{{state}}" type="checkbox" value="{{state}}"/><label for="state-{{state}}">{{state}}</label>
+                            <input id="state-{{state.code}}" type="checkbox" value="{{state.code}}"/><label for="state-{{state.code}}">{{state.name}}</label>
                         </div>
                     </li>
                 </ul>
