@@ -46,7 +46,7 @@ angular.module('crmApp').controller('LeadsDetailsCtrl', ['$scope', 'leads','$loc
 
             $scope.tags = data.tags;
 
-            $scope.test = $scope.lead.contact.firstName;
+            $scope.test = $scope.lead.contact.fullName;
         },
         function (data, status) {
             console.log(data);
@@ -119,7 +119,7 @@ angular.module('crmApp').controller('LeadsDetailsCtrl', ['$scope', 'leads','$loc
                     $.growl.notice({title: "Good Job!", message: "You've successfully added note!"});
 
                     $scope.message = data.message;
-
+                    $scope.noteData.content = '';
                     $scope.loadNotes();
                 }
                 else {
@@ -251,7 +251,7 @@ angular.module('crmApp').controller('LeadsDetailsCtrl', ['$scope', 'leads','$loc
         $http.get('/lead/states').success(function (data) {
             $scope.allStates = data;
 
-            for (key in data) {
+            for (var key in data) {
                 var ls = data[key];
                 $scope.leadStateNames[ls.code] = ls.name;
             }

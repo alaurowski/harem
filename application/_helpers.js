@@ -38,3 +38,16 @@ var uniqueArrayItems = function (data, key, subkey) {
     }
     return result;
 };
+
+function startsWith(wordToCompare) {
+    return function(element) {
+        return element.indexOf(wordToCompare) === 0;
+    }
+}
+
+var positionFilter = function(word) {
+    return function(element) {
+        var regEx = new RegExp(word, 'gi');
+        return element.name.match(regEx);
+    }
+};

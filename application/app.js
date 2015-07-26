@@ -29,4 +29,18 @@ angular.module('crmApp').config(['$routeProvider', function ($routeProvider) {
             redirectTo: '/'
         });
 
+}])
+.run(['$rootScope', '$window', '$http', function($rootScope, $window, $http) {
+    $rootScope.$on( "$routeChangeStart", function(event, next, current) {
+        var auth = $http.get('/auth/check');
+
+        auth
+            .success(function(data, status) {
+                $rootScope.login = true;
+            })
+            .error(function(data, status) {
+                $window.location.href = "/login";
+                $rootScope.login = false;
+            });
+    });
 }]);

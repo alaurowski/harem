@@ -1,10 +1,29 @@
-angular.module('crmApp').controller('LeadsAddCtrl', ['$scope', '$location', '$http', 'FileUploader', function ($scope, $location, $http, FileUploader) {
+angular.module('crmApp').controller('LeadsAddCtrl', ['$scope', '$location', '$http', 'FileUploader', 'PositionsFactory',
+    function ($scope, $location, $http, FileUploader, PositionsFactory) {
 
     $scope.title = 'Leads add form';
 
     // create a blank object to hold our form information
     // $scope will allow this to pass between controller and view
     $scope.formData = {};
+
+    var positions = PositionsFactory.get();
+    positions.success(function (data, status, headers, config) {
+        $scope.positions = data;
+    });
+
+    $scope.$watch('formData.subtitle', function(a, b) {
+        if(typeof a != "undefined") {
+            $scope.positionsFiltered = $scope.positions.filter(positionFilter(a));
+        } else {
+            $scope.positionsFiltered = [];
+        }
+    });
+
+    $scope.positionFill = function(name) {
+        $scope.formData.subtitle = name;
+    };
+
 
     $scope.formData.state = 'New';
     $scope.formData.owner = 'lead';

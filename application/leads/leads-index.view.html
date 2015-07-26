@@ -23,11 +23,8 @@
             <table class="table leads-table">
                 <thead>
                 <th ng-click="changeOrder('$index')">ID</th>
-                <th ng-click="changeOrder('contact.firstName')">Firstname
-                    <i ng-show="isOrderedBy('contact.firstName')" ng-class="{'ion-arrow-up-b': !isOrderedReverse(), 'ion-arrow-down-b':isOrderedReverse()}"></i>
-                </th>
-                <th ng-click="changeOrder('contact.lastName')">Lastname
-                    <i ng-show="isOrderedBy('contact.lastName')" ng-class="{'ion-arrow-up-b': !isOrderedReverse(), 'ion-arrow-down-b':isOrderedReverse()}"></i>
+                <th ng-click="changeOrder('contact.fullName')">Fullname
+                    <i ng-show="isOrderedBy('contact.fullName')" ng-class="{'ion-arrow-up-b': !isOrderedReverse(), 'ion-arrow-down-b':isOrderedReverse()}"></i>
                 </th>
                 <th ng-click="changeOrder('contact.email')">Email
                     <i ng-show="isOrderedBy('contact.email')" ng-class="{'ion-arrow-up-b': !isOrderedReverse(), 'ion-arrow-down-b':isOrderedReverse()}"></i>
@@ -45,15 +42,13 @@
                 <th class="text-center" width="100px">Details</th>
                 </thead>
                 <tbody>
-                <tr ng-repeat="user in filteredUsers | filter:filters.search | filter:{'state.code': filters.state}  | orderBy: orderByColumn : orderByDir">
+                <!--  | filter:{'state': filters.state} -->
+                <tr ng-repeat="user in filteredUsers | filter:filters.search  | orderBy: orderByColumn : orderByDir">
                     <td>
                         {{ $index + 1 }}
                     </td>
                     <td>
-                        {{ user.contact.firstName | limitTo:10}}{{user.contact.firstName.length > 10 ? '...' : ''}}
-                    </td>
-                    <td>
-                        {{ user.contact.lastName | limitTo:10}}{{user.contact.lastName.length > 10 ? '...' : ''}}
+                        {{ user.contact.fullName | limitTo:30}}{{user.contact.fullName.length > 30 ? '...' : ''}}
                     </td>
                     <td>
                         {{ user.contact.email | limitTo:12}}{{user.contact.email.length > 12 ? '...' : ''}}
@@ -65,7 +60,7 @@
                         {{ user.subtitle | limitTo:10}}{{user.subtitle.length > 10 ? '...' : ''}}
                     </td>
                     <td>
-                        {{ user.state.name}}
+                        {{ user.state.name }}
                     </td>
                     <!--<td class="social-links-icons">
                         <a href="{{ user.contact.social.linkedin }}" target="_blank" ng-show="user.contact.social.facebook">
@@ -99,7 +94,7 @@
                     </a>
                 </li>
                 <li ng-repeat="range in ranges" ng-class="{ 'active': range == activePage}">
-                    <a ng-click="pagination((range),(perPage))">{{range}}</a>
+                    <a ng-click="pagination(range, perPage)">{{ range }}</a>
                 </li>
                 <li ng-hide="activePage == pages">
                     <a href="" aria-label="Next"  ng-click="pagination(activePage + 1, perPage)">
@@ -136,14 +131,11 @@
                 States filter
             </h3>
             <ul>
-                <ul>
                     <li ng-repeat="state in leadsStates" class="filter-option">
                         <div class="checkbox">
-                            <input id="state-{{state.code}}" type="checkbox" value="{{state.code}}"/><label for="state-{{state.code}}">{{state.name}}</label>
+                            <input id="state-{{state.code}}" ng-model="listState[state.code]"  ng-change="stateListChanged(state.code)" type="checkbox" value="{{state.code}}"/><label for="state-{{state.code}}">{{state.name}}</label>
                         </div>
                     </li>
-                </ul>
-
             </ul>
         </div>
 

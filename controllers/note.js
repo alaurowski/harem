@@ -13,7 +13,7 @@ module.exports = function(app){
     app.get('/note/fetchall/:parent_id',function(req, res){
         var parentId = req.params.parent_id;
         var filter = {"parentId" : parentId};
-        var query = Note.find(filter, 'createdAt updatedAt content type parentId parentType parentId files', { }).sort({date: 'desc'});
+        var query = Note.find(filter, 'createdAt updatedAt content type parentId parentType parentId files owner', { }).sort({date: 'desc'});
         query.exec(function (err, docs) {
             res.json(docs);
         });
@@ -60,9 +60,10 @@ module.exports = function(app){
             parentId : req.body.parentId || '',
             parentType : req.body.parentType || '',
             files: req.body.files,
-            owner : req.body.owner || ''
+            owner : req.user.profile.name
         });
 
+        console.log( req.user.profile.name );
         note.save(function(err) {
             if (err) {
                 return res.json({ status: err, code: ApiStatus.CODE_ERROR });
@@ -96,7 +97,7 @@ module.exports = function(app){
             ExistingNote.type = req.body.type || '';
             ExistingNote.parentId = req.body.parentId || '';
             ExistingNote.parentType = req.body.parentType || '';
-            ExistingNote.owner = req.body.owner || '';
+            ExistingNote.owner = req.user.profile.name;
 
             res.json({ status: ApiStatus.STATUS_SUCCESS, code: ApiStatus.CODE_SUCCESS });
 

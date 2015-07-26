@@ -1,7 +1,7 @@
 /**
  * Created by pkarwatka on 14.03.15.
  */
-use test;
+//use test;
 
 db.leadstates.insert({
 
@@ -78,5 +78,11 @@ db.leadstates.insert({
 
     code: "employeed",
     name: "Employeed"
+
+});
+db.leadstates.insert({
+
+    code: "blacklist",
+    name: "Black list"
 
 });

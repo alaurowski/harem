@@ -17,8 +17,9 @@ var leadSchema = new Schema({
         recommendedBy : { type: String, default: '' }
     },
     contact: {
-        firstName: { type: String, required: true, trim: true},
-        lastName: { type: String, required: true, trim: true },
+        fullName: { type: String, required: true, trim: true},
+        firstName: { type: String, required: false, trim: true},
+        lastName: { type: String, required: false, trim: true },
         email: { type: String, required: false, trim: true,  match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address'] },
         phone: { type: String, required: false, trim: true },
         social : {
@@ -26,6 +27,8 @@ var leadSchema = new Schema({
             goldenline : { type: String, default: '' },
             facebook : { type: String, default: '' }
         },
+        companyName: String,
+        companyPosition: String,
         country: String,
         city: String,
         address: String

@@ -1,4 +1,4 @@
-angular.module('crmApp').controller('LeadsIndexCtrl', ['$scope', '$http','$location', function ($scope, $http, $location) {
+angular.module('crmApp').controller('LeadsIndexCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
 
     $scope.title = 'Leads list';
 
@@ -15,7 +15,7 @@ angular.module('crmApp').controller('LeadsIndexCtrl', ['$scope', '$http','$locat
     $scope.currentPage = 1;
     $scope.searchQuery = '';
 
-
+    $scope.statusSearch = [];
     $scope.selectedTags = [];
     $scope.toggleTagSelection = function toggleTagSelection(tag) {
         var idx = $scope.selectedTags.indexOf(tag);
@@ -30,26 +30,29 @@ angular.module('crmApp').controller('LeadsIndexCtrl', ['$scope', '$http','$locat
     $scope.emptySearchResults = false;
     $scope.loadLeads = function () {
         $scope.currentPage = 1;
-        $http.post('lead/index/'+$scope.currentPage+'/'+$scope.perPage, {q_search: $scope.searchQuery, q_tags: $scope.selectedTags.join(',') }).success(function (data) {
+
+        $http.post('lead/index/' + $scope.currentPage + '/' + $scope.perPage, {
+            q_status: $scope.statusSearch.join(','),
+            q_search: $scope.searchQuery,
+            q_tags: $scope.selectedTags.join(',')
+        }).success(function (data) {
             $scope.users = data.result;
             $scope.pages = data.pages;
-
-            console.log($scope.users);
 
             if (data.cv) {
                 $scope.cv = true;
             } else {
                 $scope.cv = false;
             }
-            if($scope.users.length < 1){
+            if ($scope.users.length < 1) {
                 $scope.emptySearchResults = true;
-            }else{
+            } else {
                 $scope.emptySearchResults = false;
             }
 
             var ranges = [];
-            for(var i=0;i<$scope.pages;i++) {
-                ranges.push(i+1);
+            for (var i = 0; i < $scope.pages; i++) {
+                ranges.push(i + 1);
             }
             $scope.ranges = ranges;
 
@@ -62,15 +65,15 @@ angular.module('crmApp').controller('LeadsIndexCtrl', ['$scope', '$http','$locat
 
     // reste filters
 
-    $scope.resetFilters = function() {
+    $scope.resetFilters = function () {
         $scope.selectedTags = [];
         $scope.loadLeads();
     };
 
     //pagination
 
-    $scope.pagination = function(page, items){
-        $http.post('/lead/index/'+page+'/'+items, {q_search: $scope.searchQuery}).success(function (data) {
+    $scope.pagination = function (page, items) {
+        $http.post('/lead/index/' + page + '/' + items, {q_search: $scope.searchQuery}).success(function (data) {
             $scope.users = data.result;
             $scope.pages = data.pages;
 
@@ -190,9 +193,24 @@ angular.module('crmApp').controller('LeadsIndexCtrl', ['$scope', '$http','$locat
     }, true);
 
 
+    $scope.listState = [];
+    $scope.stateListChanged = function (code) {
+        if ($scope.listState[code]) {
+            $scope.statusSearch.push(code);
+        } else {
+            var array = [2, 5, 9];
+            var index = $scope.statusSearch.indexOf(code);
+            if (index > -1) {
+                $scope.statusSearch.splice(index, 1);
+            }
+            console.log($scope.statusSearch);
+        }
+    };
+
+
     $scope.filters = {
         x: false,
-        state: '',
+        state: [],
         search: ''
     };
 
@@ -245,9 +263,9 @@ angular.module('crmApp').controller('LeadsIndexCtrl', ['$scope', '$http','$locat
         $http.get('/lead/states').success(function (data) {
             $scope.leadsStates = data;
 
-            if($scope.leadsStates.length < 1){
+            if ($scope.leadsStates.length < 1) {
                 $scope.statesLength = false;
-            }else{
+            } else {
                 $scope.statesLength = true;
             }
         });
@@ -264,9 +282,9 @@ angular.module('crmApp').controller('LeadsIndexCtrl', ['$scope', '$http','$locat
         $http.get('/lead/tags/fetch_all').success(function (data) {
             $scope.leadsTags = data;
 
-            if($scope.leadsTags.length < 1){
+            if ($scope.leadsTags.length < 1) {
                 $scope.tagsLength = false;
-            }else{
+            } else {
                 $scope.tagsLength = true;
             }
 

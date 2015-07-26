@@ -8,6 +8,7 @@ var File = require('../models/File');
 var LeadState = require('../models/LeadState');
 var ApiStatus = require('../models/ApiStatus');
 var Contact = require('../models/Contact');
+var Position = require('../models/Positions');
 var mongoose = require('mongoose');
 var fs = require("fs");
 var csv = require("fast-csv");
@@ -110,12 +111,11 @@ module.exports = function (app) {
                 existingLead.subtitle = data.title ? data.title : 'N/A';
                 existingLead.state = 'New';
                 existingLead.source = 'Linkedin';
-                existingLead.contact.firstName = anames[1];
-                existingLead.contact.lastName = anames[0];
+                existingLead.contact.fullName = anames[0] + ' ' + anames[1];
                 existingLead.contact.email = anames[1][0].replace(/[^\w\s]/gi, '') + anames[0].replace(/[^\w\s]/gi, '') + '@divante.pl';
                 existingLead.contact.country = 'Polska'
 
-                console.log("Importing row: " + JSON.stringify(data) + " " + JSON.stringify(anames));
+               // console.log("Importing row: " + JSON.stringify(data) + " " + JSON.stringify(anames));
 
                 existingLead.save(function (err) {
                     if (err && err.errors) {
@@ -127,7 +127,7 @@ module.exports = function (app) {
                 //do something with invalid row
             })
             .on("data", function (data) {
-                console.log(data);
+             //   console.log(data);
             })
             .on("end", function () {
                 console.log("done");
@@ -153,7 +153,22 @@ module.exports = function (app) {
 
         if(searchFilter){
             console.log('Search filter: '+searchFilter);
-            var queryFilters = { $or:[ {"contact.email" : new RegExp(searchFilter, 'i') }, {"contact.firstName" : new RegExp(searchFilter, 'i')}, {"contact.lastName" : new RegExp(searchFilter, 'i')} ] };
+            var queryFilters = {
+                $or:[
+                    {
+                        "contact.email":new RegExp(searchFilter, 'i')
+                    },
+                    {
+                        "contact.fullName":new RegExp(searchFilter, 'i')
+                    },
+                    {
+                        "contact.city":new RegExp(searchFilter, 'i')
+                    },
+                    {
+                        "contact.country":new RegExp(searchFilter, 'i')
+                    }
+                ]
+            };
         }
 
         if(tagFilter){
@@ -227,11 +242,15 @@ module.exports = function (app) {
     app.post('/lead/edit', function (req, res) {
         Lead.findById(req.body._id, function (err, existingLead) {
 
-            console.log(req.body);
+            //console.log(req.body);
 
             if (!existingLead) {
                 existingLead = new Lead();
                 existingLead.createdAt = new Date();
+
+                existingLead.owner = req.user.profile.name;
+            } else {
+                existingLead.owner = req.body.owner;
             }
 
             existingLead.subtitle = req.body.subtitle;
@@ -242,8 +261,7 @@ module.exports = function (app) {
             existingLead.source.sourceName = req.body.source;
             existingLead.source.recommendedBy = req.body.recommendedBy;
 
-            existingLead.contact.firstName = req.body.firstName;
-            existingLead.contact.lastName = req.body.lastName;
+            existingLead.contact.fullName = req.body.fullName;
             existingLead.contact.email = req.body.email;
             existingLead.contact.country = req.body.country;
             existingLead.contact.city = req.body.city;
@@ -253,9 +271,22 @@ module.exports = function (app) {
             existingLead.contact.social.goldenline = req.body.goldenline;
             existingLead.contact.social.facebook = req.body.facebook;
 
+            existingLead.contact.companyName = req.body.companyName;
+            existingLead.contact.companyPosition = req.body.companyPosition;
+
+
+
             if(req.body.files !== undefined){
                 existingLead.cv = req.body.files;
             }
+
+            Position.findOne({ name: req.body.subtitle }, function (err, positionDoc) {
+                if (!positionDoc) {
+                    positionDoc = new Position();
+                    positionDoc.name = req.body.subtitle;
+                    positionDoc.save();
+                }
+            });
 
             existingLead.save(function (error, savedLead) {
                 if (error && error.errors) {
@@ -272,6 +303,8 @@ module.exports = function (app) {
                     return true;
                 }
             });
+
+
         });
 
     });

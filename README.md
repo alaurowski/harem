@@ -4,6 +4,15 @@
 HRM System built on Divante Hackathon (13-03-2015)
 Reauires: node.js, mongodb
 
+*Install*
+- npm install
+( if moongose install problem first
+` npm uninstall moongose --save `
+than
+` npm install moongose --no-optional --verbose --save ` )
+- bower install
+- gulp build
+
 *Changelog*
 - leads list
 - lead preview with attachments, notes, so on ...

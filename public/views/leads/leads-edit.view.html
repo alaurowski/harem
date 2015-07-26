@@ -9,26 +9,14 @@
                            id="_id" >
                     <legend>Lead info</legend>
                     <div class="form-group clearfix">
-                        <label for="leadFirstname">Firstname</label>
-                        <input ng-model="formData.firstName" name="leadFirstname" type="text" class="form-control"
-                               id="leadFirstname" placeholder="Enter state" required="required">
+                        <label for="leadFullName">Fullname</label>
+                        <input ng-model="formData.fullName" name="leadFullName" type="text" class="form-control"
+                               id="leadFullName" placeholder="Enter state" required="required">
 
-                        <div ng-show="lead_add_form.$submitted || lead_add_form.leadFirstname.$touched">
-                <span ng-show="lead_add_form.leadFirstname.$error.required">
-                  First name is required
-                </span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="leadLastname">Lastname</label>
-                        <input ng-model="formData.lastName" name="leadLastname" type="text" class="form-control"
-                               id="leadLastname"
-                               placeholder="Enter state" required="required">
-
-                        <div ng-show="lead_add_form.$submitted || lead_add_form.leadLastname.$touched">
-                <span ng-show="lead_add_form.leadLastname.$error.required">
-                  Last name is required
-                </span>
+                        <div ng-show="lead_add_form.$submitted || lead_add_form.leadFullName.$touched">
+                            <span ng-show="lead_add_form.leadFullName.$error.required">
+                              Fullname is required
+                            </span>
                         </div>
                     </div>
                     <div class="form-group">
@@ -94,10 +82,51 @@
                             </span>
                         </div>
                     </div>
+                    <div class="form-group" ng-show="positionsFiltered.length > 0">
+                        <b>Do you mean:</b>
+                        <ul class="position-list">
+                            <li class="position-item" ng-repeat="position in positionsFiltered">
+                                <a ng-click="positionFill(position.name)">{{ position.name }}</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="form-group" ng-hide="positionsFiltered.length > 0">
+                        <b>Tips:</b>
+                        <div class="form-group" ng-hide="positionsFiltered.length > 0">Start typing for used position list hints or add new</div>
+                    </div>
+                </fieldset>
+                <fieldset class="lead_source">
+                    <legend>Additional</legend>
+                    <div class="form-group">
+                        <label>Recruiter</label>
+                        <select ng-model="formData.owner" class="form-control">
+                            <option ng-repeat="user in usersList"
+                            ng-selected="{{user.profile.name == formData.owner}}"
+
+                            value="{{user.profile.name}}">
+                            {{user.profile.name}}
+                            </option>
+                        </select>
+                    </div>
                 </fieldset>
             </div>
 
             <div class="col-md-6">
+                <fieldset class="lead_social_network">
+                    <legend>Last company</legend>
+                    <div class="form-group clearfix">
+                        <label for="companyName" class="pull-left">Company name</label>
+                        <input ng-model="formData.companyName" name="companyName" type="text" class="form-control"
+                               id="companyName" placeholder="Enter company name">
+                    </div>
+                    <div class="form-group">
+                        <label for="companyPosition">Company position</label>
+                        <input ng-model="formData.companyPosition" name="companyPosition" type="text"
+                               class="form-control"
+                               id="companyPosition"
+                               placeholder="Enter company position">
+                    </div>
+                </fieldset>
                 <fieldset class="lead_social_network">
                     <legend>Social networks</legend>
                     <div class="form-group clearfix">
@@ -141,7 +170,7 @@
                     <div class="form-group clearfix" ng-show="formData.source=='Recommended'">
                         <label for="leadFirstname" class="pull-left">Recommended by</label>
                         <input ng-model="formData.recommendedBy" name="referencedName" type="text" class="form-control"
-                               id="referencedName" placeholder="Enter state">
+                               id="referencedName" placeholder="Enter referenced name">
                     </div>
 
 

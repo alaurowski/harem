@@ -5,7 +5,7 @@
                 <span class="ion-person"></span>
             </figure>
 
-            <h2>{{lead.contact.firstName}} {{lead.contact.lastName}}</h2>
+            <h2>{{lead.contact.fullName}}</h2>
 
             <p>
                 <select ng-options="state.code as state.name for state in allStates"
@@ -26,7 +26,7 @@
         </div>
 
         <div class="bordered-container">
-            <h4 class="title">Add something about {{lead.contact.firstName}} {{lead.contact.lastName}}</h4>
+            <h4 class="title">Add something about {{lead.contact.fullName}}</h4>
 
             <div class="inner">
                 <form name="note_add_form" novalidate ng-submit="processNote()">
@@ -79,7 +79,7 @@
         </div>
 
         <div class="bordered-container single-added-note" ng-repeat="note in notes.slice().reverse()">
-            <h4 class="title">{{ note.type }} about {{lead.contact.firstName}} {{lead.contact.lastName}}</h4>
+            <h4 class="title">{{ note.type }} about {{lead.contact.fullName}}</h4>
 
             <div class="inner">
                 <p>{{note.content | date}}</p>
@@ -89,7 +89,7 @@
                     </li>
                 </ul>
                 <div class="footer">
-                    <span class="date">{{note.type}} added at {{note.createdAt | date}}</span>
+                    <span class="date">{{note.type}} added at {{note.createdAt | date}} by {{note.owner}}</span>
 
                     <div class="actions">
                         <a ng- href="" ng-click="deleteNote(note._id)"><span class="ion-trash-a"></span>Delete</a>
@@ -124,7 +124,7 @@
                     <form name="note_add_form" novalidate ng-submit="processTask()">
                         <input ng-model="taskData.parentId" type="hidden" value="{{ taskData.parentId }}" />
                         <input ng-model="taskData.parentType" type="hidden" value="Lead" />
-                        <input ng-model="taskData.extra" type="hidden" val="{{lead.contact.firstName}} {{lead.contact.lastName}}" />
+                        <input ng-model="taskData.extra" type="hidden" val="{{lead.contact.fullName}}" />
                         <fieldset>
                             <label>Description</label>
                             <input class="form-control" type="text" name="content" ng-model="taskData.content" autofocus/>
@@ -186,6 +186,12 @@
                 </li>
                 <li>
                     Added: {{lead.createdAt | date}}
+                </li>
+            </ul>
+            <h4>Additional info</h4>
+            <ul>
+                <li>
+                    Recruiter: {{lead.owner}}
                 </li>
             </ul>
         </div>

@@ -1,8 +1,32 @@
-angular.module('crmApp').controller('LeadsEditCtrl', ['$scope', '$location', '$http','$routeParams', 'FileUploader','leads', function ($scope, $location, $http,$routeParams, FileUploader,leads) {
+angular.module('crmApp').controller('LeadsEditCtrl',
+    ['$scope', '$location', '$http','$routeParams', 'FileUploader','leads', 'PositionsFactory', 'UsersFactory',
+    function ($scope, $location, $http,$routeParams, FileUploader,leads, PositionsFactory, UsersFactory) {
 
     $scope.title = 'Leads edit form'
     $scope.lead = {};
     $scope.leads = {};
+
+    var usersFactory = UsersFactory.get();
+    usersFactory.success(function(data) {
+        $scope.usersList = data;
+    });
+
+    var positions = PositionsFactory.get();
+    positions.success(function (data, status, headers, config) {
+        $scope.positions = data;
+    });
+
+    $scope.$watch('formData.subtitle', function(a, b) {
+        if(typeof a != "undefined") {
+            $scope.positionsFiltered = $scope.positions.filter(positionFilter(a));
+        } else {
+            $scope.positionsFiltered = [];
+        }
+    });
+
+    $scope.positionFill = function(name) {
+        $scope.formData.subtitle = name;
+    };
 
     $scope.test = [];
     $scope.tags = [];
@@ -27,10 +51,11 @@ angular.module('crmApp').controller('LeadsEditCtrl', ['$scope', '$location', '$h
             $scope.test = $scope.lead.contact.lastName;
 
             $scope.formData = {
-                firstName: $scope.lead.contact.firstName,
-                lastName: $scope.lead.contact.lastName,
+                fullName: $scope.lead.contact.fullName,
                 email: $scope.lead.contact.email,
                 phone: $scope.lead.contact.phone,
+                companyName: $scope.lead.contact.companyName,
+                companyPosition: $scope.lead.contact.companyPosition,
                 city: $scope.lead.contact.city,
                 country: $scope.lead.contact.country,
                 subtitle: $scope.lead.subtitle,
@@ -43,7 +68,7 @@ angular.module('crmApp').controller('LeadsEditCtrl', ['$scope', '$location', '$h
                 _id: $scope.lead._id,
                 tags: $scope.tags,
                 state: 'New',
-                owner: 'lead'
+                owner: $scope.lead.owner
             }
 
 
