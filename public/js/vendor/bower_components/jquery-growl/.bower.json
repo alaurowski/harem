@@ -1,0 +1,46 @@
+{
+  "name": "growl",
+  "version": "1.2.8",
+  "main": [
+    "./javascripts/jquery.growl.js",
+    "./stylesheets/jquery.growl.css"
+  ],
+  "ignore": [
+    "README*",
+    "LICENSE*",
+    "**/*.sass",
+    "**/*.coffee",
+    "**/sample.*",
+    "**/rainbow.js",
+    "**/rainbow.css",
+    "**/jquery.js",
+    "**/jquery.css",
+    "samples",
+    "spec",
+    "bourbon",
+    "neat",
+    "packages",
+    "images",
+    "Cakefile*",
+    "Rakefile*",
+    "Gemfile*",
+    ".git*",
+    ".travis*",
+    "*bower.json",
+    "*jquery.json",
+    "index*"
+  ],
+  "dependencies": {
+    "jquery": "latest"
+  },
+  "homepage": "https://github.com/ksylvest/jquery-growl",
+  "_release": "1.2.8",
+  "_resolution": {
+    "type": "version",
+    "tag": "v1.2.8",
+    "commit": "2db723030f215ac150622c6e0eeea8143a0538dd"
+  },
+  "_source": "git://github.com/ksylvest/jquery-growl.git",
+  "_target": "~1.2.8",
+  "_originalSource": "jquery-growl"
+}
