@@ -261,12 +261,14 @@ module.exports = function (app) {
                 existingLead.createdAt = new Date();
 
                 existingLead.owner = req.user.profile.name;
+                existingLead.state = { name: 'New', code: 'new' };
             } else {
                 existingLead.owner = req.body.owner;
+                existingLead.state = req.body.state;
             }
 
             existingLead.subtitle = req.body.subtitle;
-            existingLead.state = req.body.state;
+
             existingLead.description = req.body.description;
             existingLead.tags = req.body.tags;
 
