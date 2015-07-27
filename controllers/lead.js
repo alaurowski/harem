@@ -149,11 +149,12 @@ module.exports = function (app) {
         var statusFilter =  req.body.q_status;
         var tagFilter =  req.body.q_tags;
         var searchFilter =  req.body.q_search;
-        var queryFilters;
+        var queryFilters ;
+
+        var filters = [];
 
         if(searchFilter){
-            console.log('Search filter: '+searchFilter);
-            var queryFilters = {
+            filters.push({
                 $or:[
                     {
                         "contact.email":new RegExp(searchFilter, 'i')
@@ -168,21 +169,32 @@ module.exports = function (app) {
                         "contact.country":new RegExp(searchFilter, 'i')
                     }
                 ]
-            };
+            });
         }
+
+
 
         if(tagFilter){
-            console.log('Tags filter: '+tagFilter);
             var tags = tagFilter.split(',');
-            var queryFilters = { tags: { $elemMatch: { text: {$in:tags} } }  };
+            filters.push({ tags: { $elemMatch: { text: {$in:tags} } }  });
         }
 
-        var LeadQuery = Lead.find(queryFilters)
-            .skip(page * perPage)
-            .limit(perPage)
-            .sort({ createdAt: 'desc'});
+        if(statusFilter) {
+            var statusList = statusFilter.split(',');
+            filters.push({ 'state.code': { $in : statusList} });
+        }
 
-        LeadQuery.exec(function (error, leads) {
+        var query = Lead.find();
+
+        for (var i = 0; i < filters.length; i++) {
+            query.where(filters[i]);
+        }
+
+        query.skip(page * perPage)
+            .limit(perPage)
+            .sort({ createdAt: 'desc'})
+
+        query.exec(function (error, leads) {
 
             if(error){
                 return res.json({ status: error, code: ApiStatus.CODE_ERROR });

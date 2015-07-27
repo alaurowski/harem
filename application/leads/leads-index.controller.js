@@ -36,6 +36,7 @@ angular.module('crmApp').controller('LeadsIndexCtrl', ['$scope', '$http', '$loca
             q_search: $scope.searchQuery,
             q_tags: $scope.selectedTags.join(',')
         }).success(function (data) {
+            console.log(data.result);
             $scope.users = data.result;
             $scope.pages = data.pages;
 
@@ -66,6 +67,18 @@ angular.module('crmApp').controller('LeadsIndexCtrl', ['$scope', '$http', '$loca
     // reste filters
 
     $scope.resetFilters = function () {
+        var checkboxes = new Array();
+        checkboxes = document.getElementsByTagName('input');
+
+        for (var i=0; i<checkboxes.length; i++)  {
+            if (checkboxes[i].type == 'checkbox')   {
+                checkboxes[i].checked = false;
+            }
+        }
+
+        $scope.searchQuery = '';
+
+        $scope.statusSearch = [];
         $scope.selectedTags = [];
         $scope.loadLeads();
     };

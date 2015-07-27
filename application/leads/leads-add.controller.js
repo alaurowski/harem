@@ -24,8 +24,9 @@ angular.module('crmApp').controller('LeadsAddCtrl', ['$scope', '$location', '$ht
         $scope.formData.subtitle = name;
     };
 
-
-    $scope.formData.state = 'New';
+    $scope.formData.state = [];
+    $scope.formData.state.code = 'new';
+    $scope.formData.state.name = 'New';
     $scope.formData.owner = 'lead';
 
     $scope.cvFileUploaded = function (item, response, status, headers) {
