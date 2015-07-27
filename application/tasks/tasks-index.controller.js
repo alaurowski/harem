@@ -1,7 +1,5 @@
 angular.module('crmApp').controller('TasksIndexCtrl', ['$scope', '$http', function ($scope, $http) {
 
-    'use strict';
-
     $scope.title = 'ToDo';
     $scope.tasks = [];
 

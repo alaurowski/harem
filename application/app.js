@@ -1,5 +1,3 @@
-'use strict';
-
 angular.module('crmApp', ['ngRoute', 'crmFactory', 'ngTagsInput', 'ngResource', 'angularFileUpload']);
 
 angular.module('crmApp').config(['$routeProvider', function ($routeProvider) {
