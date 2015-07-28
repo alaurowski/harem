@@ -1,4 +1,4 @@
-angular.module('crmApp', ['ngRoute', 'crmFactory', 'ngTagsInput', 'ngResource', 'angularFileUpload']);
+angular.module('crmApp', ['ngRoute', 'crmFactory', 'ngTagsInput', 'ngResource', 'angularFileUpload', 'ngSanitize']);
 
 angular.module('crmApp').config(['$routeProvider', function ($routeProvider) {
 

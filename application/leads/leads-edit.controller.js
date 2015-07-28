@@ -82,12 +82,19 @@ angular.module('crmApp').controller('LeadsEditCtrl',
     // create a blank object to hold our form information
     // $scope will allow this to pass between controller and view
 
-    $scope.cvFileUploaded = function (item, response, status, headers) {
+        $scope.uploadError = false;
+        $scope.cvFileUploaded = function (item, response, status, headers) {
 
-        if (!$scope.formData.files) {
-            $scope.formData.files = response;
+            if(response.status == 'Error!' && response.code == 500) {
+                $scope.uploadError = true;
+            }
+
+            if (!$scope.formData.files) {
+                $scope.formData.files = response;
+            }
+
+
         }
-    }
 
     $scope.uploader = new FileUploader({
 
@@ -120,7 +127,7 @@ angular.module('crmApp').controller('LeadsEditCtrl',
                         type: "success",
                         confirmButtonText: "Close"
                     });
-
+                    $scope.uploadError = false;
                     $scope.message = data.message;
                 }
                 else {

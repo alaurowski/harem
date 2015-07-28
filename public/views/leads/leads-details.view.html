@@ -1,8 +1,7 @@
 <div class="single-lead-container">
     <div class="lead-content col-xs-9">
         <header>
-            <figure>
-                <span class="ion-person"></span>
+            <figure ng-bind-html="lead.avatar">
             </figure>
 
             <h2>{{lead.contact.fullName}}</h2>
@@ -68,12 +67,18 @@
                     </div>
                 </form>
                 <form name="note_upload_form" novalidate ng-submit="processUpload()">
+                    <div class="form-group">
+                    <div ng-show="uploadError">
+                        <span>Available file extensions: txt jpg gif png pdf doc<br></span>
+                        <span>Not allowed files will be skipped!</span>
+                    </div>
                     <input type="file" nv-file-select uploader="uploader"/><br/>
                     <ul>
                         <li ng-repeat="item in uploader.queue">
                             attach file: <span ng-bind="item.file.name"></span>
                         </li>
                     </ul>
+                        </div>
                 </form>
             </div>
         </div>
@@ -141,8 +146,9 @@
                         </fieldset>
                         <fieldset>
                             <label>Who is responsible?</label>
-                            <select class="form-control"  ng-options="owner for owner in ['Natalia', 'Ola']" ng-model="taskData.owner">
-                                <option value="Natalia" selected>Natalia</option>
+                            <select class="form-control" ng-model="taskData.owner">
+                            <option ng-repeat="user in usersList" option="{{ user.profile.name }}" ng-bind="user.profile.name"></option>
+
                             </select>
                         </fieldset>
                         <fieldset>

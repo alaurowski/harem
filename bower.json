@@ -25,6 +25,7 @@
     "angular-route": "~1.4.3",
     "bootstrap": "~3.3.5",
     "jquery-growl": "~1.2.8",
-    "jquery": "~2.1.4"
+    "jquery": "~2.1.4",
+    "angular-sanitize": "~1.4.3"
   }
 }

@@ -13,7 +13,7 @@ angular.module('crmApp').controller('LeadsAddCtrl', ['$scope', '$location', '$ht
     });
 
     $scope.$watch('formData.subtitle', function(a, b) {
-        if(typeof a != "undefined") {
+        if(typeof a != "undefined" && typeof $scope.positions != "undefined") {
             $scope.positionsFiltered = $scope.positions.filter(positionFilter(a));
         } else {
             $scope.positionsFiltered = [];
@@ -29,11 +29,19 @@ angular.module('crmApp').controller('LeadsAddCtrl', ['$scope', '$location', '$ht
     $scope.formData.state.name = 'New';
     $scope.formData.owner = 'lead';
 
+
+    $scope.uploadError = false;
     $scope.cvFileUploaded = function (item, response, status, headers) {
+
+        if(response.status == 'Error!' && response.code == 500) {
+            $scope.uploadError = true;
+        }
 
         if (!$scope.formData.files) {
             $scope.formData.files = response;
         }
+
+
     }
 
     $scope.uploader = new FileUploader({
@@ -67,7 +75,7 @@ angular.module('crmApp').controller('LeadsAddCtrl', ['$scope', '$location', '$ht
                         type: "success",
                         confirmButtonText: "Close"
                     });
-
+                    $scope.uploadError = false;
                     $scope.message = data.message;
                 }
                 else {

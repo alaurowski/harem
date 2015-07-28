@@ -10,6 +10,7 @@ var ApiStatus = require('../models/ApiStatus');
 var allowedMimeTypes = new Array(
     "image/png",
     "image/jpg",
+    "text/plain",
     "image/jpeg",
     "image/gif",
     "application/msword",
@@ -65,7 +66,6 @@ module.exports = function(app){
             if(exists){
                 var fileName = req.files.userfile.name;
                 var originalName = req.files.userfile.originalname;
-                console.log(req.files.userfile);
                 var mimeType = req.files.userfile.mimetype;
                 // check is allowed
                 if(allowedMimeTypes.indexOf(mimeType) !== -1){
@@ -89,6 +89,8 @@ module.exports = function(app){
                         file.status = ApiStatus.STATUS_SUCCESS;
                         file.code = ApiStatus.CODE_SUCCESS;
                         res.json(file);
+
+
                     });
                 }else{
                     return res.json({ status: ApiStatus.STATUS_ERROR, code: ApiStatus.CODE_ERROR });

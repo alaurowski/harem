@@ -25,18 +25,21 @@ angular.module('crmApp').controller('LeadsIndexCtrl', ['$scope', '$http', '$loca
         else {
             $scope.selectedTags.push(tag);
         }
+
+        $scope.loadLeads();
     };
 
+    $scope.currentPage = 1;
     $scope.emptySearchResults = false;
     $scope.loadLeads = function () {
-        $scope.currentPage = 1;
 
         $http.post('lead/index/' + $scope.currentPage + '/' + $scope.perPage, {
             q_status: $scope.statusSearch.join(','),
             q_search: $scope.searchQuery,
             q_tags: $scope.selectedTags.join(',')
         }).success(function (data) {
-            console.log(data.result);
+
+            console.log(data.pages);
             $scope.users = data.result;
             $scope.pages = data.pages;
 
@@ -52,11 +55,12 @@ angular.module('crmApp').controller('LeadsIndexCtrl', ['$scope', '$http', '$loca
             }
 
             var ranges = [];
+
             for (var i = 0; i < $scope.pages; i++) {
                 ranges.push(i + 1);
             }
             $scope.ranges = ranges;
-
+            console.log(ranges);
             $scope.activePage = $scope.currentPage;
 
         });
@@ -86,13 +90,17 @@ angular.module('crmApp').controller('LeadsIndexCtrl', ['$scope', '$http', '$loca
     //pagination
 
     $scope.pagination = function (page, items) {
-        $http.post('/lead/index/' + page + '/' + items, {q_search: $scope.searchQuery}).success(function (data) {
+        $scope.currentPage = page;
+        $scope.perPage = items;
+
+        $scope.loadLeads();
+        /*$http.post('/lead/index/' + page + '/' + items, {q_search: $scope.searchQuery}).success(function (data) {
             $scope.users = data.result;
             $scope.pages = data.pages;
 
             $scope.activePage = page;
 
-        });
+        });*/
     };
 
 

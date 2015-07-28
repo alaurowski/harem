@@ -19,6 +19,7 @@
 //= require vendor/bower_components/angular/angular.min
 //= require vendor/bower_components/angular-route/angular-route.min
 //= require vendor/bower_components/angular-resource/angular-resource.min
+//= require vendor/bower_components/angular-sanitize/angular-sanitize.min
 //= require vendor/bower_components/sweetalert/dist/sweetalert.min
 //= require vendor/bower_components/bootstrap-datepicker/js/bootstrap-datepicker
 //= require vendor/bower_components/ng-tags-input/ng-tags-input.min

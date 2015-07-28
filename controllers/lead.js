@@ -167,6 +167,9 @@ module.exports = function (app) {
                     },
                     {
                         "contact.country":new RegExp(searchFilter, 'i')
+                    },
+                    {
+                        "owner":new RegExp(searchFilter, 'i')
                     }
                 ]
             });
@@ -200,7 +203,15 @@ module.exports = function (app) {
                 return res.json({ status: error, code: ApiStatus.CODE_ERROR });
             }
 
-            Lead.count(queryFilters).exec(function(error, count) {
+
+
+            var query2 = Lead.find();
+
+            for (var i = 0; i < filters.length; i++) {
+                query2.count(filters[i]);
+            }
+
+            query2.find().count(function(error, count) {
                 if(error){
                     return res.json({ status: error, code: ApiStatus.CODE_ERROR });
                 }else{
@@ -260,7 +271,7 @@ module.exports = function (app) {
                 existingLead = new Lead();
                 existingLead.createdAt = new Date();
 
-                existingLead.owner = req.user.profile.name;
+                existingLead.owner = req.user.profile.name || req.user.email;
                 existingLead.state = { name: 'New', code: 'new' };
             } else {
                 existingLead.owner = req.body.owner;
