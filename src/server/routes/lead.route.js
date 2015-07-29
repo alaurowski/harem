@@ -51,20 +51,24 @@ route.put('/:id', (req, res) => {
                 res.statusCode = JS.Globals.http.statusCode.notfound;
                 res.send();
             } else {
-                for(let key in params) {
-                    doc[key] = params[key];
-                }
                 return doc;
             }
         })
         .then((doc) => {
-            return db.save(doc);
+            if(!doc) {
+                for (let key in params) {
+                    doc[key] = params[key];
+                }
+                return db.save(doc);
+            }
         })
         .then((doc) => {
-            res.statusCode = JS.Globals.http.statusCode.created;
-            res.json({
-                'leadId': doc._id
-            });
+            if(!doc) {
+                res.statusCode = JS.Globals.http.statusCode.created;
+                res.json({
+                    'leadId': doc._id
+                });
+            }
         })
         .catch(() => {
             res.statusCode = JS.Globals.http.statusCode.notfound;
